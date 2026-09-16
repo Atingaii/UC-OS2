@@ -1,0 +1,14 @@
+{
+  "target_release": "V2.93.01",
+  "target_commit": "0c4a48e6fbc6e915714e816196619a5481accf0c",
+  "inventory_status": "PENDING_PINNED_SOURCE_FETCH_AND_PREPROCESS",
+  "states": [
+    "located",
+    "modeled",
+    "specified",
+    "local_hoare",
+    "component_linked",
+    "full_target_linked"
+  ],
+  "rows": []
+}

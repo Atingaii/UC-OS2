@@ -1,0 +1,20 @@
+{
+  "base_release": "V2.93.01",
+  "base_commit": "0c4a48e6fbc6e915714e816196619a5481accf0c",
+  "repairs": [
+    {
+      "id": "nested-mutex-restoration",
+      "status": "DESIGN_FROZEN_SOURCE_INTEGRATION_OPEN",
+      "new_api": false,
+      "new_tcb_fields": false
+    },
+    {
+      "id": "locked-current-self-delete",
+      "status": "GUARD_FROZEN_SOURCE_INTEGRATION_OPEN",
+      "return_code": "OS_ERR_SCHED_LOCKED",
+      "return_code_value": 50,
+      "new_api": false,
+      "new_tcb_fields": false
+    }
+  ]
+}

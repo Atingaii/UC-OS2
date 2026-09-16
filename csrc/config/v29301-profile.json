@@ -1,0 +1,46 @@
+{
+  "profile": "certiucos-v29301-fixed",
+  "purpose": "Fixed verification configuration; optional newer services outside the selected kernel scope stay disabled.",
+  "overrides": {
+    "OS_LOWEST_PRIO": 12,
+    "OS_MAX_EVENTS": 2,
+    "OS_MAX_TASKS": 11,
+    "OS_TMR_EN": 0,
+    "OS_APP_HOOKS_EN": 0,
+    "OS_DEBUG_EN": 0,
+    "OS_EVENT_MULTI_EN": 0,
+    "OS_EVENT_NAME_EN": 0,
+    "OS_TASK_NAME_EN": 0,
+    "OS_TASK_PROFILE_EN": 0,
+    "OS_TASK_REG_TBL_SIZE": 0,
+    "OS_TASK_STAT_STK_CHK_EN": 0,
+    "OS_FLAG_NAME_EN": 0,
+    "OS_MEM_NAME_EN": 0,
+    "OS_TICK_STEP_EN": 0
+  },
+  "expected_effective_os_cfg_sha256": "95b175ae6d8526da107f63e3a6f3984f08ccc7bb77fa802154fc2fb80de094c5",
+  "included_families": [
+    "core",
+    "task",
+    "time",
+    "semaphore",
+    "mailbox",
+    "queue",
+    "mutex",
+    "event_flags",
+    "memory_partitions"
+  ],
+  "explicitly_disabled_scope_expanders": [
+    "timer_manager",
+    "multi_pend",
+    "event_names",
+    "task_names",
+    "flag_names",
+    "memory_names",
+    "task_profiling",
+    "task_registers",
+    "tick_step",
+    "debug_tables",
+    "application_hooks"
+  ]
+}

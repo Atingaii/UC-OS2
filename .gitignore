@@ -1,0 +1,13 @@
+*.vo
+*.vos
+*.vok
+*.glob
+*.aux
+*.cache
+Makefile.coq
+Makefile.coq.conf
+.DS_Store
+__pycache__/
+*.pyc
+csrc/upstream/v2.93.01/checkout/
+audit/logs/
