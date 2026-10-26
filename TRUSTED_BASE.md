@@ -1,15 +1,9 @@
-# Trusted base
+# 信任基础与证明边界
 
-The retained CertiOS framework predates this retarget and contains explicit
-logical assumptions such as functional/extensional equality principles,
-proof-irrelevance/equality transport support, classical reasoning, map
-extensionality interfaces, and `memory.MemoryNotFull`.
+复用的历史框架包含显式逻辑假设，例如函数／外延相等原则、证明无关性与相等运输支持、经典推理、映射外延性接口以及 `memory.MemoryNotFull`。
 
-Those assumptions are not silently strengthened by the V2.93.01 tree.  Active
-`certiucos/v293` files may not introduce new `Axiom`, `Parameter`,
-`Conjecture`, or proof holes.  Final acceptance must use `Print Assumptions` and
-`coqchk` to report the exact dependency closure of the top-level theorem.
+这些假设的出现与否，应以实际根定理的依赖闭包为准，不能把框架中存在某个假设等同于所有新定理均依赖它，也不能据局部定理无此假设声称整核已消除该依赖。
 
-The task-switch/interrupt mechanism is an explicit semantic abstraction
-boundary for the source-level proof.  Concrete CPU execution, compiler,
-assembler/linker, and hardware correctness are outside the active theorem.
+当前 `certiucos/v293/` 不得新增 `Axiom`、`Parameter`、`Conjecture` 或证明洞。最终必须通过 `Print Assumptions` 与 `coqchk` 报告并检查顶层定理的准确依赖闭包；检查通过不会自动证明被接受的公理本身成立。
+
+任务切换与中断机制采用显式语义抽象边界。具体 CPU 执行、编译器、汇编器／链接器和硬件正确性不属于当前源码级定理。

@@ -1,12 +1,13 @@
-# Pinned upstream source
+# 固定身份的上游源码
 
-The verification target is the official uC/OS-II V2.93.01 snapshot at commit
-`0c4a48e6fbc6e915714e816196619a5481accf0c`.
+唯一上游目标是 uC/OS-II V2.93.01，提交：
 
-The upstream source is intentionally not synthesized from older kernel code.
-Run `make fetch-source` to create `checkout/` from the pinned commit and verify
-every retained source hash before it can be used by the verification workflow.
+```text
+0c4a48e6fbc6e915714e816196619a5481accf0c
+```
 
-`checkout/` is ignored by Git because the immutable source identity is already
-recorded in `csrc/UPSTREAM.lock.json`.  A project release may vendor the exact
-verified checkout if desired, but only after the same hash audit passes.
+在仓库根目录执行 `make fetch-source`，从该提交创建 `checkout/`，按源码锁核对逐文件哈希并生成固定配置。执行前检查该目录是否有需保留的工作，因为当前脚本会重建它。
+
+不能用旧内核源码补造目标。参考目录中的源码压缩包也不能在未核对提交和哈希时直接替代主线。
+
+`checkout/` 当前被 Git 忽略；可复现身份由 `csrc/UPSTREAM.lock.json` 记录。未来若发布时需要附带源码，也必须先通过同样的身份核验。

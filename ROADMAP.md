@@ -1,68 +1,62 @@
-# Roadmap
+# 开发路线图
 
-## Gate 0 — clean retarget
+## 开始前：确认交接版本
 
-- one V2.93.01 upstream commit and source hash lock;
-- one fixed configuration profile;
-- no old OS-specific proof tree in the active repository;
-- no proof holes in `certiucos/v293`;
-- only two authorized repair families.
+当前后期提示词与代码快照不一致。先确认是否存在配套的更新仓库；在未获得可核实文件前，按 `AGENTS.md`、`PROJECT_SCOPE.md` 及实际锁文件推进，不导入提示词声称已完成的状态。
 
-## Gate 1 — source inventory and repair freeze
+## Gate 0：核验目标基础
 
-1. Fetch and hash-check V2.93.01.
-2. Generate effective `os_cfg.h` and verify its expected hash.
-3. Preprocess the configured portable master translation unit.
-4. Enumerate every configured public, internal, CPU-hook, and assembly body.
-5. Implement the two repairs as minimal source patches against the pinned tree.
-6. Run concrete regression fixtures for K1–K4 and freeze the repaired source
-   manifest.
+- 核对唯一上游提交、源码哈希锁及固定配置。
+- 核对活动树不含旧内核专用证明依赖。
+- 确认 `certiucos/v293/` 没有证明洞，并保持两类授权修复范围。
+- 准备 Coq 8.18.0，记录实际构建与审计结果；失败必须保留，不以工作区整洁代替验收。
 
-No Coq function is counted as source-modeled before the corresponding repaired
-or upstream body is frozen and uniquely located.
+## Gate 1：源码清单与修复冻结
 
-## Gate 2 — common state and invariants
+1. 获取 V2.93.01 并核验哈希。
+2. 生成实际 `os_cfg.h` 并核验预期哈希。
+3. 预处理固定配置的可移植主翻译单元。
+4. 枚举配置后的 public、internal、CPU-hook 及汇编边界入口，记录被条件编译移除的函数。
+5. 针对锁定源码分别实施两项最小补丁。
+6. 执行 K1–K4 的具体回归；对修复项保留原始／修复版本的对照证据。
+7. 冻结修复后的源码清单与哈希。
 
-Build V2.93.01-specific concrete types and abstract state for TCBs, event
-objects, ready tables, priority tables, queues, flags, memory partitions,
-interrupt/task-switch boundaries, and initialization.
+完成条件：每个活动函数有唯一源码定位，修复版本身份固定。此前不能将任何 Coq 函数算作已连接真实源码的模型。
 
-Global invariants must imply at least:
+## Gate 2：公共状态与不变量
 
-- ready-table / priority-table / TCB coherence;
-- unique active task priorities;
-- timeout/wait/pend-result consistency;
-- nested-mutex base/effective priority consistency;
-- the TCB backing the currently executing context is allocated and not reusable.
+建立新版专用的 TCB、事件对象、就绪表、优先级表、队列、标志、内存分区、任务切换／中断边界及初始化状态。
 
-## Gate 3 — vertical function proofs
+全局不变量至少应推出：
 
-Maintain one machine-readable coverage row per configured source body:
+- 就绪表、优先级表与 TCB 一致。
+- 活动任务的优先级唯一。
+- 超时、等待与等待结果一致。
+- 嵌套互斥锁的基础／有效优先级一致。
+- 当前执行上下文所依赖的 TCB 仍已分配，不能被回收复用。
 
-`located -> modeled -> specified -> local Hoare -> component linked -> full target linked`
+## Gate 3：逐函数纵向证明
 
-A large number of local lemmas is not a completion metric.  Each completed
-function exposes one stable facade theorem used by the program-level proof.
+每个配置后函数在机器可读清单中占一行，依次完成：
 
-## Gate 4 — program integration
+`located → modeled → specified → local_hoare → component_linked → full_target_linked`
 
-Define and freeze:
+每个已完成函数向上暴露稳定的接口定理。辅助引理数量与证明文件数量不是完成指标。
 
-- `V293_low_level_os_code`;
-- `V293_os_spec`;
-- `V293_ucos_init`.
+## Gate 4：整体程序连接
 
-Prove domain equality, every API/internal/interrupt obligation, initialization,
-and program-level simulation/refinement.  The final theorem must be connected
-to the complete configured function inventory.
+定义并冻结 `V293_low_level_os_code`、`V293_os_spec`、`V293_ucos_init`。
 
-## Gate 5 — final audit
+证明定义域对应、各 API／内部函数／中断义务、初始化和程序级模拟／精化。最终定理必须覆盖完整配置后函数清单，而不是只连接少数局部模型。
 
-- clean full build on Coq 8.18.0;
-- `Print Assumptions` for final roots;
-- `coqchk` for the dependency closure;
-- no active `Admitted/admit` or new unreviewed axioms;
-- K1–K4 regression theorems connected to the same repaired program;
-- clean Git worktree and immutable release tag.
+## Gate 5：最终验收
 
-Compiler/binary/hardware refinement is explicitly outside these gates.
+- Coq 8.18.0 环境中的干净全量构建。
+- 对最终根定理执行 `Print Assumptions`，如实列出实际假设。
+- 对依赖闭包运行 `coqchk`。
+- 活动树中无 `Admitted/admit` 和新增未经审查的公理。
+- K1–K4 回归定理连接到同一个修复后程序。
+- 全部活动函数完成整体连接。
+- Git 工作区整洁，并形成不可变发布标签。
+
+编译器、二进制与具体硬件精化明确不属于上述阶段。

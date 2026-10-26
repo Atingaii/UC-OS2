@@ -1,25 +1,15 @@
-# Authorized V2.93.01 repairs
+# V2.93.01 授权修复材料
 
-This directory is intentionally small.  It contains only the two source-level
-changes allowed by `PROJECT_SCOPE.md`.
+本目录仅保存 `PROJECT_SCOPE.md` 授权的两类修改。现有文件是待集成材料，**不是已应用、已通过验收的完整内核补丁**。
 
-## 1. Nested mutex restoration
+## 1. 嵌套互斥锁优先级恢复
 
-The repair must distinguish a task's base priority from its current effective
-priority.  A mutex acquisition stores the owner's base priority, and release or
-deletion recomputes the effective priority from the base plus every mutex still
-owned by that task.  Restoration may not write through a priority-table slot
-owned by another live task.
+区分任务基础优先级与当前有效优先级。获取互斥锁时保存所有者基础优先级；释放或删除时，根据基础优先级和仍持有的全部互斥锁贡献重算有效优先级。恢复不能覆盖其他活动任务占用的优先级表槽位。
 
-`nested-mutex/protocol.c` is the repair algorithm to integrate into the exact
-pinned `os_mutex.c`; it is not counted as applied until the post-fetch patch
-step and concrete regression suite both pass.
+`nested-mutex/protocol.c` 是准备集成到锁定 `os_mutex.c` 的算法材料。只有完成源码集成并通过具体回归，才能视为已应用。
 
-## 2. Scheduler-locked current-task deletion
+## 2. 调度锁定期间删除当前任务
 
-Before destructive mutation, `OSTaskDel` checks whether the selected TCB is
-`OSTCBCur` while `OSLockNesting > 0`.  If so it exits the critical section and
-returns existing error `OS_ERR_SCHED_LOCKED` (50).  The task, TCB, resources,
-ready state, and lock count remain unchanged.
+在破坏性修改前，`OSTaskDel` 检查目标 TCB 是否为 `OSTCBCur`，且 `OSLockNesting > 0`。若成立，退出临界区并返回已有错误码 `OS_ERR_SCHED_LOCKED`（50）。
 
-No additional error code is introduced.
+任务、TCB、资源、就绪状态与锁计数保持不变，不新增错误码。

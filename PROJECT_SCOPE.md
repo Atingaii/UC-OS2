@@ -1,57 +1,35 @@
-# Verification scope
+# 验证范围
 
-## Fixed target
+## 固定目标
 
-- Kernel: official uC/OS-II V2.93.01.
-- Commit: `0c4a48e6fbc6e915714e816196619a5481accf0c`.
-- Configuration: generated from the official template using
-  `csrc/config/v29301-profile.json`.
-- Proof assistant: Coq 8.18.x; the intended acceptance environment is 8.18.0.
+- 内核：uC/OS-II V2.93.01。
+- 上游提交：`0c4a48e6fbc6e915714e816196619a5481accf0c`。
+- 配置：从官方模板按 `csrc/config/v29301-profile.json` 生成。
+- 证明工具：Coq 8.18.x；预期验收环境为 8.18.0。
 
-The target is one immutable configured program, not the space of all uC/OS-II
-configuration combinations.
+验证对象是一个身份固定的配置后程序，不是全部 uC/OS-II 配置组合。
 
-## Included functional families
+## 纳入的功能族
 
-The selected configuration keeps the ordinary core/task/time/event services
-needed by the existing verification program: scheduler/core operations, task
-management, semaphores, mailboxes, queues, mutexes, event flags, and memory
-partitions.  The exact function inventory must be generated from the pinned,
-preprocessed V2.93.01 source before function coverage is reported.
+选定配置包含调度与核心操作、任务管理、时间服务、信号量、邮箱、队列、互斥锁、事件标志和内存分区等功能。报告函数覆盖前，必须从锁定源码的实际预处理结果生成准确函数清单。
 
-The project deliberately disables optional newer facilities that would expand
-the target without serving the stated verification goal, including timer
-manager, multi-pend, event/task/flag/memory naming, task profiling, task
-registers, tick-step support, debug tables, and application hooks.
+当前关闭以下扩展功能：timer manager、Multi-Pend、事件／任务／标志／内存命名、任务 profiling、任务寄存器、tick-step、debug tables 和应用 hooks。未经用户明确改变范围，不扩展配置。
 
-## Required repairs
+## 授权修复
 
-Only two project-specific semantic changes are authorized:
+目前仅授权两类项目专用语义修改：
 
-1. **Nested mutex restoration.** Restoration is computed from the task's base
-   priority plus the priority contributions of mutexes it still owns; a freed
-   intermediate priority must never be reused as a delayed restoration target.
-2. **Locked self deletion.** A currently executing task must be rejected before
-   destructive deletion if the scheduler was already locked by that execution
-   context.  Its TCB and resources remain allocated so that an unlock/retry can
-   occur safely.
+1. **嵌套互斥锁优先级恢复**：根据任务的基础优先级及其仍持有互斥锁的优先级贡献重新计算恢复值，不把已经释放的中间优先级当成延迟恢复目标。
+2. **调度锁定期间的自删除**：若当前执行任务在调用删除前已持有调度锁，必须在破坏性删除前拒绝操作；TCB 与资源保持分配状态，使任务可以解锁并重试。
 
-Any additional source change requires a concrete reproducible functional/safety
-counterexample and an explicit scope decision before it becomes part of the
-active target.
+新增源码修改必须先有具体、可复现的功能正确性／safety 反例，并由用户明确决定是否扩大修复范围。
 
-## Required proof result
+## 最终证明结果
 
-The eventual top-level result is a source-linked theorem of the same semantic
-kind as CertiOS `GOOD_OS`, instantiated with a V2.93.01 program,
-specification, and initialization state.  Completion additionally requires
-machine-checkable regression theorems excluding the four known counterexample
-classes recorded in `KNOWN_BUGS.md`.
+最终应建立一个与框架 `GOOD_OS` 同类的、连接真实源码的顶层定理，并实例化当前程序、规格和初始化状态。完成还要求用机器可检查的回归定理排除 `KNOWN_BUGS.md` 中 K1–K4 四类已知反例。
 
-## Trusted boundary
+独立小模型、C 回归或带开放义务的条件定理，都不能单独算作整核验证完成。
 
-The project accepts the framework's task-switch/interrupt abstraction boundary.
-Compiler correctness, assembler/linker correctness, final machine-code
-correctness, and concrete hardware semantics are not Phase-3 proof obligations.
-They may be studied later, but they must not block the source-level `GOOD_OS`
-theorem.
+## 信任边界
+
+接受框架对任务切换和中断的抽象边界。编译器、汇编器、链接器、最终机器码及具体硬件正确性不属于当前源码级证明义务，可以后续研究，但不得阻塞源码级 `GOOD_OS` 目标。

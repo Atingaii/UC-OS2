@@ -1,13 +1,14 @@
-# V2.93.01 verification tree
+# V2.93.01 专用验证目录
 
-This is the only active OS-specific Coq tree.
+这里是当前唯一活动的内核专用 Coq 开发目录。
 
-- `code/`: fixed configuration and source-level program definitions.
-- `model/`: concrete/abstract state models and global invariants.
-- `spec/`: API/internal-function specifications and safety statements.
-- `proofs/`: source-linked Hoare proofs, integration proofs, and final theorem.
+| 子目录 | 用途 |
+| --- | --- |
+| `code/` | 固定配置与源码级程序定义 |
+| `model/` | 具体／抽象状态模型与全局不变量 |
+| `spec/` | API／内部函数规格及 safety 性质 |
+| `proofs/` | 源码级 Hoare 证明、整体连接与最终定理 |
 
-The small model/proof files currently present are **regression-property
-foundations only**.  They do not claim source-level correspondence or the final
-`GOOD_OS` theorem.  Source linkage must be established from the pinned
-V2.93.01 checkout before a property is counted as a verified kernel function.
+当前少量模型与证明文件只是回归性质的基础，尚未建立真实源码对应，也没有完成 `GOOD_OS`。只有连接到锁定的 V2.93.01 函数体后，才能记为已验证内核函数。
+
+初学时可从 `model/V293PendModel.v` 了解等待、挂起、恢复与超时；学习顺序见根目录的中文入门指南。

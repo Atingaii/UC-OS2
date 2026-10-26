@@ -1,12 +1,19 @@
-# Changelog
+# 变更记录
 
-## Clean V2.93.01 retarget
+## 2026-10-26：中文交接基线
 
-- Reset the active OS verification tree to `certiucos/v293`.
-- Retained only version-independent proof framework/tactics.
-- Pinned official V2.93.01 source identity and a fixed minimal configuration.
-- Limited custom source changes to nested-mutex restoration and locked
-  self-delete.
-- Added source-fetch/hash auditing and clean-project auditing.
-- Added initial regression-property Coq foundations without claiming
-  source-level function coverage.
+- 将项目范围、进度、路线图、反例说明、信任基础与 Agent 约束整理为中文。
+- 新增中文入门指南与实际基线核对报告。
+- 保留原始参考资料和两份历史提示词，明确其用途及版本错位。
+- 恢复打包后丢失的六个脚本执行权限，与原 Git 记录保持一致。
+- 不修改 C／Coq 源码、审计脚本、固定配置、源码锁或修复范围。
+- 函数覆盖增量为 0；未声称完成目标环境构建或整核证明。
+
+## 历史：目标基础重建
+
+- 将活动内核证明树重建为 `certiucos/v293/`。
+- 仅保留通用框架与证明工具。
+- 固定新版内核源码身份及最小配置。
+- 自定义源码修改限定为嵌套互斥锁优先级恢复和调度锁定自删除。
+- 增加源码获取、哈希校验和项目审计工具。
+- 增加初始模型与回归性质基础，不计入真实源码函数覆盖。

@@ -1,28 +1,20 @@
-# Clean retarget report
+# 历史目标基础重建报告
 
-## Result
+本文描述原有基础重建成果；2026-10-26 的实际检查以 [当前基线核对报告](BASELINE_REPORT.md) 为准。
 
-The repository has been reset to a single V2.93.01 verification target.
+## 已记录的重建结果
 
-- Active OS-specific Coq tree: `certiucos/v293/` only.
-- Version-independent proof base retained: `framework/` and generic tactic
-  modules that do not import removed OS definitions.
-- Upstream identity: pinned commit plus per-file hashes in
-  `csrc/UPSTREAM.lock.json`.
-- Configuration: one fixed profile in `csrc/config/v29301-profile.json`.
-- Repair scope: exactly two families in `csrc/repairs/REPAIR_TARGET.json`.
-- Function coverage starts from an empty machine-readable matrix; no historical
-  local proof is counted toward the new target.
+- 活动内核专用证明树仅保留 `certiucos/v293/`。
+- 复用版本无关的 `framework/` 与通用 tactic 模块。
+- 用 `csrc/UPSTREAM.lock.json` 固定上游提交与逐文件哈希。
+- 用 `csrc/config/v29301-profile.json` 固定配置。
+- 用 `csrc/repairs/REPAIR_TARGET.json` 限定两类修复。
+- 函数覆盖清单从空表重新开始，不计入历史局部证明。
 
-## Current machine checks
+## 原有审计工具的作用与限制
 
-`python3 scripts/project-audit.py` verifies that:
+`scripts/project-audit.py` 扫描旧目标文字、检查活动新版 Coq 树中的证明逃逸关键词，并确认源码锁存在。
 
-- no legacy target identifier remains in the clean repository;
-- the active V2.93 Coq tree contains no `Admitted`, `admit`, new `Axiom`,
-  `Parameter`, or `Conjecture`;
-- the upstream lock is present.
+这一文字扫描不等价于完整依赖审计；加入历史参考资料和提示词后，当前扫描会失败。不得把历史报告或脚本退出成功当作实际源码对应和最终程序证明的证据。
 
-The current execution environment does not provide `coqc`, so this refactor
-cannot claim a Coq 8.18 build result here.  The intended next acceptance step is
-`make fetch-source && make build` in the target Coq 8.18.0 environment.
+原重建记录称当时环境没有 `coqc`，没有声称完成 Coq 8.18 构建。当前机器已有其他版本的 Coq，但仍需在目标环境完成 `make fetch-source` 与 `make build` 等验收。

@@ -1,32 +1,41 @@
-# Verification status
+# 验证进度
 
-Status: **CLEAN V2.93.01 RETARGET — FOUNDATION OPEN**
+当前状态：**已完成目标基础重建，源码级验证仍未闭合**。
 
-## Completed by this refactor
+## 已具备的基础
 
-- Fresh repository with no legacy OS-specific proof tree.
-- Version-independent `framework/` and `tactics/` retained.
-- Official V2.93.01 commit and 15 Source-file SHA-256 identities locked.
-- Fixed configuration profile recorded; optional scope-expanding services are
-  disabled.
-- Active OS Coq namespace reset to `certiucos/v293/`.
-- Regression-property foundations added for native pend-result behavior,
-  nested-mutex effective-priority recomputation, and locked self-delete
-  rejection.
-- V2.93-specific upstream nested-mutex execution evidence retained as audit
-  input.
+- 当前活动内核专用证明树仅为 `certiucos/v293/`。
+- 保留版本无关的 `framework/` 与 `tactics/`。
+- 上游提交及 15 个 `Source/` 文件的 SHA-256 身份已记录。
+- 固定配置已记录；范围外可选功能保持关闭。
+- 已有等待结果、嵌套互斥锁优先级重算、调度锁定自删除拒绝行为的小模型和性质证明。
+- 已保留针对新版嵌套互斥锁问题的上游执行证据，作为后续审计输入。
 
-## Not yet claimed
+以上为现有基础，不代表源码对应关系已被证明。
 
-- Upstream checkout is not vendored in this artifact; run `make fetch-source`.
-- Complete configured function inventory is not yet regenerated.
-- The two source repairs are not yet integrated into the pinned upstream tree.
-- No C-to-CoqImp translation coverage is yet claimed for V2.93.01 functions.
-- No function-level source Hoare proof is yet counted.
-- No full program linkage is yet counted.
-- `V293_low_level_os_code`, `V293_os_spec`, `V293_ucos_init`, and the final
-  `GOOD_OS` theorem remain open.
+## 尚未完成
 
-The small Coq regression models in the clean tree are specification foundations;
-they must not be reported as source-level kernel verification until connected to
-exact source statements and the final program.
+- 主线 `csrc/upstream/v2.93.01/checkout/` 尚未准备。
+- 配置后的完整函数清单尚未生成。
+- 两项授权修复尚未集成到锁定的上游源码中。
+- 尚未计入任何 C 到 CoqImp 的函数翻译覆盖。
+- 尚未计入任何源码函数级 Hoare 证明或整体程序连接。
+- `V293_low_level_os_code`、`V293_os_spec`、`V293_ucos_init` 及最终 `GOOD_OS` 证明尚未完成。
+
+`audit/coverage.json` 的函数行数为 0，六阶段统计均为 0。函数总数未知，不能据此计算整核完成百分比。
+
+## 本次交接核对
+
+截至 2026-10-26，本机可用 Coq 为 8.20.1，而非目标验收版本 8.18.0；当前不能声称完成目标环境的全量构建。实际检查结果见 [基线核对报告](audit/BASELINE_REPORT.md)。
+
+本机隔离编译六个活动文件，前五个退出码为 0，`V293SafetyProof.v` 在第 7 行因找不到引用定理而退出 1。`make audit` 也仍失败。这些失败已记录，未通过修改证明或检查规则来隐藏。
+
+原始 `work-prompt.md` 描述了七项修复和更后期的证明状态，但缺少相应文件，且与当前约束冲突。此处仅报告实际快照，不采纳未核实的进度。
+
+## 如何更新进度
+
+每个配置后函数必须依次获得真实证据：
+
+`located → modeled → specified → local_hoare → component_linked → full_target_linked`
+
+新增辅助引理或独立模型不自动提升函数覆盖。只有连接到当前冻结源码与最终程序的证据才能计入对应阶段。

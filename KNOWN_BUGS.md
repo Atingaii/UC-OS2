@@ -1,46 +1,27 @@
-# Known counterexample classes and V2.93.01 obligations
+# 已知反例类别与证明义务
 
-## K1 — timeout / suspend / resume state split
+以下是交接材料记录的类别及当前处理要求，不表示本次中文整理已重新复现或证明这些路径。文件名为沿用原工程的兼容路径。
 
-Upstream V2.93.01 has an independent `OSTCBStatPend` result field.  Timeout
-clears the event-wait status and records `OS_STAT_PEND_TO`; suspension and
-resumption therefore do not rely on leaving an event-wait bit set until the
-blocked API continuation runs.
+## K1：超时／挂起／恢复的状态分离
 
-**Project status:** upstream regression obligation; no custom patch permitted.
-The Coq model must show that timeout followed by suspend/resume can re-enter the
-ready set while preserving the timeout result.
+V2.93.01 原生具有独立的 `OSTCBStatPend` 结果字段。超时清除事件等待状态并记录 `OS_STAT_PEND_TO`；挂起和恢复无需依赖等待位一直保留到阻塞 API 的后续执行阶段。
 
-## K2 — mutex deletion / priority-table / ready-table coherence
+**当前义务：验证上游原生行为，不增加项目补丁。** 从真实源码证明超时后再挂起／恢复仍可重新就绪，并保留超时结果。
 
-Upstream V2.93.01 restores the owner priority before clearing the mutex ceiling
-slot in the historical single-mutex deletion scenario.  The exact source-level
-proof must establish the invariant that every ready priority resolves to a
-valid corresponding TCB.
+## K2：删除互斥锁时表项与任务状态的一致性
 
-**Project status:** upstream regression obligation; no custom patch permitted
-for the already-corrected path.
+在已知的历史单互斥锁删除场景中，V2.93.01 先恢复所有者优先级，再清除互斥锁优先级上限对应槽位。源码级证明需要保证每个就绪优先级都能解析到有效且对应的 TCB。
 
-## K3 — nested-mutex stale restoration priority
+**当前义务：验证指定的上游回归路径，不为已修正路径增加补丁。** 这不是对所有互斥锁删除路径均已正确的证明；其他疑似反例仍需复现和范围决策。
 
-A task can own two mutexes while its effective priority changes through more
-than one inheritance level.  If one mutex releases an intermediate priority
-slot and another mutex later restores the task to that saved intermediate
-value, the slot may already belong to a newly created task.  The later restore
-can then create two live tasks at the same priority and overwrite the new
-task's priority-table entry.
+## K3：嵌套互斥锁恢复过时的中间优先级
 
-**Project status:** custom repair required.  Restoration must be recomputed from
-the owner's base priority and the still-active mutex contributions rather than
-from a stale intermediate saved value.
+任务持有两个互斥锁时，可能经历多层优先级继承。若一个互斥锁释放了中间优先级槽位，另一个稍后又把任务恢复到保存的旧中间值，该槽位可能已属于新任务，导致活动任务优先级冲突和表项覆盖。
 
-## K4 — scheduler-locked self-delete recycles the live TCB
+**当前义务：集成授权修复。** 根据所有者基础优先级与仍然生效的互斥锁贡献重新计算恢复值，不使用过时的中间保存值。
 
-A task can lock scheduling, delete itself, return its own TCB to the free list,
-continue executing because scheduling is still locked, create another task that
-reuses the same TCB/priority, and then unlock.  A priority-only scheduler check
-can observe the same numeric priority and perform no context switch, leaving the
-old execution context running while the TCB describes the new task.
+## K4：调度锁定期间自删除，回收仍在使用的 TCB
 
-**Project status:** custom repair required.  A locked current-task deletion is
-rejected before any destructive mutation or resource release.
+任务可能先锁定调度，再删除自身、将 TCB 放回空闲链表；由于尚未解锁，旧上下文继续执行。若此时创建新任务复用同一 TCB／优先级，解锁后的优先级比较可能不触发切换，使旧上下文继续运行而 TCB 已描述新任务。
+
+**当前义务：集成授权修复。** 在任何破坏性修改或资源释放前，拒绝调度已锁定时对当前任务的删除。
