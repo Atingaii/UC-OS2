@@ -33,3 +33,11 @@ Coq 8.18.0 实际打印的假设并集如下（不是仅按源码声明猜测）
 `coqchk` 检查证明对象及依赖闭包，**不证明被接受的公理本身成立，更不是 Coq 整体一致性的证明**。活动 `certiucos/v293/` 不得新增 `Axiom`、`Parameter`、`Conjecture` 或证明洞；具体顶层定理仍必须重新执行假设审计与内核检查。
 
 任务切换与中断机制采用显式语义抽象边界。具体 CPU 执行、编译器、汇编器／链接器和硬件正确性不属于当前源码级定理。修复框架不提供具体 V2.93.01 程序的 `TopRule` 前提，也不自动建立最终 `GOOD_OS`。
+
+## 首个真实函数的源码对应边界
+
+第七阶段的 `OSVersion` 对冻结的配置后 Clang AST 进行受限检查翻译，保留无符号返回窄化，并用独立规格证明精确返回值及资源保持。Clang 前端与 `scripts/check-v293-functions.py` 的小型生成器属于显式受信任的源码对应工具；双预处理和哈希身份只能提供交叉检查，不能替代完整 C 语义／编译器正确性证明。未知 AST 结构必须拒绝，不能近似为跳过。
+
+专用门禁在无旧 `.vo` 的一次性目录重编全部 112 个活动 Coq 文件，随后用这些新对象检查三个函数根、接口类型、假设与 `coqchk`。本组实际假设并集仅含 `Classical_Prop.classic` 与 `FunctionalExtensionality.functional_extensionality_dep`；没有新增内核公理。常量单因素变异和空洞前置条件控制均需到达各自指定语义／接口拒绝点。
+
+新证据见 [function-evidence.json](audit/function-evidence.json)。它只支持到 `local_hoare`，不提供抽象 API 组件、共享不变量、具体初始化或整核 `TopRule`；最终 `GOOD_OS` 仍未闭合。第六阶段报告仍是其发布时 109 文件的历史输入集合。

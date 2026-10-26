@@ -32,6 +32,8 @@ class FrozenFixture(unittest.TestCase):
         lock = json.loads((ROOT / 'csrc/UPSTREAM.lock.json').read_text())
         paths = set(freeze['input_sha256']) | set(regression['input_sha256'])
         paths |= {str(FREEZE.FREEZE), str(FREEZE.INVENTORY), 'audit/coverage.json', 'scripts/coverage-audit.py'}
+        function_report = json.loads((ROOT / 'audit/function-evidence.json').read_text())
+        paths |= set(function_report['input_sha256']) | {'audit/function-evidence.json'}
         paths |= {str(Path('csrc/upstream/v2.93.01/checkout') / p)
                   for p in [*lock['files'], lock['config_template'], 'os_cfg.h']}
         for rel in paths:
@@ -130,8 +132,8 @@ class AuthorizedDeltaTests(unittest.TestCase):
 
 
 class LocationCreditTests(FrozenFixture):
-    def test_all_and_only_locations_receive_credit(self):
-        self.assertEqual(COVERAGE.audit(self.root), {s: 94 if s == 'located' else 0 for s in FREEZE.STATES})
+    def test_locations_and_only_checked_function_gates_receive_credit(self):
+        self.assertEqual(COVERAGE.audit(self.root), dict(zip(FREEZE.STATES, [94, 1, 1, 1, 0, 0])))
 
     def reject(self, mutate, message):
         self.edit('audit/coverage.json', mutate)
@@ -170,4 +172,31 @@ class LocationCreditTests(FrozenFixture):
     def test_changed_inventory_is_rejected_before_using_its_locations(self):
         self.edit(FREEZE.INVENTORY, lambda x: x['functions'][0].update(first_line=1))
         with self.assertRaisesRegex(ValueError, 'inventory hash/path differs'):
+            COVERAGE.audit(self.root)
+
+    def test_osversion_cannot_claim_component_linkage(self):
+        self.reject(lambda x: next(r for r in x['rows'] if r['name'] == 'OSVersion').update(
+            component_linked=True), 'evidence checker not implemented')
+
+    def test_stale_source_model_evidence_is_rejected(self):
+        path = self.root / 'certiucos/v293/code/V293OSVersion.v'
+        path.write_text(path.read_text().replace('29300', '29301'))
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_stale_specification_evidence_is_rejected(self):
+        path = self.root / 'certiucos/v293/spec/V293OSVersionSpec.v'
+        path.write_text(path.read_text().replace('29300', '29301'))
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_evidence_cannot_claim_more_gates_than_the_checker(self):
+        self.edit('audit/function-evidence.json', lambda x: x['functions']['OSVersion']['gates'].append(
+            'component_linked'))
+        with self.assertRaisesRegex(ValueError, 'checked source/model/contracts'):
+            COVERAGE.audit(self.root)
+
+    def test_report_without_a_passing_coqchk_is_rejected(self):
+        self.edit('audit/function-evidence.json', lambda x: x['checks']['coqchk'].update(exit_code=1))
+        with self.assertRaisesRegex(ValueError, 'unsuccessful positive gate'):
             COVERAGE.audit(self.root)

@@ -5,7 +5,7 @@ COQPROJECT := _CoqProject
 COQMF := Makefile.coq
 JOBS ?= 2
 
-.PHONY: all build clean audit test check-coq check-build check-models check-c check-c-evidence fetch-source source-audit config-audit source-inventory source-inventory-check source-freeze-check check-memory-bound check-framework-trust status
+.PHONY: all build clean audit test check-coq check-build check-models check-c check-c-evidence fetch-source source-audit config-audit source-inventory source-inventory-check source-freeze-check check-memory-bound check-framework-trust check-functions status
 
 all: build
 
@@ -73,3 +73,7 @@ check-memory-bound:
 
 check-framework-trust:
 	COQBIN="$(COQBIN)" PYTHONDONTWRITEBYTECODE=1 python3 scripts/check-memory-trust.py
+
+# Source-bound function translation, exact contracts, live Coq and controls.
+check-functions:
+	COQBIN="$(COQBIN)" PYTHONDONTWRITEBYTECODE=1 python3 scripts/check-v293-functions.py

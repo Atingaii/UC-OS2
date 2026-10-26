@@ -110,3 +110,6 @@ tactics/sepauto/seplog_tactics.v
 framework/proof/memory_bound.v
 
 framework/proof/memory_representation.v
+certiucos/v293/code/V293OSVersion.v
+certiucos/v293/spec/V293OSVersionSpec.v
+certiucos/v293/proofs/V293OSVersionProof.v

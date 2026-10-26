@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate complete location evidence; never infer proof progress from file counts."""
+"""Validate locations and dedicated function evidence, never file-count progress."""
 from __future__ import annotations
 
 import json
@@ -47,9 +47,22 @@ def audit(root):
             raise ValueError(f'analysis port drift: {rel}')
     if coverage['states'] != source.STATES:
         raise ValueError('coverage state order/set must be the six fixed gates')
-    if coverage['inventory_status'] != 'REPAIRED_SOURCE_FROZEN_LOCATION_EVIDENCE_ONLY':
-        raise ValueError('coverage inventory status does not describe location-only evidence')
+    status = coverage['inventory_status']
+    if status not in {'REPAIRED_SOURCE_FROZEN_LOCATION_EVIDENCE_ONLY',
+                      'REPAIRED_SOURCE_WITH_CHECKED_FUNCTION_EVIDENCE'}:
+        raise ValueError('unsupported coverage inventory status')
     expected_rows = source.location_rows(inventory)
+    supported = {}
+    if status == 'REPAIRED_SOURCE_WITH_CHECKED_FUNCTION_EVIDENCE':
+        checker = source.load_tool(root, 'check-v293-functions.py')
+        evidence = json.loads((root / checker.REPORT).read_text())
+        supported = checker.validate_record(root, evidence)
+        for row in expected_rows:
+            if row['name'] in supported:
+                gates = supported[row['name']]['gates']
+                row.update({gate: True for gate in gates})
+                row['evidence'] = {'report': checker.REPORT,
+                                   'sha256': sha(root / checker.REPORT), 'gates': gates}
     names = [r['name'] for r in expected_rows]
     if len(set(names)) != len(names) or len(names) != inventory['summary']['configured_c_definitions']:
         raise ValueError('repaired inventory definition names/count disagree')
@@ -74,7 +87,8 @@ def audit(root):
             raise ValueError(f'{name}: coverage cannot skip an earlier gate')
         # Later gates need dedicated source/model/theorem linkage checkers first.
         # A path or theorem name alone must not manufacture proof credit.
-        if any(values[1:]):
+        allowed = supported.get(name, {}).get('gates', [])
+        if any(row[s] and s not in allowed for s in source.STATES[1:]):
             raise ValueError(f'{name}: later-stage evidence checker not implemented; proof credit rejected')
     if actual != expected_rows:
         raise ValueError('coverage must exactly match every frozen function location and body hash')
@@ -88,7 +102,7 @@ def main():
         print('rows:', counts['located'])
         for stage, count in counts.items():
             print(f'{stage}: {count}')
-        print('Scope: recorded artifact identity/locations; use source-freeze-check for live replay.')
+        print('Scope: recorded evidence identity; use source-freeze-check/check-functions for live replay.')
     except (OSError, ValueError, KeyError, TypeError) as error:
         sys.exit(f'COVERAGE AUDIT: FAIL: {error}')
 
