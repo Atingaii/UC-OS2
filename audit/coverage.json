@@ -1359,7 +1359,7 @@
       "modeled": true,
       "specified": true,
       "local_hoare": true,
-      "component_linked": false,
+      "component_linked": true,
       "full_target_linked": false,
       "location": {
         "inventory": "audit/repaired-source-inventory.json",
@@ -1372,13 +1372,14 @@
         "preprocessed_body_sha256": "c40cce164244e01dd739466cf3f489a5432b989088ced13bac949c4d5a685986"
       },
       "evidence": {
-        "report": "audit/function-evidence.json",
-        "sha256": "0743085f9bd9e15227a2895dde8ec2c7ac54e791f8b8de7a70af341b1724354c",
+        "report": "audit/function-evidence-stage08.json",
+        "sha256": "3f91b900c5f53cefae467cf471be32e29fa4744e9fe0027ba96c18134b82b107",
         "gates": [
           "located",
           "modeled",
           "specified",
-          "local_hoare"
+          "local_hoare",
+          "component_linked"
         ]
       }
     },

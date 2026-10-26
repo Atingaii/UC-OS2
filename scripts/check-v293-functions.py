@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Replay the frozen OSVersion body, its checked translation and local proof.
+"""Replay the frozen OSVersion body, local proof and one-function API unit.
 
 The Clang frontend and this deliberately restricted emitter are trusted source
 correspondence tools, not a verified C compiler. Unsupported syntax is rejected.
-Neither this gate nor its report claims API/component or whole-kernel linkage.
+This gate proves a nonempty one-function API unit, not whole-kernel linkage.
 """
 from __future__ import annotations
 
@@ -23,10 +23,14 @@ ROOT = Path(__file__).resolve().parents[1]
 CODE = 'certiucos/v293/code/V293OSVersion.v'
 SPEC = 'certiucos/v293/spec/V293OSVersionSpec.v'
 PROOF = 'certiucos/v293/proofs/V293OSVersionProof.v'
-REPORT = 'audit/function-evidence.json'
-SCOPE = 'CHECKED_SOURCE_TRANSLATION_AND_LOCAL_HOARE_NOT_GOOD_OS'
+API = 'certiucos/v293/proofs/V293OSVersionAPI.v'
+REPORT = 'audit/function-evidence-stage08.json'
+SCOPE = 'CHECKED_SOURCE_AND_SINGLE_FUNCTION_API_COMPONENT_NOT_GOOD_OS'
 ROOTS = ['V293_OSVersion_local_hoare', 'V293_OSVersion_post_exact',
          'V293_OSVersion_execution']
+API_ROOTS = ['V293_OSVersion_api_contract', 'V293_OSVersion_api_rule',
+             'V293_OSVersion_api_builders']
+GATES = ['located', 'modeled', 'specified', 'local_hoare', 'component_linked']
 
 
 def load(root, name):
@@ -111,6 +115,35 @@ Definition checked_function :
   V293_OSVersion_function = (Tint16, dnil, dnil, V293_OSVersion_body) := eq_refl.
 '''
 
+API_PROBE = '''Require Import CertiOS.certiucos.v293.proofs.V293OSVersionAPI.
+
+(* Inline both maps and the result: neither an empty unit nor a substituted
+   permissive API specification can silently satisfy the checked interface. *)
+Definition checked_api_rule : forall version_id Spec sd li I lg,
+  APIRule
+    (fun f => if Z.eq_dec f version_id then
+      Some (Tint16, dnil, dnil, V293_OSVersion_body) else None)
+    (fun f => if Z.eq_dec f version_id then
+      Some (fun _ => spec_done (Some (Vint32 (Int.repr 29300))), (Tint16, nil))
+      else None) Spec sd li I lg := V293_OSVersion_api_rule.
+
+Definition checked_api_contract : forall P f Spec sd li I lg tid vl pre post,
+  P f = Some (Tint16, dnil, dnil, V293_OSVersion_body) ->
+  Some pre = BuildPreA' P f
+    (fun _ => spec_done (Some (Vint32 (Int.repr 29300))), (Tint16, nil)) vl li tid lg ->
+  Some post = BuildRetA' P f
+    (fun _ => spec_done (Some (Vint32 (Int.repr 29300))), (Tint16, nil)) vl li tid lg ->
+  InfRules Spec sd li I post Afalse pre V293_OSVersion_body Afalse tid
+  := V293_OSVersion_api_contract.
+
+Definition checked_api_builders : forall version_id li tid lg,
+  exists pre post,
+    Some pre = BuildPreA' (V293_OSVersion_api_unit version_id) version_id
+      V293_OSVersion_api nil li tid lg /\\
+    Some post = BuildRetA' (V293_OSVersion_api_unit version_id) version_id
+      V293_OSVersion_api nil li tid lg := V293_OSVersion_api_builders.
+'''
+
 
 def source_replay(root, work):
     freeze = load(root, 'freeze-v293-source.py')
@@ -189,9 +222,11 @@ def inspect(root=ROOT):
         inventory, node, literal = source_replay(root, work)
         report['source_identity_sha256'] = inventory['source_identity_sha256']
         report['functions'] = {'OSVersion': {
-            'gates': ['located', 'modeled', 'specified', 'local_hoare'],
+            'gates': GATES,
             'location': next(f for f in inventory['functions'] if f['name'] == 'OSVersion'),
             'model': CODE, 'specification': SPEC, 'proof': PROOF, 'roots': ROOTS,
+            'component': API, 'component_roots': API_ROOTS,
+            'component_scope': 'SINGLE_FUNCTION_API_UNIT_FOR_ANY_LINKER_ID_NOT_FULL_KERNEL',
             'source_literal': literal, 'return_conversion': 'unsigned int -> unsigned short',
             'correspondence': 'RESTRICTED_TRUSTED_CLANG_AST_EMITTER_NOT_VERIFIED_C_COMPILER'}}
         passed(run('project_audit', ['python3', 'scripts/project-audit.py']), 'project audit')
@@ -207,14 +242,18 @@ def inspect(root=ROOT):
         passed(run('clean_build', ['make', 'build', f'COQBIN={coqbin}', 'JOBS=2'], build),
                'isolated clean build')
 
-        def compile_tree(label, model=None, spec=None, proof=None, probe=False):
+        def compile_tree(label, model=None, spec=None, proof=None, api=None,
+                         probe=False, component=True):
             dest = work / label
             flags = ['-R', str(build / 'framework'), 'CertiOS.framework',
                      '-R', str(build / 'tactics'), 'CertiOS.tactics',
                      '-R', str(dest / 'certiucos'), 'CertiOS.certiucos',
                      '-R', str(dest / 'checks'), 'FunctionCheck']
             (dest / 'checks').mkdir(parents=True)
-            for rel, body in [(CODE, model), (SPEC, spec), (PROOF, proof)]:
+            files = [(CODE, model), (SPEC, spec), (PROOF, proof)]
+            if component:
+                files.append((API, api))
+            for rel, body in files:
                 path = dest / rel
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text((root / rel).read_text() if body is None else body)
@@ -223,7 +262,9 @@ def inspect(root=ROOT):
                     return row, flags, dest
             if probe:
                 path = dest / 'checks/Contract.v'
-                path.write_text(PROBE + '\n' + '\n'.join(f'Print Assumptions {r}.' for r in ROOTS))
+                roots = ROOTS + (API_ROOTS if component else [])
+                path.write_text(PROBE + (API_PROBE if component else '') + '\n'
+                                + '\n'.join(f'Print Assumptions {r}.' for r in roots))
                 return run(label + ':contract', [coqbin + 'coqc', '-q', *flags, str(path)], dest), flags, dest
             return row, flags, dest
 
@@ -238,11 +279,12 @@ def inspect(root=ROOT):
         for section in sections:
             section = section.split('Closed under the global context')[0]
             actual |= set(trust.check_assumptions(section, trust.FRAMEWORK_ALLOWED))
-        if output.count('Axioms:') + output.count('Closed under the global context') != len(ROOTS):
+        if output.count('Axioms:') + output.count('Closed under the global context') != len(ROOTS + API_ROOTS):
             raise ValueError('missing or ambiguous function-root assumption output')
         report['root_assumptions'] = sorted(actual)
         passed(run('coqchk', [coqbin + 'coqchk', '-silent', *flags,
-                   'CertiOS.certiucos.v293.proofs.V293OSVersionProof', 'FunctionCheck.Contract'], dest), 'coqchk')
+                   'CertiOS.certiucos.v293.proofs.V293OSVersionProof',
+                   'CertiOS.certiucos.v293.proofs.V293OSVersionAPI', 'FunctionCheck.Contract'], dest), 'coqchk')
 
         # Prospective single-factor controls, not just early frozen-hash failures.
         # 1. A changed literal is accepted by the emitter but rejected by the
@@ -270,7 +312,10 @@ Proof.
   eapply rete_rule with (v := V293_OSVersion_result) (t := Tint16).
   intros s Hfalse. contradiction.
 Qed.'''
-        row, _, _ = compile_tree('false_precondition', proof=proof[:start] + bad_hoare + proof[end:], probe=True)
+        # Isolate the local contract control: do not let the new downstream API
+        # proof reject first and masquerade as the independent probe's result.
+        row, _, _ = compile_tree('false_precondition', proof=proof[:start] + bad_hoare + proof[end:],
+                                 probe=True, component=False)
         match = re.search(r'line (\d+), characters', row['stderr'])
         lo = PROBE[:PROBE.index('Definition checked_local_hoare')].count('\n') + 1
         hi = PROBE[:PROBE.index('Definition checked_execution')].count('\n')
@@ -280,6 +325,28 @@ Qed.'''
         report['negative_controls'] = {
             'literal_changed_only': 'REJECTED_AT_V293_OSVersion_eval',
             'false_precondition_only': 'MUTANT_ROOT_COMPILED_REJECTED_AT_checked_local_hoare'}
+        api = (root / API).read_text()
+
+        def api_rejected(label, mutant, declaration):
+            row, _, _ = compile_tree(label, api=mutant)
+            match = re.search(r'line (\d+), characters', row['stderr'])
+            start = mutant.index(declaration)
+            lo = mutant[:start].count('\n') + 1
+            hi = mutant[:mutant.index('Qed.', start)].count('\n') + 1
+            if (row['exit_code'] != 1 or not match or not lo <= int(match[1]) <= hi
+                    or report['checks'].get(label + ':V293OSVersionProof', {}).get('exit_code') != 0):
+                raise ValueError(f'{label} did not reach designated API obligation: {row}')
+
+        # Each changes just one semantic factor; all base proofs still compile.
+        wrong_result = api.replace('spec_done (Some V293_OSVersion_result)',
+                                   'spec_done (Some (Vint32 (Int.repr 29301)))', 1)
+        api_rejected('wrong_api_result', wrong_result, 'Theorem V293_OSVersion_api_contract')
+        missing_entry = api.replace('then Some V293_OSVersion_function else None',
+                                    'then None else None', 1)
+        api_rejected('missing_api_entry', missing_entry, 'Lemma V293_OSVersion_api_domains')
+        report['negative_controls'].update({
+            'api_result_changed_only': 'REJECTED_AT_V293_OSVersion_api_contract',
+            'api_entry_removed_only': 'REJECTED_AT_V293_OSVersion_api_domains'})
     if input_hashes(root) != report['input_sha256']:
         raise ValueError('function gate inputs changed during inspection')
     return report
@@ -296,21 +363,28 @@ def validate_record(root, report):
     if report['source_identity_sha256'] != inventory['source_identity_sha256']:
         raise ValueError('function evidence source identity differs')
     expected = {'OSVersion': {
-        'gates': ['located', 'modeled', 'specified', 'local_hoare'],
+        'gates': GATES,
         'location': next(f for f in inventory['functions'] if f['name'] == 'OSVersion'),
         'model': CODE, 'specification': SPEC, 'proof': PROOF, 'roots': ROOTS,
+        'component': API, 'component_roots': API_ROOTS,
+        'component_scope': 'SINGLE_FUNCTION_API_UNIT_FOR_ANY_LINKER_ID_NOT_FULL_KERNEL',
         'source_literal': 29300, 'return_conversion': 'unsigned int -> unsigned short',
         'correspondence': 'RESTRICTED_TRUSTED_CLANG_AST_EMITTER_NOT_VERIFIED_C_COMPILER'}}
     if report['functions'] != expected:
         raise ValueError('function evidence does not match checked source/model/contracts')
     checks = report['checks']
     required = ['version', 'project_audit', 'clean_build', 'positive:V293OSVersion',
-                'positive:V293OSVersionSpec', 'positive:V293OSVersionProof', 'positive:contract', 'coqchk']
+                'positive:V293OSVersionSpec', 'positive:V293OSVersionProof',
+                'positive:V293OSVersionAPI', 'positive:contract', 'coqchk']
     if any(checks[k]['exit_code'] != 0 for k in required):
         raise ValueError('function evidence contains an unsuccessful positive gate')
     if (checks['wrong_literal:V293OSVersionProof']['exit_code'] != 1
             or checks['false_precondition:V293OSVersionProof']['exit_code'] != 0
-            or checks['false_precondition:contract']['exit_code'] != 1):
+            or checks['false_precondition:contract']['exit_code'] != 1
+            or checks['wrong_api_result:V293OSVersionProof']['exit_code'] != 0
+            or checks['wrong_api_result:V293OSVersionAPI']['exit_code'] != 1
+            or checks['missing_api_entry:V293OSVersionProof']['exit_code'] != 0
+            or checks['missing_api_entry:V293OSVersionAPI']['exit_code'] != 1):
         raise ValueError('function evidence is missing designated negative controls')
     if not set(report['root_assumptions']) <= load(root, 'check-memory-trust.py').FRAMEWORK_ALLOWED:
         raise ValueError('unexpected function-root assumptions')
@@ -328,9 +402,9 @@ def main():
             with (ROOT / REPORT).open('x') as stream:
                 json.dump(report, stream, ensure_ascii=False, indent=2)
                 stream.write('\n')
-        print('SOURCE FUNCTION CHECK: PASS (OSVersion, through local_hoare only)')
+        print('SOURCE FUNCTION CHECK: PASS (OSVersion, through one-function component_linked)')
         print('root assumptions:', report['root_assumptions'])
-        print('GOOD_OS: OPEN; no component/full-target linkage claimed')
+        print('GOOD_OS: OPEN; no full-target linkage claimed')
     except (OSError, ValueError, KeyError, TypeError, subprocess.TimeoutExpired) as error:
         parser.exit(1, f'SOURCE FUNCTION CHECK: FAIL: {error}\n')
 

@@ -20,6 +20,7 @@ def load(name):
 
 FREEZE = load('freeze-v293-source.py')
 COVERAGE = load('coverage-audit.py')
+FUNCTIONS = load('check-v293-functions.py')
 
 
 class FrozenFixture(unittest.TestCase):
@@ -32,8 +33,8 @@ class FrozenFixture(unittest.TestCase):
         lock = json.loads((ROOT / 'csrc/UPSTREAM.lock.json').read_text())
         paths = set(freeze['input_sha256']) | set(regression['input_sha256'])
         paths |= {str(FREEZE.FREEZE), str(FREEZE.INVENTORY), 'audit/coverage.json', 'scripts/coverage-audit.py'}
-        function_report = json.loads((ROOT / 'audit/function-evidence.json').read_text())
-        paths |= set(function_report['input_sha256']) | {'audit/function-evidence.json'}
+        function_report = json.loads((ROOT / FUNCTIONS.REPORT).read_text())
+        paths |= set(function_report['input_sha256']) | {FUNCTIONS.REPORT}
         paths |= {str(Path('csrc/upstream/v2.93.01/checkout') / p)
                   for p in [*lock['files'], lock['config_template'], 'os_cfg.h']}
         for rel in paths:
@@ -133,7 +134,7 @@ class AuthorizedDeltaTests(unittest.TestCase):
 
 class LocationCreditTests(FrozenFixture):
     def test_locations_and_only_checked_function_gates_receive_credit(self):
-        self.assertEqual(COVERAGE.audit(self.root), dict(zip(FREEZE.STATES, [94, 1, 1, 1, 0, 0])))
+        self.assertEqual(COVERAGE.audit(self.root), dict(zip(FREEZE.STATES, [94, 1, 1, 1, 1, 0])))
 
     def reject(self, mutate, message):
         self.edit('audit/coverage.json', mutate)
@@ -174,9 +175,9 @@ class LocationCreditTests(FrozenFixture):
         with self.assertRaisesRegex(ValueError, 'inventory hash/path differs'):
             COVERAGE.audit(self.root)
 
-    def test_osversion_cannot_claim_component_linkage(self):
+    def test_osversion_cannot_claim_full_target_linkage(self):
         self.reject(lambda x: next(r for r in x['rows'] if r['name'] == 'OSVersion').update(
-            component_linked=True), 'evidence checker not implemented')
+            full_target_linked=True), 'evidence checker not implemented')
 
     def test_stale_source_model_evidence_is_rejected(self):
         path = self.root / 'certiucos/v293/code/V293OSVersion.v'
@@ -191,12 +192,41 @@ class LocationCreditTests(FrozenFixture):
             COVERAGE.audit(self.root)
 
     def test_evidence_cannot_claim_more_gates_than_the_checker(self):
-        self.edit('audit/function-evidence.json', lambda x: x['functions']['OSVersion']['gates'].append(
-            'component_linked'))
+        self.edit(FUNCTIONS.REPORT, lambda x: x['functions']['OSVersion']['gates'].append(
+            'full_target_linked'))
         with self.assertRaisesRegex(ValueError, 'checked source/model/contracts'):
             COVERAGE.audit(self.root)
 
     def test_report_without_a_passing_coqchk_is_rejected(self):
-        self.edit('audit/function-evidence.json', lambda x: x['checks']['coqchk'].update(exit_code=1))
+        self.edit(FUNCTIONS.REPORT, lambda x: x['checks']['coqchk'].update(exit_code=1))
         with self.assertRaisesRegex(ValueError, 'unsuccessful positive gate'):
+            COVERAGE.audit(self.root)
+
+
+class ComponentCreditTests(FrozenFixture):
+    def test_stale_api_component_evidence_is_rejected(self):
+        path = self.root / FUNCTIONS.API
+        path.write_text(path.read_text().replace('spec_done (Some V293_OSVersion_result)',
+            'spec_done (Some (Vint32 (Int.repr 29301)))', 1))
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_another_function_cannot_borrow_component_credit(self):
+        def mutate(data):
+            row = next(r for r in data['rows'] if r['name'] != 'OSVersion')
+            row.update(modeled=True, specified=True, local_hoare=True, component_linked=True)
+        self.edit('audit/coverage.json', mutate)
+        with self.assertRaisesRegex(ValueError, 'evidence checker not implemented'):
+            COVERAGE.audit(self.root)
+
+    def test_a_component_failure_cannot_receive_credit(self):
+        self.edit(FUNCTIONS.REPORT,
+            lambda data: data['checks']['positive:V293OSVersionAPI'].update(exit_code=1))
+        with self.assertRaisesRegex(ValueError, 'unsuccessful positive gate'):
+            COVERAGE.audit(self.root)
+
+    def test_missing_component_control_is_rejected(self):
+        self.edit(FUNCTIONS.REPORT,
+            lambda data: data['checks']['missing_api_entry:V293OSVersionAPI'].update(exit_code=0))
+        with self.assertRaisesRegex(ValueError, 'designated negative controls'):
             COVERAGE.audit(self.root)

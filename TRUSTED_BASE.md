@@ -38,6 +38,12 @@ Coq 8.18.0 实际打印的假设并集如下（不是仅按源码声明猜测）
 
 第七阶段的 `OSVersion` 对冻结的配置后 Clang AST 进行受限检查翻译，保留无符号返回窄化，并用独立规格证明精确返回值及资源保持。Clang 前端与 `scripts/check-v293-functions.py` 的小型生成器属于显式受信任的源码对应工具；双预处理和哈希身份只能提供交叉检查，不能替代完整 C 语义／编译器正确性证明。未知 AST 结构必须拒绝，不能近似为跳过。
 
-专用门禁在无旧 `.vo` 的一次性目录重编全部 112 个活动 Coq 文件，随后用这些新对象检查三个函数根、接口类型、假设与 `coqchk`。本组实际假设并集仅含 `Classical_Prop.classic` 与 `FunctionalExtensionality.functional_extensionality_dep`；没有新增内核公理。常量单因素变异和空洞前置条件控制均需到达各自指定语义／接口拒绝点。
+第七阶段发布时，专用门禁在无旧 `.vo` 的一次性目录重编全部 112 个活动 Coq 文件，随后用这些新对象检查三个函数根、接口类型、假设与 `coqchk`。本组实际假设并集仅含 `Classical_Prop.classic` 与 `FunctionalExtensionality.functional_extensionality_dep`；没有新增内核公理。常量单因素变异和空洞前置条件控制均需到达各自指定语义／接口拒绝点。
 
-新证据见 [function-evidence.json](audit/function-evidence.json)。它只支持到 `local_hoare`，不提供抽象 API 组件、共享不变量、具体初始化或整核 `TopRule`；最终 `GOOD_OS` 仍未闭合。第六阶段报告仍是其发布时 109 文件的历史输入集合。
+第七阶段历史证据见 [function-evidence.json](audit/function-evidence.json)。它只支持到 `local_hoare`，不提供抽象 API 组件、共享不变量、具体初始化或整核 `TopRule`；最终 `GOOD_OS` 仍未闭合。第六阶段报告仍是其发布时 109 文件的历史输入集合。
+
+## 首个 API 组件的增量边界
+
+第八阶段另外生成 [function-evidence-stage08.json](audit/function-evidence-stage08.json)，不覆盖第七阶段快照。全部 113 个活动文件干净构建，六个局部／组件根与独立接口探针经 `coqchk` 检查；实际假设并集仍只有经典逻辑与依赖函数外延性。新增单函数 API 单元仅连接 `OSVersion`，没有具体全局程序、共享初始化或最终 `GOOD_OS`。
+
+静态 `make audit` 检查报告输入身份和支持范围，不是证明重放或签名认证；实际重放仍用 `make check-functions`。调度器的有限枚举调查不属于 Coq 验收，不获得覆盖信用。
