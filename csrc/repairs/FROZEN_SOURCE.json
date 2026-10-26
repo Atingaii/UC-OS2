@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "scope": "C_SOURCE_IDENTITY_NOT_CORRECTNESS_OR_COQ_PROOF",
+  "source_layer": "PINNED_UPSTREAM_WITH_TWO_AUTHORIZED_REPAIRS_FIXED_PROFILE",
+  "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+  "program": {
+    "target_release": "V2.93.01",
+    "target_commit": "0c4a48e6fbc6e915714e816196619a5481accf0c",
+    "source_sha256": {
+      "Source/os.h": "89aeb093dc5ba331767322f9263fb573b3f260f644f9a33ab454abe46ec51493",
+      "Source/os_core.c": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+      "Source/os_dbg_r.c": "9564553c458095df3fbf72f8fe76f1fa1dd17423f8ab3ad4d087d402720424fc",
+      "Source/os_flag.c": "57f0c7a2eac099577cafde221817a1f3fe3544f05420aa50d4f6c57d09a7376d",
+      "Source/os_mbox.c": "9e105f7f4a6aeb06951b448b82d0fe8f123a4a16872208cc52a91c6f83bc8921",
+      "Source/os_mem.c": "652f546bdebed40154cb06de62659fc52c6bc441fbb092fed1edb42fbd491991",
+      "Source/os_mutex.c": "aeb8ac5f1c7dadf6129fc87f5a942c8cb7a762fb4b0ceb80bab6e759063f0ef8",
+      "Source/os_q.c": "246eb61cd70e44a793dcc6f2393bbaca49235a86b03a6e976d325b9f095e42aa",
+      "Source/os_sem.c": "326dfe1f03651bc8995abd50603132c34d643bb1a243f14dc98eb15c1395eddc",
+      "Source/os_task.c": "b7fe3b8af449287851b030014eead0e855f87dad723c3f1e297c1dc4f1d9248f",
+      "Source/os_time.c": "a53a16a53e8d9cf1f508e97914d7cc91ea33019d8dfc3d6bc60741005bebb346",
+      "Source/os_tmr.c": "368c8b082a6e4c5ea254860a8146a27764ec53882400a929525ddbb10cad7796",
+      "Source/os_trace.h": "f98597dd1d570c44d37903cc29854e59d8889b8e43e59d47cd26b2d05f8457dc",
+      "Source/ucos_ii.c": "adfa71887fe44226c2758a639711a3753f1232a31c8781a0c50221d18c1c7cb2",
+      "Source/ucos_ii.h": "be144099fce9f05f578fcd359f40a922ad17290b8bb553bfd83ff9bb99b7113e"
+    },
+    "os_cfg_sha256": "95b175ae6d8526da107f63e3a6f3984f08ccc7bb77fa802154fc2fb80de094c5",
+    "analysis_port_sha256": {
+      "os_cpu.h": "454db56791a5d88f16e34ee86084f219022ed2e96b10616c506a238b5c7e4a85",
+      "app_cfg.h": "ba6853b3e72679f7cce7ec50ac387b7b0d61408a16dc36c0648ecc8da4f21b4d"
+    }
+  },
+  "replay": {
+    "logical_source_root": "csrc/repaired/v2.93.01/checkout",
+    "patches_in_order": [
+      "csrc/repairs/0001-nested-mutex-restoration.patch",
+      "csrc/repairs/0002-locked-current-self-delete.patch"
+    ],
+    "storage": "RECONSTRUCTED_IN_OWNED_TEMPORARY_ROOT_NOT_COMMITTED_SOURCE_COPY"
+  },
+  "input_sha256": {
+    "scripts/freeze-v293-source.py": "e1e9962bcea2d330ce4d74cf53732c3076c7ed8c733ce23d95cb2f5a94a4e1b6",
+    "scripts/inventory-v293-source.py": "3c4b0029800df5920f9be39308a8006ba65d4adc1bc2c98e16807341733a72aa",
+    "scripts/check-v293-c-regressions.py": "3f47901fe4cba8bcde93025ba18908df960d340c0f2f634a729c9b1e4fe2239c",
+    "audit/source-inventory.json": "a4b402bff2ffe38f1c054bc6c9b5ca4cb2517313f16590d983938503403ba662",
+    "audit/c-regressions.json": "7581063ce5e993f7d28bde998c5932b58d4f035a8720491034ed56e4c44224cc",
+    "csrc/UPSTREAM.lock.json": "a153f4bb8688e9d1a89e16ca61bbfa8b4e2be30f1aad7adf0705b6d130e05599",
+    "csrc/config/v29301-profile.json": "5ea85a1543c9e4bb69fc17f9a78e97b4f9a70286c940d703d87385962292e3a3",
+    "csrc/repairs/REPAIR_TARGET.json": "8a72adabb4c45f422a110ca1601b22e6dde11719b2b96f659e0a5fe546d7ca3c",
+    "csrc/repairs/0001-nested-mutex-restoration.patch": "7afabfef93acc3c66d0aaa2eb368b7814ac8d39d33b6f97a74d1bc93c589b1ea",
+    "csrc/repairs/0002-locked-current-self-delete.patch": "c7c5b4ee6eaaf46a59f6ef41be9c55f345ed08f0992cda47fa72aebab6f303ea",
+    "csrc/analysis-port/os_cpu.h": "454db56791a5d88f16e34ee86084f219022ed2e96b10616c506a238b5c7e4a85",
+    "csrc/analysis-port/app_cfg.h": "ba6853b3e72679f7cce7ec50ac387b7b0d61408a16dc36c0648ecc8da4f21b4d"
+  },
+  "inventory": {
+    "path": "audit/repaired-source-inventory.json",
+    "sha256": "f40453a294256356d8cd954568f59a74bb091d33c4a1f3a0013e5653740076c5"
+  },
+  "authorized_delta": {
+    "added_static_helpers": [
+      "OSMutex_BasePrio",
+      "OSMutex_EffectivePrio"
+    ],
+    "changed_existing_bodies": [
+      "OSMutexAccept",
+      "OSMutexDel",
+      "OSMutexPend",
+      "OSMutexPost",
+      "OSMutex_RdyAtPrio",
+      "OSTaskDel"
+    ],
+    "removed_definitions": [],
+    "existing_interfaces_unchanged": true,
+    "effective_configuration_unchanged": true,
+    "boundaries_unchanged": true
+  },
+  "open_obligations": [
+    "C_TO_COQIMP_CORRESPONDENCE",
+    "GLOBAL_INVARIANTS",
+    "ALL_FUNCTION_HOARE_PROOFS",
+    "BOUNDARY_CONTRACTS",
+    "INITIALIZATION",
+    "GOOD_OS",
+    "ASSUMPTION_AUDIT"
+  ]
+}

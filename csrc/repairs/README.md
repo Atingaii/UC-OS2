@@ -7,7 +7,7 @@
 | `0001-nested-mutex-restoration.patch` | `Source/os_mutex.c` | 基础优先级保存、剩余贡献重算与状态保持的重定位 |
 | `0002-locked-current-self-delete.patch` | `Source/os_task.c` | 删除前拒绝已锁定调度的当前任务 |
 
-当前状态为 `C_INTEGRATED_REGRESSION_TESTED_SOURCE_FREEZE_OPEN`。补丁输出的文件哈希已经记录在 [执行证据](../../audit/c-regressions.json)，但修复后的完整配置函数清单、最终源码冻结与 C 到 CoqImp 对应仍待完成。第二阶段清单仍只代表原上游。
+当前状态为 `C_SOURCE_FROZEN_COQ_CORRESPONDENCE_OPEN`。[冻结记录](FROZEN_SOURCE.json) 与 [修复后完整清单](../../audit/repaired-source-inventory.json) 已建立，输出哈希与第三阶段 [执行证据](../../audit/c-regressions.json) 相同。94 个定义均已定位，C 到 CoqImp 对应及全部源码级证明仍未完成；第二阶段清单仍只代表原上游。
 
 原 `protocol.c` 与 `locked-current-delete.guard.c` 片段已由补丁取代，不再保留第二份实现；历史内容可从 Git 查看。
 
@@ -28,6 +28,7 @@
 ## 重跑与理解
 
 ```sh
+make source-freeze-check # 从实际源码重放补丁、清点并只读比较冻结记录
 make check-c            # 23 场景 × 四种补丁组合 × 两个编译器 × 两种优化
 make check-c-evidence   # 重跑后与已提交 JSON 逐字比较，不改写证据
 make test              # 含逐机制消融与边界拒绝检查

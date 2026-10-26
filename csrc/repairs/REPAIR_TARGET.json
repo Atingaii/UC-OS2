@@ -4,14 +4,14 @@
   "repairs": [
     {
       "id": "nested-mutex-restoration",
-      "status": "C_INTEGRATED_REGRESSION_TESTED_SOURCE_FREEZE_OPEN",
+      "status": "C_SOURCE_FROZEN_COQ_CORRESPONDENCE_OPEN",
       "patch": "csrc/repairs/0001-nested-mutex-restoration.patch",
       "new_api": false,
       "new_tcb_fields": false
     },
     {
       "id": "locked-current-self-delete",
-      "status": "C_INTEGRATED_REGRESSION_TESTED_SOURCE_FREEZE_OPEN",
+      "status": "C_SOURCE_FROZEN_COQ_CORRESPONDENCE_OPEN",
       "patch": "csrc/repairs/0002-locked-current-self-delete.patch",
       "return_code": "OS_ERR_SCHED_LOCKED",
       "return_code_value": 50,

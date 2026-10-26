@@ -1,7 +1,8 @@
 {
   "target_release": "V2.93.01",
   "target_commit": "0c4a48e6fbc6e915714e816196619a5481accf0c",
-  "inventory_status": "UPSTREAM_INVENTORY_AVAILABLE_REPAIRED_SOURCE_FREEZE_PENDING",
+  "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+  "inventory_status": "REPAIRED_SOURCE_FROZEN_LOCATION_EVIDENCE_ONLY",
   "states": [
     "located",
     "modeled",
@@ -10,5 +11,1886 @@
     "component_linked",
     "full_target_linked"
   ],
-  "rows": []
+  "rows": [
+    {
+      "name": "OSFlagAccept",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_flag.c",
+        "first_line": 101,
+        "last_line": 200,
+        "source_file_sha256": "57f0c7a2eac099577cafde221817a1f3fe3544f05420aa50d4f6c57d09a7376d",
+        "source_lines_sha256": "acd9bfba03750048b12515c0b36f690b6017b73b4ca3cfcf2a4b099390a3b23b",
+        "preprocessed_definition_sha256": "e5bb8ef6773f64cb28a477dc346c904068b23de570a50a3908fca7fba496bd84",
+        "preprocessed_body_sha256": "80e60b332cf279ee84bb053c5e704a17900b302ab51250c6d0ac959f6a349375"
+      }
+    },
+    {
+      "name": "OSFlagCreate",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_flag.c",
+        "first_line": 226,
+        "last_line": 274,
+        "source_file_sha256": "57f0c7a2eac099577cafde221817a1f3fe3544f05420aa50d4f6c57d09a7376d",
+        "source_lines_sha256": "b10c31deab52beebb08f5830f763e001133f330a1d9f50422dbb41ec15a36409",
+        "preprocessed_definition_sha256": "a0bae0711d35a0fc45f940ad0ba27535e862572ac169156abef4628cfc18747a",
+        "preprocessed_body_sha256": "a9f9ef19bd137bff6acb693eafae04ef61160dd1aeb8810db7293218d29357cc"
+      }
+    },
+    {
+      "name": "OSFlagDel",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_flag.c",
+        "first_line": 318,
+        "last_line": 421,
+        "source_file_sha256": "57f0c7a2eac099577cafde221817a1f3fe3544f05420aa50d4f6c57d09a7376d",
+        "source_lines_sha256": "253fc43d588cdd7ffc774477845e32a3a05e7796521f744ec2d42b6c9fa66e50",
+        "preprocessed_definition_sha256": "fec7a10c972d3c99222c1d156a8ad93f2611468897e94a60b096ee11f1a68080",
+        "preprocessed_body_sha256": "11e6d2cc3903f8bc81ad5e76e5045379d973978a6eab240de499ca34b17a77dc"
+      }
+    },
+    {
+      "name": "OSFlagPend",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_flag.c",
+        "first_line": 620,
+        "last_line": 802,
+        "source_file_sha256": "57f0c7a2eac099577cafde221817a1f3fe3544f05420aa50d4f6c57d09a7376d",
+        "source_lines_sha256": "ef2c006ffd60c270b43d90d46dcf3dd4276f7eadf60f516e3f0ab399f1531b63",
+        "preprocessed_definition_sha256": "6ce6debf4ee576ae7a13a65b8ecfc3a4938dc4794bc4492eb0d2bdea185bd50d",
+        "preprocessed_body_sha256": "bb7f0ce14866f20460854b6da4abba47f0f2dfc7b68c84c884202f4cb86886bd"
+      }
+    },
+    {
+      "name": "OSFlagPendGetFlagsRdy",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_flag.c",
+        "first_line": 820,
+        "last_line": 833,
+        "source_file_sha256": "57f0c7a2eac099577cafde221817a1f3fe3544f05420aa50d4f6c57d09a7376d",
+        "source_lines_sha256": "e15963c7550467e6b1f3049e7d18bbb58b03b51cf335163aff1ff7f34811469a",
+        "preprocessed_definition_sha256": "273f1f1d0e853428e005a11bb22da44a0e4ed3e96ef7e272c7bc4fcef456965c",
+        "preprocessed_body_sha256": "ec9587f431b9add5b170a09f57845fb887f8bc7153d498b988e9e6e5e8e3f091"
+      }
+    },
+    {
+      "name": "OSFlagPost",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_flag.c",
+        "first_line": 877,
+        "last_line": 994,
+        "source_file_sha256": "57f0c7a2eac099577cafde221817a1f3fe3544f05420aa50d4f6c57d09a7376d",
+        "source_lines_sha256": "822d0c24300ae48d6821dbb2f6d155c4aac864b67fc61527e5931a98bf4ee1ab",
+        "preprocessed_definition_sha256": "8196707877d6bf46926f19ad3c476b0b001c3ce377153e4fbfcf31fad9089b4a",
+        "preprocessed_body_sha256": "938510a63d862cc88e4aaf82ae0f813508c0425baf495fd73cc9790fc66edf8c"
+      }
+    },
+    {
+      "name": "OSFlagQuery",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_flag.c",
+        "first_line": 1017,
+        "last_line": 1049,
+        "source_file_sha256": "57f0c7a2eac099577cafde221817a1f3fe3544f05420aa50d4f6c57d09a7376d",
+        "source_lines_sha256": "78b5ca11866cd0cfa252a11e6c7ed776497f0cab99560ba1c9c8fd511d53b7ad",
+        "preprocessed_definition_sha256": "1b8e6e7b65f0abb8a322813183bf4b7bbd2e4c2e3166af40347e2d492447518b",
+        "preprocessed_body_sha256": "dc490e82d2cc3753d2e057ac5ae40448bca92a84df50de10afda08d13021ea0c"
+      }
+    },
+    {
+      "name": "OSInit",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 582,
+        "last_line": 635,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "f0a3260e9a3ac354ce7210acbbb064bee77598573d1adb7a2b259c1ef8aea63b",
+        "preprocessed_definition_sha256": "b5b5be95d6d7a86e2adb1f7ca80407186009704d05d6168c42bee9266610931f",
+        "preprocessed_body_sha256": "ddee2d2c97fc3e38be871472ec0e873438a86899405cdfba2a91a20b16e414e6"
+      }
+    },
+    {
+      "name": "OSIntEnter",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 663,
+        "last_line": 671,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "6f2681d7c915404c37013658acbf58b8f0f055aaa67fe6d123b1ad240a0393fd",
+        "preprocessed_definition_sha256": "d820c7bac1840a64edf1d70695dd6e1c8955f89bc55f04a9d8604d64b46081f6",
+        "preprocessed_body_sha256": "9baaac0e04a08a77045d8d24fb6b0cc5650ade5326b04e05f8a93ea915afd96c"
+      }
+    },
+    {
+      "name": "OSIntExit",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 693,
+        "last_line": 736,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "e2dbd81c71dd4ddf1d6cedc7fbe5f5645319ef1055813a2fcf856b30a444aca2",
+        "preprocessed_definition_sha256": "eface83f6f4b0aa36685c3996ec8df5d48091ea2ccb2f62918fb03a91f3bd789",
+        "preprocessed_body_sha256": "7fb77bf71bd8a6863ea5f275990d47fc8d3531bad14feefbfbfd8b2c9241bc54"
+      }
+    },
+    {
+      "name": "OSMboxAccept",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mbox.c",
+        "first_line": 56,
+        "last_line": 78,
+        "source_file_sha256": "9e105f7f4a6aeb06951b448b82d0fe8f123a4a16872208cc52a91c6f83bc8921",
+        "source_lines_sha256": "9e62369a5bd0c33839abd34ca50e13afbef700be0b03a53d8c8a61fe35f9de43",
+        "preprocessed_definition_sha256": "b371bb394eddfe601eb66cbf9ff1504da72e02b9f7b740105107b5463823bf81",
+        "preprocessed_body_sha256": "a91c35b4a7bec67e6ccc619f1dc250c6d7edfb586aa743fd33c2bdca839f6e32"
+      }
+    },
+    {
+      "name": "OSMboxCreate",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mbox.c",
+        "first_line": 98,
+        "last_line": 135,
+        "source_file_sha256": "9e105f7f4a6aeb06951b448b82d0fe8f123a4a16872208cc52a91c6f83bc8921",
+        "source_lines_sha256": "064a8d098c95caa63938a993f4e3c6ffa7cb0aa6ef5d7fe30f40a3de88eb9429",
+        "preprocessed_definition_sha256": "dd2dfb98141c280a286ebe6a762e73a6a6196092b5a9c80e20b8340a643a772d",
+        "preprocessed_body_sha256": "ab003e8b4c68d83cbc091463111a6af49ebfa95ccbda0acd4227362e1cf8d864"
+      }
+    },
+    {
+      "name": "OSMboxDel",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mbox.c",
+        "first_line": 179,
+        "last_line": 280,
+        "source_file_sha256": "9e105f7f4a6aeb06951b448b82d0fe8f123a4a16872208cc52a91c6f83bc8921",
+        "source_lines_sha256": "83f780cd639651be15dce796302f0e7b223252498395d37105c7d8cc3339aec5",
+        "preprocessed_definition_sha256": "fbab876702e4eb8f3afbeee3e588c6f237ccc4c8157cf3f0efb823b14e4fa5dc",
+        "preprocessed_body_sha256": "7775f6306fc34e50326f541b5c5176b9ab09beed1527748eedb543aa247163c6"
+      }
+    },
+    {
+      "name": "OSMboxPend",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mbox.c",
+        "first_line": 317,
+        "last_line": 404,
+        "source_file_sha256": "9e105f7f4a6aeb06951b448b82d0fe8f123a4a16872208cc52a91c6f83bc8921",
+        "source_lines_sha256": "abe5331a22631dabf7d398ebdc18476b9c39bb980ea476fb2b50a7d3b60796c9",
+        "preprocessed_definition_sha256": "471ff75816ebb621bda7248898b916f4d3228f9501d860b7ca55769eae3ab8c0",
+        "preprocessed_body_sha256": "6d20676dbf1a607ab2609ab478d3068f48065bc392d9c984744dbee21c5cd87d"
+      }
+    },
+    {
+      "name": "OSMboxPendAbort",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mbox.c",
+        "first_line": 440,
+        "last_line": 493,
+        "source_file_sha256": "9e105f7f4a6aeb06951b448b82d0fe8f123a4a16872208cc52a91c6f83bc8921",
+        "source_lines_sha256": "453ebfeae82fbf212798611ae04e925af2dd61827143ab81c20a56de1378fbc0",
+        "preprocessed_definition_sha256": "f5ea673e4667cad89547689c454f1b26b5955e49b7435aea533ea3520ba8748a",
+        "preprocessed_body_sha256": "186120fe3712fec89eab139df801f60855f85c6b9cfbfae8018cd1d9c983c2e2"
+      }
+    },
+    {
+      "name": "OSMboxPost",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mbox.c",
+        "first_line": 520,
+        "last_line": 562,
+        "source_file_sha256": "9e105f7f4a6aeb06951b448b82d0fe8f123a4a16872208cc52a91c6f83bc8921",
+        "source_lines_sha256": "ec4bb2065478193a583b1a6a426115053095f62d47a4caa2318890a550be3951",
+        "preprocessed_definition_sha256": "fee3adefe40ce2a38abc8c996ce78e33995599ca88645b2810e7bf02e10e1c2d",
+        "preprocessed_body_sha256": "664f177e3964ac8f8b2e5d57ed39279c70b365f1aa143a01535014d2dfd4b4b3"
+      }
+    },
+    {
+      "name": "OSMboxPostOpt",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mbox.c",
+        "first_line": 599,
+        "last_line": 649,
+        "source_file_sha256": "9e105f7f4a6aeb06951b448b82d0fe8f123a4a16872208cc52a91c6f83bc8921",
+        "source_lines_sha256": "95c52178d1d8fd1c418e51436cbd397e89254fc2f1575658f0c0a54c7b233d91",
+        "preprocessed_definition_sha256": "4fd1cffb30d60ea08765ab15eee61c01c3e90b7ecea7005adabc7c95167ed487",
+        "preprocessed_body_sha256": "5530bbff889e8f48c1131cf56788f2880a6963cfd975fe34dbcdc9e33bc9dbc6"
+      }
+    },
+    {
+      "name": "OSMboxQuery",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mbox.c",
+        "first_line": 672,
+        "last_line": 705,
+        "source_file_sha256": "9e105f7f4a6aeb06951b448b82d0fe8f123a4a16872208cc52a91c6f83bc8921",
+        "source_lines_sha256": "077ffe700182ef22ec442e063335dc9dfd9f5366ff0c42d9f8579bbdeffcf541",
+        "preprocessed_definition_sha256": "4e65bbd26e12cae4e8b0e6320c6bf2f0b50cbb6c5fdb4e2c239e6e8d826c3a7f",
+        "preprocessed_body_sha256": "ed872ebc74d91cc3334bd0d9f9b05c7898a3d2599a968a50a0e561f866e91140"
+      }
+    },
+    {
+      "name": "OSMemCreate",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mem.c",
+        "first_line": 70,
+        "last_line": 148,
+        "source_file_sha256": "652f546bdebed40154cb06de62659fc52c6bc441fbb092fed1edb42fbd491991",
+        "source_lines_sha256": "3d68f4be39d69b73d1be638520fae64cb46f127ba249823672349d96dcb32c74",
+        "preprocessed_definition_sha256": "152ff23eff455ad7b2256673bf64d483089cf47850d0dd209fb9dc93fe89247a",
+        "preprocessed_body_sha256": "7d654fadfa9bad97d57f3de9069d2d83cfcbea8e36b5390d3b2cd408d8870c48"
+      }
+    },
+    {
+      "name": "OSMemGet",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mem.c",
+        "first_line": 171,
+        "last_line": 210,
+        "source_file_sha256": "652f546bdebed40154cb06de62659fc52c6bc441fbb092fed1edb42fbd491991",
+        "source_lines_sha256": "25bec7947d82100c1b53e86adb1a782110d74851d4b105cd1e2392e8934f9035",
+        "preprocessed_definition_sha256": "cbc7cc02ebfd34ddf76e440f855ee50f3d26b574246c7babaaab77cf72001b6b",
+        "preprocessed_body_sha256": "dd4b32aabcdb119b88c3bb3fc8b1d9375f4edb5069c7f73ef4132d5cf1a15989"
+      }
+    },
+    {
+      "name": "OSMemPut",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mem.c",
+        "first_line": 358,
+        "last_line": 389,
+        "source_file_sha256": "652f546bdebed40154cb06de62659fc52c6bc441fbb092fed1edb42fbd491991",
+        "source_lines_sha256": "8bcbde82c8d09cc035e48e91df37a2664144393e0f22e27ae4f03845f0c2203c",
+        "preprocessed_definition_sha256": "85676bec35a6cd90f795bf0f08e3e20f0c5fdcf4e905425b7ce76209f7578b33",
+        "preprocessed_body_sha256": "2381e52236f03a905dc5ae9807e28871ae67733c26d2edc2c74ddb91f3a2ca19"
+      }
+    },
+    {
+      "name": "OSMemQuery",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mem.c",
+        "first_line": 411,
+        "last_line": 437,
+        "source_file_sha256": "652f546bdebed40154cb06de62659fc52c6bc441fbb092fed1edb42fbd491991",
+        "source_lines_sha256": "2b46073a6e31535c1912fd0c45aac0c20e03af363fd9412c7e4f8ef9d73da9fd",
+        "preprocessed_definition_sha256": "fc1c4f039bd048ba423da4fd45e57aa8f2a1280261410c9c15a57a776e38ffad",
+        "preprocessed_body_sha256": "c1e58e426125099ef76dd9feb42a8293bedb2aa0af32c9f8e404208445bc2c8b"
+      }
+    },
+    {
+      "name": "OSMutexAccept",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mutex.c",
+        "first_line": 143,
+        "last_line": 193,
+        "source_file_sha256": "aeb8ac5f1c7dadf6129fc87f5a942c8cb7a762fb4b0ceb80bab6e759063f0ef8",
+        "source_lines_sha256": "5439c240e8e75ca66448e7679b4db6f31d9de05e3290f1a3542a8eda2e8e59f9",
+        "preprocessed_definition_sha256": "d461aec19b1f1da125b8148a98498cb5e9d0f178a86b04f31d358517911a351a",
+        "preprocessed_body_sha256": "48644ecf73a1f8eb7ed445c1be936d9d8440984d210d60acfd7918b301592fd4"
+      }
+    },
+    {
+      "name": "OSMutexCreate",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mutex.c",
+        "first_line": 237,
+        "last_line": 305,
+        "source_file_sha256": "aeb8ac5f1c7dadf6129fc87f5a942c8cb7a762fb4b0ceb80bab6e759063f0ef8",
+        "source_lines_sha256": "42fe4b82db0b8753d852e77eaf5957e8fa930e62814985af684d841cbaa6858e",
+        "preprocessed_definition_sha256": "aadcca3011d7b642f62983e054d048467eaa614a850fd1e14f04eb1edcaa4cc2",
+        "preprocessed_body_sha256": "6435478a26154882fad16178bff9447deb0e77f349a9e642b8a614f177f6f517"
+      }
+    },
+    {
+      "name": "OSMutexDel",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mutex.c",
+        "first_line": 351,
+        "last_line": 477,
+        "source_file_sha256": "aeb8ac5f1c7dadf6129fc87f5a942c8cb7a762fb4b0ceb80bab6e759063f0ef8",
+        "source_lines_sha256": "4d3fd87849b7fd0d9456f7d748392a6efd101e9b449646833a16a527a6f2f425",
+        "preprocessed_definition_sha256": "809ba887331065ff2dd4f91d5bd3007c18dc2c88f094313c02aab1b9cdcd6d2d",
+        "preprocessed_body_sha256": "457542cdfaffd18f4549741267c8645a5e77e293a89df01a0d8c6dd8dcf07660"
+      }
+    },
+    {
+      "name": "OSMutexPend",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mutex.c",
+        "first_line": 521,
+        "last_line": 669,
+        "source_file_sha256": "aeb8ac5f1c7dadf6129fc87f5a942c8cb7a762fb4b0ceb80bab6e759063f0ef8",
+        "source_lines_sha256": "2667c92b3b00d3208c41ddee61bdf7bbd9b495bef38f483d28a2a99e8b663e78",
+        "preprocessed_definition_sha256": "c54e7770e479d17815c04632d9945e2a3d4d3a5d1d539ebcde761af73c93836b",
+        "preprocessed_body_sha256": "910a3106704a4c42cd004666bbe1d9e733f2e0e6d6cc0db7aae7490f15d4b88b"
+      }
+    },
+    {
+      "name": "OSMutexPost",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mutex.c",
+        "first_line": 696,
+        "last_line": 759,
+        "source_file_sha256": "aeb8ac5f1c7dadf6129fc87f5a942c8cb7a762fb4b0ceb80bab6e759063f0ef8",
+        "source_lines_sha256": "71e092c35af7c9a1a6dd8b2d34a6afb72e6f2736a8dac3a116cfe6da7c5a7a31",
+        "preprocessed_definition_sha256": "331dc1eafdac521a15406bdaa159ad518d7c4f04b579bb70c8ef03a7eefe4beb",
+        "preprocessed_body_sha256": "c380c4c6d0d12d0fbdd4ab7d32aa4720c16df9fb377dd108dd60a21c8318784f"
+      }
+    },
+    {
+      "name": "OSMutexQuery",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mutex.c",
+        "first_line": 781,
+        "last_line": 823,
+        "source_file_sha256": "aeb8ac5f1c7dadf6129fc87f5a942c8cb7a762fb4b0ceb80bab6e759063f0ef8",
+        "source_lines_sha256": "6268200d8ef1daeb65fb2925fc02eaa0dac413aabc0d153364905170d5dd5374",
+        "preprocessed_definition_sha256": "b234cda863651c611ba7c5ebdb854fabce9437232e4ad7014716e534e023b7db",
+        "preprocessed_body_sha256": "41eb196114ac9232ba5c775e3a50ca1f3935817c81e21c8cceab6dd3a76ef5dd"
+      }
+    },
+    {
+      "name": "OSMutex_BasePrio",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mutex.c",
+        "first_line": 60,
+        "last_line": 79,
+        "source_file_sha256": "aeb8ac5f1c7dadf6129fc87f5a942c8cb7a762fb4b0ceb80bab6e759063f0ef8",
+        "source_lines_sha256": "4ad28fc15980d0d08ba3faf00f016c1dfee8a6fc06c51a76b4541cd254b8dd26",
+        "preprocessed_definition_sha256": "3736c9deb286cdb47964101d5771850c7296bddb17e36de86658f8aa638d0db6",
+        "preprocessed_body_sha256": "b1004c158898cb275a900172f995f16a6d57ac28f14f36dc899b845190eaabec"
+      }
+    },
+    {
+      "name": "OSMutex_EffectivePrio",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mutex.c",
+        "first_line": 81,
+        "last_line": 105,
+        "source_file_sha256": "aeb8ac5f1c7dadf6129fc87f5a942c8cb7a762fb4b0ceb80bab6e759063f0ef8",
+        "source_lines_sha256": "21413fe0fcd73c31ec9f20613a4ddfa2349b5d6237484d909629836cb4ed4fcd",
+        "preprocessed_definition_sha256": "a0b35077b999feea0b1f040cbd819aba215a85f6494ce0c58a65b080d2a9df27",
+        "preprocessed_body_sha256": "8df0a96fc28f793d7c25a6c08e39d71ac2b9c939bf8d5f9870bc26c320237ca5"
+      }
+    },
+    {
+      "name": "OSMutex_RdyAtPrio",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mutex.c",
+        "first_line": 841,
+        "last_line": 889,
+        "source_file_sha256": "aeb8ac5f1c7dadf6129fc87f5a942c8cb7a762fb4b0ceb80bab6e759063f0ef8",
+        "source_lines_sha256": "26381e738cee44e0305832a54cbb5e58ceaea74418ab5a4ea8bef263ec7eb84b",
+        "preprocessed_definition_sha256": "15add3428a7fe4232eb8e60d0f2d562002b2ed05fd9aadf98f1b5526fdcd7eaa",
+        "preprocessed_body_sha256": "efc4f48832ca6da864bc4b9c189b2b55fd0f305a49178fa968dd2e9c6a7ba29a"
+      }
+    },
+    {
+      "name": "OSQAccept",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_q.c",
+        "first_line": 70,
+        "last_line": 113,
+        "source_file_sha256": "246eb61cd70e44a793dcc6f2393bbaca49235a86b03a6e976d325b9f095e42aa",
+        "source_lines_sha256": "f916fddcbc1fdd13f6d73a12f7a7f10d28c59a60dc5251a7090477729d31d2fa",
+        "preprocessed_definition_sha256": "8bd727f4de2dd3e3117a3451f77d36854b015eda4765f53e01479288a07c4747",
+        "preprocessed_body_sha256": "a5dcb14bef9440db3817e34566139fee9b4773501bce991b1ab77585dc96265d"
+      }
+    },
+    {
+      "name": "OSQCreate",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_q.c",
+        "first_line": 136,
+        "last_line": 192,
+        "source_file_sha256": "246eb61cd70e44a793dcc6f2393bbaca49235a86b03a6e976d325b9f095e42aa",
+        "source_lines_sha256": "32e80e12b37c1da19adf215ed10fd2c243dfe28f9e8a4bdde518dab9dc9f4ebd",
+        "preprocessed_definition_sha256": "d1aec49d661172e2c876504c5075808ece1bad14700ac2dca4c7cb7ae6706b52",
+        "preprocessed_body_sha256": "63523f5f3648aeb27b074e48852fda710663d9997c11e2783b0c401310b5c8f2"
+      }
+    },
+    {
+      "name": "OSQDel",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_q.c",
+        "first_line": 241,
+        "last_line": 348,
+        "source_file_sha256": "246eb61cd70e44a793dcc6f2393bbaca49235a86b03a6e976d325b9f095e42aa",
+        "source_lines_sha256": "ba894d39f2fdfa25c9760dc262c0750e709c08f5b06cf69fb3c2f335160949f3",
+        "preprocessed_definition_sha256": "d041e0d13a37b7c473af0eefe74044c374f9d3869b27ce4186d0ce16c52e5816",
+        "preprocessed_body_sha256": "24d42d82f75e405d557fa6058c5ef09ce39616eae65b0d8336d14cc09726bbb4"
+      }
+    },
+    {
+      "name": "OSQFlush",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_q.c",
+        "first_line": 372,
+        "last_line": 396,
+        "source_file_sha256": "246eb61cd70e44a793dcc6f2393bbaca49235a86b03a6e976d325b9f095e42aa",
+        "source_lines_sha256": "3d7efd8a73ed4d0babdba7215a9ed91a7eab1b0687581163783bf1e5201a01c3",
+        "preprocessed_definition_sha256": "da7aa2b84e869870b87155806c77a2c4477ee502b6c498e4f0337939b9997367",
+        "preprocessed_body_sha256": "bf46e0b9797cb9707f257d35062a89f3b37472263e62493bc3bc7c10dba53af1"
+      }
+    },
+    {
+      "name": "OSQPend",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_q.c",
+        "first_line": 436,
+        "last_line": 528,
+        "source_file_sha256": "246eb61cd70e44a793dcc6f2393bbaca49235a86b03a6e976d325b9f095e42aa",
+        "source_lines_sha256": "45dba428adc14955943dff1d8aba0430b1b57ff9c7a80cad5dc045e7cb3bf5ff",
+        "preprocessed_definition_sha256": "8419d1120ba010178de9bf3a54fa63b22285385515cca2c1b5c3f4b3df3da40d",
+        "preprocessed_body_sha256": "8da73d633f226be93430470a9310459e155bdc0fb07261f51f68e20a07198f8f"
+      }
+    },
+    {
+      "name": "OSQPendAbort",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_q.c",
+        "first_line": 564,
+        "last_line": 617,
+        "source_file_sha256": "246eb61cd70e44a793dcc6f2393bbaca49235a86b03a6e976d325b9f095e42aa",
+        "source_lines_sha256": "d6c7f6e6575c8ae7a6cf4e8607d2016c0fbe86a4ea580f04db2ffdf389a9fdac",
+        "preprocessed_definition_sha256": "6962414b3891bed055f8ff4bd4b972e24b58d6018ce0573c2162368c80d3f2e8",
+        "preprocessed_body_sha256": "631b348f6c17d0cf0df91da539d5d884f3e81c4c1e8dcbb1b5f3942e3197e430"
+      }
+    },
+    {
+      "name": "OSQPost",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_q.c",
+        "first_line": 641,
+        "last_line": 686,
+        "source_file_sha256": "246eb61cd70e44a793dcc6f2393bbaca49235a86b03a6e976d325b9f095e42aa",
+        "source_lines_sha256": "ad2c4cdea21b142ce2f91aec561547ec244dc1a014ca453e4023c3f9b722ce57",
+        "preprocessed_definition_sha256": "6aced30ad6a0b627942083c71c5d247158622bca361c1c1fae6595704ece57e2",
+        "preprocessed_body_sha256": "dd7a80ed003aa47d538742792a22d2572f01816e867089cc45f832f3bfb9b0d3"
+      }
+    },
+    {
+      "name": "OSQPostFront",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_q.c",
+        "first_line": 712,
+        "last_line": 758,
+        "source_file_sha256": "246eb61cd70e44a793dcc6f2393bbaca49235a86b03a6e976d325b9f095e42aa",
+        "source_lines_sha256": "e293192a3f6b9ec099cf49c977fec615127e7e9e9760f4094132207d34f0d627",
+        "preprocessed_definition_sha256": "5c38967a2166e20baf7a2716556d37b99670a3332131ac4614d09206ea7b3091",
+        "preprocessed_body_sha256": "ecb5c35c8faf24c72004cebbfa038d4345917cee2cfb2585eeb6454dadaed563"
+      }
+    },
+    {
+      "name": "OSQPostOpt",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_q.c",
+        "first_line": 792,
+        "last_line": 853,
+        "source_file_sha256": "246eb61cd70e44a793dcc6f2393bbaca49235a86b03a6e976d325b9f095e42aa",
+        "source_lines_sha256": "a268259445a500ac6d353ef43d414f2d46ac67c546167d57bdf24ba5663748ad",
+        "preprocessed_definition_sha256": "a04eaa6f86b3f7602d2c042ea496a06ab8ae7c27378ab4d7cc4c1a0f935451bc",
+        "preprocessed_body_sha256": "455654cb3d37cb01bbd41eb281c5ac69c2279d2f89b89199991223168124feb7"
+      }
+    },
+    {
+      "name": "OSQQuery",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_q.c",
+        "first_line": 876,
+        "last_line": 917,
+        "source_file_sha256": "246eb61cd70e44a793dcc6f2393bbaca49235a86b03a6e976d325b9f095e42aa",
+        "source_lines_sha256": "ca6cfed7e33ca40a86df8d9f6b5f747b94e094d0802c50031ecc1d60d204b0b9",
+        "preprocessed_definition_sha256": "4deb7e7915fd4970ccd1dc5b42ad0f1e400f5defafc343ea136562bbd1b2ab6d",
+        "preprocessed_body_sha256": "32c868b97137de86893e27f236c98c3347fb4f58dcc39cb05debd3f9a78653c3"
+      }
+    },
+    {
+      "name": "OSSchedLock",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 782,
+        "last_line": 799,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "3ce4fb4f375721bb4de3d5a19f58a6b7e31653ac68a3ddd78a6810e3ba7e5e67",
+        "preprocessed_definition_sha256": "971070e7b9c3949ed9fb2a5055355be25e2dcbd8e42a1bb0754de9f9aab8ce32",
+        "preprocessed_body_sha256": "3472ed6f68be4cc26df2c89b58b5aa5562937b94f28a5a985dc9c6529f9c6271"
+      }
+    },
+    {
+      "name": "OSSchedUnlock",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 819,
+        "last_line": 845,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "433150357281461212ebd8dc4b005763dc5ff1175af7b6cb3f22effe4687e9a7",
+        "preprocessed_definition_sha256": "060cfa931bdeaa97ddbe38544a7240b23ed27733eb498b33708c1335bc48ffa0",
+        "preprocessed_body_sha256": "574402df884e113be09968c762fd8b49e51b574d52539707947138ec2433fd7f"
+      }
+    },
+    {
+      "name": "OSSemAccept",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_sem.c",
+        "first_line": 57,
+        "last_line": 81,
+        "source_file_sha256": "326dfe1f03651bc8995abd50603132c34d643bb1a243f14dc98eb15c1395eddc",
+        "source_lines_sha256": "093d03b57ada9a83228e2ed3eef2333f5a7ccce142aaf508531b4bc0e3864dbd",
+        "preprocessed_definition_sha256": "a78c6e74c7270b8cdfae364c43394af071a1b5997d31e8f02845e873bf5d1062",
+        "preprocessed_body_sha256": "4564dd289cf7fa1effdca33a5b9f187ca43d18e510175ccb63592b732351a67f"
+      }
+    },
+    {
+      "name": "OSSemCreate",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_sem.c",
+        "first_line": 102,
+        "last_line": 138,
+        "source_file_sha256": "326dfe1f03651bc8995abd50603132c34d643bb1a243f14dc98eb15c1395eddc",
+        "source_lines_sha256": "c344f660cba51252e16336ef55eb3bb599b93b9b460ed162290c8e4355d3359d",
+        "preprocessed_definition_sha256": "64fe6f925ca375942db1004c9b8f43aef2f82a731a2b0beb7fcbf694ad08c4ce",
+        "preprocessed_body_sha256": "f4e9716e6b2b71e486914084f6fd1846bdd835fe7d67788e0361a409f770c17e"
+      }
+    },
+    {
+      "name": "OSSemDel",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_sem.c",
+        "first_line": 185,
+        "last_line": 285,
+        "source_file_sha256": "326dfe1f03651bc8995abd50603132c34d643bb1a243f14dc98eb15c1395eddc",
+        "source_lines_sha256": "295ee2f59e8636b253933f9ebbce13c4717fbf63cc476a9d69aadb8c4319bcf0",
+        "preprocessed_definition_sha256": "9534d4d56876db4e36147d55457abb0d4209612b67d2bc73ae9206979e9f4f5d",
+        "preprocessed_body_sha256": "0c3308787f5103e48a0470a694bf718fb4e12b9f10dd85fb04d6133385487b27"
+      }
+    },
+    {
+      "name": "OSSemPend",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_sem.c",
+        "first_line": 321,
+        "last_line": 402,
+        "source_file_sha256": "326dfe1f03651bc8995abd50603132c34d643bb1a243f14dc98eb15c1395eddc",
+        "source_lines_sha256": "c2f6f63873c1871fc766a0166d7c167cf596a759ea48f5b45e63852c2c94d7df",
+        "preprocessed_definition_sha256": "4473735df3dbe7f85fbfb909361cbdd17f9fc8d714694a65fe6938b4fc517d1f",
+        "preprocessed_body_sha256": "ddde71bbeefdd11b1e89789dc4ee82204b789aabfe3d888eb83da3ccd5cfd909"
+      }
+    },
+    {
+      "name": "OSSemPendAbort",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_sem.c",
+        "first_line": 439,
+        "last_line": 491,
+        "source_file_sha256": "326dfe1f03651bc8995abd50603132c34d643bb1a243f14dc98eb15c1395eddc",
+        "source_lines_sha256": "9ae5b8d51b54a385487cd11c4e4e14055d03405d0eedd987c14ab7c59e46dac0",
+        "preprocessed_definition_sha256": "cda99816dc54297703332ea1e16f39dd5e51f20e9bccf8e245f515d283212358",
+        "preprocessed_body_sha256": "b0780ec603ac9466e4c5c5955cad78d8f21df3454ec0c6c91a0b795400b0658e"
+      }
+    },
+    {
+      "name": "OSSemPost",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_sem.c",
+        "first_line": 513,
+        "last_line": 551,
+        "source_file_sha256": "326dfe1f03651bc8995abd50603132c34d643bb1a243f14dc98eb15c1395eddc",
+        "source_lines_sha256": "49679bd2e934f2f568eee0c948775f1640d1a3d13291eb83c40c4b3df611fabc",
+        "preprocessed_definition_sha256": "512e00f1822397ffa8e35fd1c7353ebbf01221fda4d8a74d68d20a589d0cf306",
+        "preprocessed_body_sha256": "c8954966002fe6b804933f399b00947b3c0fc284580483212d8a373dbbd9efcf"
+      }
+    },
+    {
+      "name": "OSSemQuery",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_sem.c",
+        "first_line": 574,
+        "last_line": 607,
+        "source_file_sha256": "326dfe1f03651bc8995abd50603132c34d643bb1a243f14dc98eb15c1395eddc",
+        "source_lines_sha256": "821fb1049aed2d1083769e1a525acf5474e0039bc0c3450626c5a66863fa7aaf",
+        "preprocessed_definition_sha256": "8b40022b72c0219cb4c8a4f262386c3dbbc715c8843ef4d03e3c3150b53ca89e",
+        "preprocessed_body_sha256": "5edf98f9cee720bbac600b4ff203876c383267d7cac496fdedbf1ccc9e817946"
+      }
+    },
+    {
+      "name": "OSSemSet",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_sem.c",
+        "first_line": 636,
+        "last_line": 675,
+        "source_file_sha256": "326dfe1f03651bc8995abd50603132c34d643bb1a243f14dc98eb15c1395eddc",
+        "source_lines_sha256": "a7904cadc184eaa76442e1b906f2443dfce755f98e7343ac9202d7eb8f4f5d4e",
+        "preprocessed_definition_sha256": "9f765e871ad0cef33897883ee0e0029835cfe996ee9e945ce62b5fbdeb3ded71",
+        "preprocessed_body_sha256": "7e007d7294de9de06bcaf1cdb3393e0280d91920a166e93f50e281821fa71e97"
+      }
+    },
+    {
+      "name": "OSStart",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 869,
+        "last_line": 878,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "b4247f008d026aad8a58e7555d498be02b0df6b3d4b72cfbc5dcce3153303501",
+        "preprocessed_definition_sha256": "1ca4863f7945b1188ec7692ffbba674b8eab6385727c90bebf29dc364bc3664b",
+        "preprocessed_body_sha256": "ace6a295a4176b3abbcb8cced0c44fa9af1a11d28b4b963dff565385f4d15f7c"
+      }
+    },
+    {
+      "name": "OSStatInit",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 902,
+        "last_line": 919,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "27e81fa5f1332717aa3afe08a722cd9f46cffc7a41834043579fd6bd3bbd64df",
+        "preprocessed_definition_sha256": "b12d1c097d984447d2670a13ced4de6fab9ec12123c953cd6154ff34f08a3571",
+        "preprocessed_body_sha256": "4cfaaaf2f4cf5b14ce8ea4a5966ede33be267195d788edd6f5a292eaccd6a6c6"
+      }
+    },
+    {
+      "name": "OSTaskChangePrio",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_task.c",
+        "first_line": 60,
+        "last_line": 172,
+        "source_file_sha256": "b7fe3b8af449287851b030014eead0e855f87dad723c3f1e297c1dc4f1d9248f",
+        "source_lines_sha256": "68e95390b3bfdc8eb2a122c0a0a7123050095ef49347e621c6e3ffb01221c32a",
+        "preprocessed_definition_sha256": "c29b633e71cf54c2d244eb87c7a5910a1f2973e6cd23d7a23769070b24bc2dbf",
+        "preprocessed_body_sha256": "9d6cfd0b9d357d4ef09589569926a22cb5999fe4dca38ad03236a791793b9db1"
+      }
+    },
+    {
+      "name": "OSTaskCreate",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_task.c",
+        "first_line": 219,
+        "last_line": 270,
+        "source_file_sha256": "b7fe3b8af449287851b030014eead0e855f87dad723c3f1e297c1dc4f1d9248f",
+        "source_lines_sha256": "15bb8f4ef80f5d5b41ac78eb91f1e4b2758229ebe16dce5c514c242e4fe75161",
+        "preprocessed_definition_sha256": "dff07c1bd21f40b13ced15b91e56337ebad1a3370dfad2aaabdc9f3a8488797d",
+        "preprocessed_body_sha256": "0650ddcb818e20c47566503ff5a2491b5eac591e145c8e0248528a77d49421d9"
+      }
+    },
+    {
+      "name": "OSTaskCreateExt",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_task.c",
+        "first_line": 347,
+        "last_line": 407,
+        "source_file_sha256": "b7fe3b8af449287851b030014eead0e855f87dad723c3f1e297c1dc4f1d9248f",
+        "source_lines_sha256": "7821d8d7f4245bce15ce630e28637bf2a76cccb2f749723a4ecc9fe1959c80f7",
+        "preprocessed_definition_sha256": "a8afab0b5399b40bce3c78abda4f2dcd67adea9600ad39dfaff8c5ee7928eba0",
+        "preprocessed_body_sha256": "ce367c3a800bddb9df98ef5028aa914d94c928e1af6dc20d39537443c9059510"
+      }
+    },
+    {
+      "name": "OSTaskDel",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_task.c",
+        "first_line": 450,
+        "last_line": 566,
+        "source_file_sha256": "b7fe3b8af449287851b030014eead0e855f87dad723c3f1e297c1dc4f1d9248f",
+        "source_lines_sha256": "bab757653476913ad501c2e50105b2c83752e4d821b84963ee60e16c1de12288",
+        "preprocessed_definition_sha256": "1f41b1e81a4f09b1a7ab22bad1fca0986c8409878500a71383bbf07dbf8dbf1d",
+        "preprocessed_body_sha256": "784b1f58e51ee2d7a724c16c01b997d52d4bb882cb52dae14f261ce5ac5f4755"
+      }
+    },
+    {
+      "name": "OSTaskDelReq",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_task.c",
+        "first_line": 619,
+        "last_line": 665,
+        "source_file_sha256": "b7fe3b8af449287851b030014eead0e855f87dad723c3f1e297c1dc4f1d9248f",
+        "source_lines_sha256": "77df1d3abaf2dfff1de1ebbe7cbad88b2992d43cb6218092a8a1bda023458e3d",
+        "preprocessed_definition_sha256": "6aece2243d8fe23ce989d984af8f9ae8d8daa3b97b30d58a3d1778d0927d740c",
+        "preprocessed_body_sha256": "0542a2fe2f9c13c20762932b55734ece8c8519daa26f79f5b03be9c17b2bc202"
+      }
+    },
+    {
+      "name": "OSTaskQuery",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_task.c",
+        "first_line": 1084,
+        "last_line": 1121,
+        "source_file_sha256": "b7fe3b8af449287851b030014eead0e855f87dad723c3f1e297c1dc4f1d9248f",
+        "source_lines_sha256": "b6235fa513e6056f728aae1bf4488d73ddc6acd4b979be1ef6d96550d3970b7c",
+        "preprocessed_definition_sha256": "86fecbb71c5222ae68cebf66d56a4be2a59b4b1713a40f7a09b43fbb9713d2ba",
+        "preprocessed_body_sha256": "8847cff6fa8fab55528330f23b1cb04bbcc1b994e748a06cee9940cc8f79754a"
+      }
+    },
+    {
+      "name": "OSTaskResume",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_task.c",
+        "first_line": 852,
+        "last_line": 898,
+        "source_file_sha256": "b7fe3b8af449287851b030014eead0e855f87dad723c3f1e297c1dc4f1d9248f",
+        "source_lines_sha256": "84f51100bc0c1e8938b1d926e2b97b86e3ae60bce888187a1225de874ed1b415",
+        "preprocessed_definition_sha256": "def2f7643b3fcd7117955898508ac175c5ee2d319c240763c4361110a8f2bd9c",
+        "preprocessed_body_sha256": "f966e239c1f8426d469087d3e09964cde5214e9c847e573a61e4e603e7de96de"
+      }
+    },
+    {
+      "name": "OSTaskSuspend",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_task.c",
+        "first_line": 1008,
+        "last_line": 1060,
+        "source_file_sha256": "b7fe3b8af449287851b030014eead0e855f87dad723c3f1e297c1dc4f1d9248f",
+        "source_lines_sha256": "823c993552c9e20ce8124463debbe189f7c11a814f113d86e6dbbe1a477fb194",
+        "preprocessed_definition_sha256": "bc6853b133bf4c8e42029c70e5bf5f2e21adb01d52992da855d2853ada665ab7",
+        "preprocessed_body_sha256": "263b170a198155db3ba67518fdb0748924637f0ef879116655c8198d56d34225"
+      }
+    },
+    {
+      "name": "OSTimeDly",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_time.c",
+        "first_line": 53,
+        "last_line": 81,
+        "source_file_sha256": "a53a16a53e8d9cf1f508e97914d7cc91ea33019d8dfc3d6bc60741005bebb346",
+        "source_lines_sha256": "6e5dd2a00fe056eac6e856f8b57e893e85863d2d00c00dec788fa17a416b881b",
+        "preprocessed_definition_sha256": "c8626621a399e6f622e6d311d943d098e182b4cdcd5aaa5ccf21d7215be08519",
+        "preprocessed_body_sha256": "cfe4e792d090bc3bc04127aa5da38ac1eb8c0919324d558ece9e7c62c74c9a3a"
+      }
+    },
+    {
+      "name": "OSTimeDlyHMSM",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_time.c",
+        "first_line": 111,
+        "last_line": 151,
+        "source_file_sha256": "a53a16a53e8d9cf1f508e97914d7cc91ea33019d8dfc3d6bc60741005bebb346",
+        "source_lines_sha256": "ef09ddb7c10811e585739812fa600115eaf9ce6ccc482298aa68ba28312bec89",
+        "preprocessed_definition_sha256": "c3e146f0e3a03ce13854d63443ce00bcbd40c79adeacbc31e3c5eff6113dab45",
+        "preprocessed_body_sha256": "8efbd14e289628b76ad9b5d50218cfeaff64232f87810b8b5685e7279e69611b"
+      }
+    },
+    {
+      "name": "OSTimeDlyResume",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_time.c",
+        "first_line": 175,
+        "last_line": 219,
+        "source_file_sha256": "a53a16a53e8d9cf1f508e97914d7cc91ea33019d8dfc3d6bc60741005bebb346",
+        "source_lines_sha256": "1ce2a41975fbf4045aa863fb55455f839620b8ede57bd42c2ca406038beba566",
+        "preprocessed_definition_sha256": "26d4fdd0f9a132cc1b3be2d2cfc9643561e84f59471b15a32df2612298032321",
+        "preprocessed_body_sha256": "13d3dde81a9cafc87afdfd50a99b4778086818066e6db6479798e51cce838995"
+      }
+    },
+    {
+      "name": "OSTimeGet",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_time.c",
+        "first_line": 237,
+        "last_line": 250,
+        "source_file_sha256": "a53a16a53e8d9cf1f508e97914d7cc91ea33019d8dfc3d6bc60741005bebb346",
+        "source_lines_sha256": "a071cf01c2f759926736b195a1f79fb816eabed34a273daf389ece61200145c7",
+        "preprocessed_definition_sha256": "aa08af77c4de1f39e8aed4a5e649fca8ab1e9d4b35844cb215431426e7e2e0b8",
+        "preprocessed_body_sha256": "f75916de87f90d93a5fab7595755510e475b038f6a413b656b7449a98b06278c"
+      }
+    },
+    {
+      "name": "OSTimeSet",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_time.c",
+        "first_line": 267,
+        "last_line": 278,
+        "source_file_sha256": "a53a16a53e8d9cf1f508e97914d7cc91ea33019d8dfc3d6bc60741005bebb346",
+        "source_lines_sha256": "43f30917f4e2b3e6a2965fe0c153f3eab67faebf297d7b78fc8e3891e284dd58",
+        "preprocessed_definition_sha256": "db31167c6d5c9776900fec63558df25d1baa20331467c2d42aa14d61be08c054",
+        "preprocessed_body_sha256": "13aed9ba2c2309b668433159bd1eab3fe7321cd3a67c3e55839f634868ac63b9"
+      }
+    },
+    {
+      "name": "OSTimeTick",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 937,
+        "last_line": 1008,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "71149366f28e0e577e51ccecc2f33cc3866766f11ada105332806af4552e8593",
+        "preprocessed_definition_sha256": "ddb6eb68562aa9fb8c154692a1bde28aae3483b1ceb5a8fa4310f722f00d1861",
+        "preprocessed_body_sha256": "6103dfdd986ce129a03e1b8919997bea850989041632905f3d0ee0962ae1d251"
+      }
+    },
+    {
+      "name": "OSVersion",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1025,
+        "last_line": 1028,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "cbac6e6da53ea19ab6f11abda9690b1ca12042d496fe3e047a77b83b7c452fd1",
+        "preprocessed_definition_sha256": "1db8f8ea39f82c55714d60632ed1ce69cc6ff0da1c3cb2e5494e265cf4fd9647",
+        "preprocessed_body_sha256": "c40cce164244e01dd739466cf3f489a5432b989088ced13bac949c4d5a685986"
+      }
+    },
+    {
+      "name": "OS_Dummy",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1044,
+        "last_line": 1046,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "11988798ec2831fbd1d45975c64ef40ee4db21f1601a6208d36e20789d5b9913",
+        "preprocessed_definition_sha256": "d52c4a493840e59134ce7668ceb4f1af9da4a4e17991424f085a2787313ec88e",
+        "preprocessed_body_sha256": "8eb95bcbc154530931e15fc418c8b1fe991095671409552099ea1aa596999ede"
+      }
+    },
+    {
+      "name": "OS_EventTaskRdy",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1078,
+        "last_line": 1137,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "29267dc9b32cef769b88e1345a2052b686ea1d7a96af3a9464abe0465194b2da",
+        "preprocessed_definition_sha256": "b96e7ad6446f59038725552d76a160f7726b7aff76ab3eef73c060cbc3f64f1d",
+        "preprocessed_body_sha256": "0b58f8b62c6d8ce1cd4ec6a59a185a5b2c6a88fb066f71ae8db77b6f1f12b09f"
+      }
+    },
+    {
+      "name": "OS_EventTaskRemove",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1237,
+        "last_line": 1249,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "be993666dd51fc2476124bc4dc8e69d2fcbaf07bc367559a7b08876683248374",
+        "preprocessed_definition_sha256": "b8853e08f467f3d42a455d6e3e1364bb81e37af97111ecd3d272c697d1155da1",
+        "preprocessed_body_sha256": "08434c15728dd344bbabf442e2b5e9ece02233e7dbfbf507951b96f3a35da6eb"
+      }
+    },
+    {
+      "name": "OS_EventTaskWait",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1156,
+        "last_line": 1172,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "963f8644b0549d66494b59ef81e6d86dac756dc5b06b14797a7c59cea1c373c3",
+        "preprocessed_definition_sha256": "c14c2aff6098ad4501b1b702b1164f7d18225585ee609bd2193cfe0ed77f445d",
+        "preprocessed_body_sha256": "d1af53b25f5ae933badb542def0f1cef9211d3add2202f8883224953b957cf04"
+      }
+    },
+    {
+      "name": "OS_EventWaitListInit",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1310,
+        "last_line": 1319,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "0d32de9fd0a3a16216ae0aafe69003d81174a3bf50f0ce819a12e027e2a1521e",
+        "preprocessed_definition_sha256": "5ee2cf200374e55c5af706bdcfad76e4bf17b25789adcf62683308c832740c9b",
+        "preprocessed_body_sha256": "4fb6242ced530a3695e0a7379d6a58ec46539d3fa37259c552dfe51826bcff9c"
+      }
+    },
+    {
+      "name": "OS_FlagBlock",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_flag.c",
+        "first_line": 1090,
+        "last_line": 1124,
+        "source_file_sha256": "57f0c7a2eac099577cafde221817a1f3fe3544f05420aa50d4f6c57d09a7376d",
+        "source_lines_sha256": "6ae53d580e34b333d1533bdf06b21b0ac650336997e6c7b97963b1e381945474",
+        "preprocessed_definition_sha256": "ba021ec756337f55b3cc2343188b7a2770b79cb1cd7d8f33a22ff5e7903ae199",
+        "preprocessed_body_sha256": "6927198b10d29973a0600a7004510b3f378ca78d65511353f27386103c58e39c"
+      }
+    },
+    {
+      "name": "OS_FlagInit",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_flag.c",
+        "first_line": 1142,
+        "last_line": 1180,
+        "source_file_sha256": "57f0c7a2eac099577cafde221817a1f3fe3544f05420aa50d4f6c57d09a7376d",
+        "source_lines_sha256": "8874b804d30c055b17e118134871d2d40d025a406a98c69529c6fde221ac1422",
+        "preprocessed_definition_sha256": "3136b3108be9c45db4cfda67829134727011a69aba824330c63e2b751bc7c9f8",
+        "preprocessed_body_sha256": "5b8594c0edd6c5b4f91eb0e4c6225265da37f9b3c2034032c27102ce3479a62e"
+      }
+    },
+    {
+      "name": "OS_FlagTaskRdy",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_flag.c",
+        "first_line": 1209,
+        "last_line": 1232,
+        "source_file_sha256": "57f0c7a2eac099577cafde221817a1f3fe3544f05420aa50d4f6c57d09a7376d",
+        "source_lines_sha256": "2603be7271ebf3c0a903007ab2bafcb9c5b9453e2e584c80ad106808d63c41e7",
+        "preprocessed_definition_sha256": "ef690790d2dd7fb6d162684cfc17141d47171af18f4b5cc72013a73ca6c0a886",
+        "preprocessed_body_sha256": "e27147b3fc06975559704e674a6b8a7317390a3c261c44712abb470978ee2892"
+      }
+    },
+    {
+      "name": "OS_FlagUnlink",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_flag.c",
+        "first_line": 1256,
+        "last_line": 1284,
+        "source_file_sha256": "57f0c7a2eac099577cafde221817a1f3fe3544f05420aa50d4f6c57d09a7376d",
+        "source_lines_sha256": "bcbf29170572c2b62bc0be04ba6e70db023f991ed5336199630e6ad25a194168",
+        "preprocessed_definition_sha256": "2d7c083fc7991949a627a542b4b5ecd8caa31f23d47f1db0c6e88bf65f6bb273",
+        "preprocessed_body_sha256": "17428225afec0b6ff36dd81fdaa2b224c3eba1b056f27ed5152f4931fe3a4671"
+      }
+    },
+    {
+      "name": "OS_InitEventList",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1336,
+        "last_line": 1373,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "bbdbe8ef08451458836f6a6001c57262281b570d6c278150b9185aaf4d3da9dc",
+        "preprocessed_definition_sha256": "973a41c7f34d20f599ed72ba02ac648ed93aab021b0ee19a77e87e42d2618583",
+        "preprocessed_body_sha256": "230bd821cc790a82385212f2bde26fb379626776971cc295ee8d39a3e2ebc796"
+      }
+    },
+    {
+      "name": "OS_InitMisc",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1389,
+        "last_line": 1418,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "bfb101175432be00fb8d3fe19798de905adc99a9fe73dd2de47504eb13518e9b",
+        "preprocessed_definition_sha256": "e2244dd2db7d66ee7b16b24fb7c25617e4ca8e5d1e1bbe5110209f915acea280",
+        "preprocessed_body_sha256": "c46412d3e2adca015c1f5b24cfa1afc39456df56864665a2a2b82c210f7560f8"
+      }
+    },
+    {
+      "name": "OS_InitRdyList",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1434,
+        "last_line": 1449,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "98c8d32aadc268a206c4f6ea68bb8378b813c554bd6bf2781b57600203883564",
+        "preprocessed_definition_sha256": "0bb8efa6f5d060f257ffc1dcbb82ba719bbd9456fa1289a0084f930cdfe55fe8",
+        "preprocessed_body_sha256": "e5d28a42c994bfbcea0cd6a6884ef033f4e77b6340cdd026c74f8ee19e80bcaf"
+      }
+    },
+    {
+      "name": "OS_InitTCBList",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1591,
+        "last_line": 1617,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "52a9fd08add4ffc82648f72d9fa7dfe2ca1eedf164bde819787f532265b15d34",
+        "preprocessed_definition_sha256": "95dbb97660ea4572afb5b9635980c74020a2968bf181cf1bdbc7097ecc4a90f3",
+        "preprocessed_body_sha256": "ca247d9376d39a1f148ff12d16574a5ea62725cf8d0f331585a8fa19fa6d6c64"
+      }
+    },
+    {
+      "name": "OS_InitTaskIdle",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1465,
+        "last_line": 1511,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "d8d2a04ff9961b9900bf23ba2a4c715b93543abebb5cec4d5a1fcefc8a857f41",
+        "preprocessed_definition_sha256": "1a8454c13f08568e898a44151d60627a095930e895d221ffe32b11a1c0c9d6bf",
+        "preprocessed_body_sha256": "cf988b72867604dc0ef950b7d17bf3e0b52aaa9f6399af6a8b6df81bb8dc607b"
+      }
+    },
+    {
+      "name": "OS_InitTaskStat",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1528,
+        "last_line": 1574,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "695d5ab696e2246cc53d6169192828356988ae48ea96ad4b8ddad66b4e1371e9",
+        "preprocessed_definition_sha256": "66bcafb2c143c95794eeb30638a1854597040d20387340a10cb407844def3933",
+        "preprocessed_body_sha256": "6e40689196df9bb51251e0602937ec81de8c9b8bd4dd115309f6eab76aba7b42"
+      }
+    },
+    {
+      "name": "OS_MemClr",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1640,
+        "last_line": 1647,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "3be554c2116d0baebecedda087a3e81de8cd339f4ea82f49e97b68ecbe7fa8a2",
+        "preprocessed_definition_sha256": "9befb1e3f957df4663cb0e509ab74532408daf3e3590b4bb19734fc6c21f358a",
+        "preprocessed_body_sha256": "e2b0dc27bac43176455e2c4fc55fe8b4c23be50f754eb51a3a57430fde07408f"
+      }
+    },
+    {
+      "name": "OS_MemCopy",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1674,
+        "last_line": 1682,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "ba6cac05a6cb0d309eecbff58ff444db01631ca2659361ee0add3876d1edf2f8",
+        "preprocessed_definition_sha256": "7095c3e5fc7471359dbce0e81d5cada34f2c1722f352c9bdee0d7d3c79fa6600",
+        "preprocessed_body_sha256": "b186d8ccd3dd1d91ee01e8999ce22b0e19bc5f3f1efdbbf235b4377e04a5051c"
+      }
+    },
+    {
+      "name": "OS_MemInit",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_mem.c",
+        "first_line": 456,
+        "last_line": 487,
+        "source_file_sha256": "652f546bdebed40154cb06de62659fc52c6bc441fbb092fed1edb42fbd491991",
+        "source_lines_sha256": "1035f264d3baf70f12d53cb3f36ba208b4c90043b5a3bfba361c83d94dffa71d",
+        "preprocessed_definition_sha256": "60213dafef3161b54746b2306aa0625a3f975ca33638d7f0fc75e81656fb46dd",
+        "preprocessed_body_sha256": "69ae7854109e60bdc76cade4c510ba64a83d67761a66318349aaf0e2317c2cd5"
+      }
+    },
+    {
+      "name": "OS_QInit",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_q.c",
+        "first_line": 936,
+        "last_line": 962,
+        "source_file_sha256": "246eb61cd70e44a793dcc6f2393bbaca49235a86b03a6e976d325b9f095e42aa",
+        "source_lines_sha256": "6243a8974806f6420d309ba7b49d7b334570c5f61d5951d18720f5086b275b91",
+        "preprocessed_definition_sha256": "829d098e31de640ebeef0e2ef16b665dab8ec494c77cd534cdc2cdf9bf43f730",
+        "preprocessed_body_sha256": "1c7141f5cfdd50134cb33e3f4b1d4d3ddcd75d8c0effe2cfdbab933d513196e6"
+      }
+    },
+    {
+      "name": "OS_Sched",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1702,
+        "last_line": 1732,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "dc7d36c5be43eddc73843fdb65899854614145e39de755b31a59c39b6930ff1a",
+        "preprocessed_definition_sha256": "59d34e6ebeb338b71ea2e2969fb66a28c413acc71835430b35334bc15ab8a61d",
+        "preprocessed_body_sha256": "4bbf6819f5a458dfdadb30dbc8aeaad5156553b98f1b6466d4b89054cbd965e9"
+      }
+    },
+    {
+      "name": "OS_SchedNew",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1751,
+        "last_line": 1776,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "4a258e0bb24083eecff006cd5b57719f8be9661b6cd0b0d821e2f89e29ca8f8f",
+        "preprocessed_definition_sha256": "6d156edfff0548ed63fdff59a400e8d0ca0e69813ef6bf0142d0ce1902443d71",
+        "preprocessed_body_sha256": "79b7dfc83a0691b32d2d74f1009397bee928f720f68cec034fd98d13dd350815"
+      }
+    },
+    {
+      "name": "OS_StrLen",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1796,
+        "last_line": 1813,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "46aae87a6460dca95e4c69aa0038f767e476247757b311b5fae15766648c2681",
+        "preprocessed_definition_sha256": "aedce72e93d81a9bb6013d08f5261588e041c0473cbc1dd43b4e7bc67f3fbccf",
+        "preprocessed_body_sha256": "99c43b1badf912ad62aeec018886a2725bf62216ad9a12e29eccaa0589497b57"
+      }
+    },
+    {
+      "name": "OS_TCBInit",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 2022,
+        "last_line": 2151,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "2b3efb83723e005c8dbe11603b4d7d1a0abfe110367aa1c38d6bf458e8fa1ee3",
+        "preprocessed_definition_sha256": "596eea2946d147587065704c0b9828c577b64ca61c19815f6b2eefe7043f5978",
+        "preprocessed_body_sha256": "8f6408d5f47317d788f99bc7531c42ca93054c8fd211ecdf82e1e1b93b537d98"
+      }
+    },
+    {
+      "name": "OS_TaskIdle",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1838,
+        "last_line": 1851,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "6489a4f0df0190166ffb65f6faddd9d00368ad59f19a61f80f0d0fbf178a7d0b",
+        "preprocessed_definition_sha256": "90caa353fe04f216f188f6ce5f92bb939a6f3fdfa947114ed8443cbb5bff2649",
+        "preprocessed_body_sha256": "3f39a96acdc2454c7a80e2fc9977fced4cca4f9a97eafd9853c8762a1ba17c40"
+      }
+    },
+    {
+      "name": "OS_TaskReturn",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_task.c",
+        "first_line": 1333,
+        "last_line": 1344,
+        "source_file_sha256": "b7fe3b8af449287851b030014eead0e855f87dad723c3f1e297c1dc4f1d9248f",
+        "source_lines_sha256": "11c66a6226ed7921cef61d286e0690c04cf0c11554080538ac0ba2c159958e15",
+        "preprocessed_definition_sha256": "13563913265466df7857ddcbbd30e8926a4fab13f4257685c90edf4e9337a396",
+        "preprocessed_body_sha256": "86932c42be5e052d30c5d07c853113d2d09c93227f1d6434b5c7a10a4ba3ab4c"
+      }
+    },
+    {
+      "name": "OS_TaskStat",
+      "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+      "located": true,
+      "modeled": false,
+      "specified": false,
+      "local_hoare": false,
+      "component_linked": false,
+      "full_target_linked": false,
+      "location": {
+        "inventory": "audit/repaired-source-inventory.json",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1879,
+        "last_line": 1932,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "0b0c43b450ef2dc0bef9c66b3b73fe1a63fea147cce946475647e3868dba1f0a",
+        "preprocessed_definition_sha256": "d0aa2577fc9edef75b1e381379ecfc23c0aa5e857eb30b05e8689ff4d1bd5318",
+        "preprocessed_body_sha256": "3a27b6d17448c10fe4d61f6b7db7fe658cb5d2c8874cb2326c1868d1ecbb6f6a"
+      }
+    }
+  ]
 }

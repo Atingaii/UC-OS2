@@ -5,7 +5,7 @@ COQPROJECT := _CoqProject
 COQMF := Makefile.coq
 JOBS ?= 2
 
-.PHONY: all build clean audit test check-coq check-build check-models check-c check-c-evidence fetch-source source-audit config-audit source-inventory source-inventory-check status
+.PHONY: all build clean audit test check-coq check-build check-models check-c check-c-evidence fetch-source source-audit config-audit source-inventory source-inventory-check source-freeze-check status
 
 all: build
 
@@ -39,6 +39,9 @@ source-inventory: source-audit
 
 source-inventory-check: source-audit
 	python3 scripts/inventory-v293-source.py --check
+
+source-freeze-check: source-audit
+	PYTHONDONTWRITEBYTECODE=1 python3 scripts/freeze-v293-source.py
 
 audit:
 	python3 scripts/project-audit.py
