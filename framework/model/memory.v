@@ -9,6 +9,7 @@ Require Export LibTactics.
 Require Export map_tactics.
 (* Import old. (** map_tactics is moduled to old **) *)
 Require Import Coq.Logic.FunctionalExtensionality.
+Require Import Coq.Logic.Classical_Prop.
 Set Implicit Arguments.
 Unset Strict Implicit.
 Local Open Scope Z_scope.
@@ -193,7 +194,23 @@ Module HalfPermMap.
   Definition B := (bool * C)%type.
 
   (* partial map *)
-  Definition Map := A -> option B.
+  Definition raw_bounded (m : A -> option B) : Prop :=
+    exists (upper : positive),
+      forall b i v, m (b, i) = Some v -> (b < upper)%positive.
+
+  Record Map : Type := mkMap {
+    contents : A -> option B;
+    bounded : raw_bounded contents
+  }.
+  Coercion contents : Map >-> Funclass.
+
+  Lemma map_ext : forall (m1 m2 : Map),
+    (forall a, m1 a = m2 a) -> m1 = m2.
+  Proof.
+    intros [f Hf] [g Hg] Heq; simpl in Heq.
+    assert (f = g) by (apply functional_extensionality; exact Heq).
+    subst g; f_equal; apply Classical_Prop.proof_irrelevance.
+  Qed.
 
   Hint Resolve bool_dec : mdb.
   
@@ -381,38 +398,21 @@ Module HalfPermMap.
     destruct v; subst; auto.
   Qed.    
 
-  Lemma extensionality : forall (A : Type) (B : Type) (f g : A -> B), (forall x : A, f x = g x) -> f = g.
+  Lemma extensionality : forall (f g : Map),
+    (forall x, f x = g x) -> f = g.
+  Proof. exact map_ext. Qed.
+
+  Lemma extensionality_rev : forall (f g : Map),
+    f = g -> forall x, f x = g x.
+  Proof. intros f g H; subst g; reflexivity. Qed.
+
+  Lemma extensionality_not : forall (f g : Map),
+    f <> g -> exists x, f x <> g x.
   Proof.
-    intros.
-    eapply  functional_extensionality; eauto.
+    intros f g H; apply Classical_Pred_Type.not_all_ex_not.
+    intro Heq; apply H; apply map_ext; exact Heq.
   Qed.
 
-  Lemma extensionality_rev :
-    forall (A : Type) (B: Type) (f g: A -> B),
-      f = g ->
-      (forall x, f x = g x).
-  Proof.
-    intros.
-    eapply equal_f.
-    auto.
-  Qed.
-
-  Lemma extensionality_not:
-    forall (A : Type) (B: Type) (f g: A -> B),
-      f <> g ->
-      (exists x, f x <> g x).
-  Proof.
-    intros.
-    cut (not (forall x, f x = g x)).
-    - intros.
-      apply Classical_Pred_Type.not_all_ex_not.
-      auto.
-    - unfold not.
-      intros.
-      apply extensionality in H0.
-      tauto.
-  Qed.
-    
   Definition disjoint (m1 m2:Map)  :=
     forall (x : A),
       match m1 x, m2 x with
@@ -423,12 +423,25 @@ Module HalfPermMap.
       |  _, _ => False
       end.
 
-  Definition emp:Map := fun (a:A) => None.
+  Definition emp : Map.
+  Proof.
+    refine (@mkMap (fun _ => None) _).
+    exists 1%positive; intros b i v H; discriminate.
+  Defined.
 
   Definition get := fun (m:Map) x =>  m x.
 
-  Definition set (m:Map) (a:A) (b:B) :=
-    (fun x =>  if (dec_A x a) then (Some b) else m x).
+  Definition set (m:Map) (a:A) (v:B) : Map.
+  Proof.
+    refine (@mkMap (fun x => if dec_A x a then Some v else m x) _).
+    destruct (bounded m) as [upper Hbound].
+    exists (Pos.max upper (Pos.succ (fst a))).
+    intros b i value Hget.
+    destruct (dec_A (b,i) a) as [Heq | Hneq].
+    - subst a; simpl; eapply Pos.lt_le_trans;
+        [apply Pos.lt_succ_diag_r | apply Pos.le_max_r].
+    - eapply Pos.lt_le_trans; [eapply Hbound; exact Hget | apply Pos.le_max_l].
+  Defined.
 
   Definition sig := fun a b => set emp a b.
 
@@ -439,6 +452,7 @@ Module HalfPermMap.
 
    
   Ltac crush :=
+    cbn [contents] in *;
     repeat
       match goal with
         | |- context [let (_, _) := ?b in _] =>
@@ -467,7 +481,7 @@ Module HalfPermMap.
       disjoint x y ->
       disjoint y x.
   Proof.    
-    unfold disjoint.
+    unfold disjoint; cbn [contents] in *.
     intros.
     generalize (H x0); clear H; intro.
     destruct (x x0); destruct (y x0); crush.
@@ -484,8 +498,8 @@ Module HalfPermMap.
       isRw v = true ->
       get y t = None.
   Proof.
-    unfold disjoint.
-    unfold get.
+    unfold disjoint; cbn [contents] in *.
+    unfold get; cbn [contents] in *.
     unfold isRw; unfold fst.
     intros.
     instant H0 t.
@@ -498,8 +512,8 @@ Module HalfPermMap.
     forall x,
       disjoint x emp.
   Proof.    
-    unfold disjoint.
-    unfold emp.
+    unfold disjoint; cbn [contents] in *.
+    unfold emp; cbn [contents] in *.
     intros.
     destruct (x x0); crush.
   Qed.
@@ -514,7 +528,7 @@ Module HalfPermMap.
       get y t = Some v' ->
       v' = v /\ isRw v = false.
   Proof.
-    unfold disjoint; unfold get; unfold isRw; unfold fst.
+    unfold disjoint; cbn [contents] in *; unfold get; cbn [contents] in *; unfold isRw; unfold fst.
     intros.
     instant H0 t.
     destruct (x t); destruct (y t); crush; first [tauto | auto].
@@ -541,54 +555,43 @@ Module HalfPermMap.
   Qed.
   Hint Resolve rjoin_neq_none : mdb.
   
-  Definition merge (m1 m2:Map)   :=
-    fun x => match m1 x with
+  Definition merge (m1 m2:Map) : Map.
+  Proof.
+    refine (@mkMap (fun x => match m1 x with
              | None => m2 x
-             | Some b1 =>  match m2 x with
-                           | None  => m1 x
-                           | Some b2  =>  rjoin b1 b2
+             | Some b1 => match m2 x with
+                           | None => m1 x
+                           | Some b2 => rjoin b1 b2
                            end
-             end.
+             end) _).
+    destruct (bounded m1) as [u1 H1]; destruct (bounded m2) as [u2 H2].
+    exists (Pos.max u1 u2); intros b i v Hget.
+    destruct (m1 (b,i)) eqn:E1.
+    - eapply Pos.lt_le_trans; [eapply H1; exact E1 | apply Pos.le_max_l].
+    - eapply Pos.lt_le_trans; [eapply H2; exact Hget | apply Pos.le_max_r].
+  Defined.
 
   Lemma map_merge_emp:
     forall x, merge x emp = x.
   Proof.  
-    unfold merge; unfold rjoin.
+    unfold merge; cbn [contents] in *; unfold rjoin.
     intros.
-    apply extensionality.
+    apply extensionality; cbn [contents] in *.
     intros.
     destruct (x x0); crush.
   Qed.
   Hint Resolve map_merge_emp : mdb.
 
-  Lemma map_merge_emp':
-    forall x y,
-      merge x y = emp ->
-      x = emp /\ y = emp.
+  Lemma map_merge_emp' : forall x y,
+    merge x y = emp -> x = emp /\ y = emp.
   Proof.
-    unfold merge.
-    intros.
-    assert (F1:x = emp \/ x <> emp) by tauto.
-    assert (F2:y = emp \/ y <> emp) by tauto.
-    destruct F1; destruct F2; subst; auto .
-    generalize (extensionality_rev H); clear H; intro H.
-    unfold emp in *.
-    apply extensionality_not in H0.
-    destruct H0.
-    instant H x0.
-    destruct (x x0); crush.
-    tauto.
-    apply extensionality_not in H0.
-    destruct H0.
-    unfold emp in *.
-    generalize (extensionality_rev H); clear H; intro H.
-    instant H x0.
-    destruct (x x0); crush.
-    destruct (y x0); crush.
-    assert (rjoin b b0 <> None) by crush.
-    rewrite H in H2.
-    tauto.
-    tauto.
+    intros x y H.
+    assert (Hnone : forall a, x a = None /\ y a = None).
+    { intro a; pose proof (f_equal (fun m : Map => m a) H) as E.
+      cbn [merge emp contents] in E.
+      destruct (x a) eqn:Ex; destruct (y a) eqn:Ey; try discriminate; auto.
+      exfalso; eapply rjoin_neq_none; exact E. }
+    split; apply map_ext; intro a; apply Hnone.
   Qed.
   Hint Resolve map_merge_emp' : mdb.
   
@@ -613,9 +616,9 @@ Module HalfPermMap.
       disjoint x y ->
       merge x y = merge y x.
   Proof.
-    unfold disjoint; unfold merge; unfold rjoin.
+    unfold disjoint; cbn [contents] in *; unfold merge; cbn [contents] in *; unfold rjoin.
     intros.
-    apply extensionality.
+    apply extensionality; cbn [contents] in *.
     intros.
     instant H x0.
     destruct (x x0); destruct (y x0); crush; try tauto.
@@ -639,7 +642,13 @@ Module HalfPermMap.
   Qed.    
   Hint Resolve map_merge_comm: mdb.
   
-  Definition del := fun (m:Map) a => fun x => if (dec_A x a) then None else m x.
+  Definition del (m:Map) (a:A) : Map.
+  Proof.
+    refine (@mkMap (fun x => if dec_A x a then None else m x) _).
+    destruct (bounded m) as [upper Hbound].
+    exists upper; intros b i v Hget.
+    destruct (dec_A (b,i) a); [discriminate | eapply Hbound; exact Hget].
+  Defined.
 
   Definition rminus (b1 b2:B) : option B :=
   match b1, b2 with
@@ -648,16 +657,19 @@ Module HalfPermMap.
     | _, _ => None
   end.
 
-  Definition minus (m1 m2:Map) :=
-    fun x =>
-      match (m1 x) with
+  Definition minus (m1 m2:Map) : Map.
+  Proof.
+    refine (@mkMap (fun x => match m1 x with
         | None => None
-        | Some b =>
-          match (m2 x) with
+        | Some b => match m2 x with
             | None => Some b
             | Some b' => rminus b b'
           end
-      end.
+      end) _).
+    destruct (bounded m1) as [upper Hbound].
+    exists upper; intros b i v Hget.
+    destruct (m1 (b,i)) eqn:E1; [eapply Hbound; exact E1 | discriminate].
+  Defined.
 
   Lemma map_join_minus:
     forall z x,
@@ -671,7 +683,7 @@ Module HalfPermMap.
     subst.
     unfolds.
     splits.
-    unfold disjoint in *.
+    unfold disjoint in *; cbn [contents] in *.
     intros.
     lets Hx : H x1.
     clear H.
@@ -681,8 +693,8 @@ Module HalfPermMap.
     destruct b.
     remember (x0 x1) as xa.
     destruct xa; tryfalse.
-    unfold minus.
-    unfold merge.
+    unfold minus; cbn [contents] in *.
+    unfold merge; cbn [contents] in *.
     rewrite <- HeqHxx.
     rewrite <- Heqxa.
     simpl; auto.
@@ -690,8 +702,8 @@ Module HalfPermMap.
     destruct xa; tryfalse.
     destruct b.
     destruct b; tryfalse.
-     unfold minus.
-    unfold merge.
+     unfold minus; cbn [contents] in *.
+    unfold merge; cbn [contents] in *.
     rewrite <- HeqHxx.
     rewrite <- Heqxa.
     subst c.
@@ -700,19 +712,19 @@ Module HalfPermMap.
     simpl.
     induction (dec_C c0 c0); tryfalse.
     auto.
-      unfold minus.
-    unfold merge.
+      unfold minus; cbn [contents] in *.
+    unfold merge; cbn [contents] in *.
     rewrite <- HeqHxx.
     rewrite <- Heqxa.
     auto.
-      unfold minus.
-    unfold merge.
+      unfold minus; cbn [contents] in *.
+    unfold merge; cbn [contents] in *.
     rewrite <- HeqHxx.
     destruct (x0 x1) ; auto.
-    apply extensionality.
+    apply extensionality; cbn [contents] in *.
     intros.
-    unfold merge.
-    unfold disjoint in H.
+    unfold merge; cbn [contents] in *.
+    unfold disjoint in H; cbn [contents] in *.
     lets Hx : H x1.
     clear H.
     remember (x x1) as Ha.
@@ -721,7 +733,7 @@ Module HalfPermMap.
     destruct b.
     remember (x0 x1) as Hf.
     destruct Hf; tryfalse.
-    unfold minus.
+    unfold minus; cbn [contents] in *.
     rewrite <- HeqHa.
     rewrite <- HeqHf.
     simpl; auto.
@@ -732,7 +744,7 @@ Module HalfPermMap.
     subst c.
     simpl.
     induction (dec_C c0 c0); auto.
-    unfold minus.
+    unfold minus; cbn [contents] in *.
     rewrite <- HeqHa.
     rewrite <- HeqHf.
     simpl.
@@ -741,12 +753,12 @@ Module HalfPermMap.
     induction (dec_C c0 c0); tryfalse; auto.
      induction (dec_C c0 c0); tryfalse; auto.
      tryfalse.
-     unfold minus.
+     unfold minus; cbn [contents] in *.
      rewrite <- HeqHa.
      rewrite <- HeqHf.
      simpl.
      auto.
-     unfold minus.
+     unfold minus; cbn [contents] in *.
      rewrite <- HeqHa.
      destruct (x0 x1) ; auto.
   Qed.
@@ -758,21 +770,10 @@ Module HalfPermMap.
     split; crush.
   Qed.
 
-  Lemma map_join_pos:
-    forall x y,
-      join x y emp ->
-      x = emp /\ y = emp.
+  Lemma map_join_pos : forall x y,
+    join x y emp -> x = emp /\ y = emp.
   Proof.
-    unfold join.
-    intros.
-    destruct H.
-    assert (F1:x = emp \/ x <> emp) by tauto.
-    assert (F2:y = emp \/ y <> emp) by tauto.
-    destruct F1; destruct F2; subst; auto .
-    assert (merge x emp = x) by crush.
-    rewrite H2 in H0.
-    subst; auto.
-    crush.
+    intros x y [_ H]; apply map_merge_emp'; symmetry; exact H.
   Qed.
 
   Lemma  map_join_comm:
@@ -806,7 +807,7 @@ Module HalfPermMap.
     destruct H.
     subst.
     split.
-    unfold disjoint in *.
+    unfold disjoint in *; cbn [contents] in *.
     intros.
     generalize (H x) as Hxz.
     clear H.
@@ -823,7 +824,7 @@ Module HalfPermMap.
     remember (b x)  as Hxx.
     remember (c x) as Hcxx.
     destruct Hxx, Hcxx; auto.
-    unfold merge in HeqHc.
+    unfold merge in HeqHc; cbn [contents] in *.
     rewrite <- HeqHcxx in HeqHc.
     rewrite  <-  HeqHxx in HeqHc.
     inversion HeqHc.
@@ -833,11 +834,11 @@ Module HalfPermMap.
     destruct b0.
     destruct b0; inversion Hxzz.
     subst.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHxx in *.
     rewrite <- HeqHa in *.
     inversion HeqHb.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHxx in *.
     rewrite <- HeqHa in *.
     rewrite <- HeqHcxx in HeqHc.
@@ -852,17 +853,17 @@ Module HalfPermMap.
     destruct b0.
     destruct b0; inversion Hxz.
     subst.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHcxx in *.
     rewrite  <-  HeqHxx in *.
     rewrite <- HeqHa in *.
     inversion HeqHc. auto.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHcxx in *.
     rewrite  <-  HeqHxx in *.
     rewrite <- HeqHa in *.
     inversion HeqHb.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHcxx in *.
     rewrite  <-  HeqHxx in *.
     rewrite <- HeqHa in *.
@@ -875,7 +876,7 @@ Module HalfPermMap.
     destruct b1.
     destruct b0; inversion Hxzz.
     subst.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHxx in *.
     rewrite <- HeqHa in *.
     inversion HeqHb.
@@ -886,7 +887,7 @@ Module HalfPermMap.
     destruct b0.
     destruct b0; inversion Hxz.
     subst.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHxx in *.
     rewrite <- HeqHa in *.
     rewrite <- HeqHcxx in HeqHc.
@@ -894,7 +895,7 @@ Module HalfPermMap.
     destruct b0.
     destruct b0; inversion Hxzz.
     subst.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHcxx in *.
     rewrite  <-  HeqHxx in *.
     rewrite <- HeqHa in *.
@@ -902,7 +903,7 @@ Module HalfPermMap.
     subst.
     inversion HeqHb.
     auto.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHcxx in *.
     rewrite  <-  HeqHxx in *.
     rewrite <- HeqHa in *.
@@ -919,7 +920,7 @@ Module HalfPermMap.
     destruct b2.
     destruct b0, b2; inversion Hxz.
     subst.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHxx in *.
     rewrite <- HeqHa in *.
     rewrite <- HeqHcxx in *.
@@ -930,7 +931,7 @@ Module HalfPermMap.
     destruct b0.
     destruct b2.
     destruct b0, b2; inversion Hxz.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHcxx in *.
     rewrite  <-  HeqHxx in *.
     rewrite <- HeqHa in *.
@@ -940,22 +941,22 @@ Module HalfPermMap.
     inversion HeqHb.
     contradiction.
     destruct b0.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHxx in *.
     rewrite <- HeqHa in *.
     rewrite <- HeqHcxx in *.
     inversion HeqHb.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHxx in *.
     rewrite <- HeqHa in *.
     rewrite <- HeqHcxx in *.
     inversion HeqHc.
     destruct b0.
     destruct b0; auto.
-    eapply extensionality.
+    eapply extensionality; cbn [contents] in *.
     intros.
-    unfold merge in *.
-    unfold disjoint in *.
+    unfold merge in *; cbn [contents] in *.
+    unfold disjoint in *; cbn [contents] in *.
     generalize (H x) as Hxx.
     generalize (H0 x) as Hyhy.
     clear H H0.
@@ -983,8 +984,8 @@ Module HalfPermMap.
     destruct H0.
     subst.
     split.
-    unfold disjoint in *.
-    unfold merge in H0.
+    unfold disjoint in *; cbn [contents] in *.
+    unfold merge in H0; cbn [contents] in *.
     intros.
     generalize (H x) as Hxx.
     generalize (H0 x) as Hyhy.
@@ -1004,10 +1005,10 @@ Module HalfPermMap.
     destruct b0.
     destruct b1.
     destruct b1; auto.
-    eapply extensionality.
+    eapply extensionality; cbn [contents] in *.
     intros.
-    unfold merge in *.
-    unfold disjoint in *.
+    unfold merge in *; cbn [contents] in *.
+    unfold disjoint in *; cbn [contents] in *.
     generalize (H x) as Hxx.
     generalize (H0 x) as Hyhy.
     clear H H0.
@@ -1029,9 +1030,9 @@ Module HalfPermMap.
     destruct H.
     destruct H0.
     rewrite H1 in H2.
-    eapply extensionality.
+    eapply extensionality; cbn [contents] in *.
     intros.
-    unfold disjoint in *.
+    unfold disjoint in *; cbn [contents] in *.
     generalize (H x) as Hx.
     generalize (H0 x) as Hy.
     clear H H0.
@@ -1044,7 +1045,7 @@ Module HalfPermMap.
     assert (merge a b x  = merge a b' x).
     rewrite H2.
     auto.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHa, HeqHb in *.
     subst.
     rewrite <- HeqHb in H0.
@@ -1062,7 +1063,7 @@ Module HalfPermMap.
     assert (merge a b x  = merge a b' x).
     rewrite H2.
     auto.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHa, HeqHb in *.
     rewrite <- HeqHb in H.
     remember (b' x) as Hbx.
@@ -1080,13 +1081,13 @@ Module HalfPermMap.
     assert (merge a b x  = merge a b' x).
     rewrite H2.
     auto.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHa, HeqHb in *.
     auto.
     assert (merge a b x  = merge a b' x).
     rewrite H2.
     auto.
-    unfold merge in *.
+    unfold merge in *; cbn [contents] in *.
     rewrite <- HeqHa, HeqHb in *.
     auto.
   Qed.
@@ -1109,8 +1110,8 @@ Module HalfPermMap.
     forall t, get emp t = None.
   Proof.
     intros.
-    unfold emp.
-    unfold get.
+    unfold emp; cbn [contents] in *.
+    unfold get; cbn [contents] in *.
     auto.
   Qed.
 
@@ -1119,7 +1120,7 @@ Module HalfPermMap.
       (forall t, get x t = get y t) ->
       x = y.
   Proof.
-    eapply extensionality.
+    eapply extensionality; cbn [contents] in *.
   Qed.
 
   Lemma map_disjoint':
@@ -1134,19 +1135,19 @@ Module HalfPermMap.
       disjoint x y.
   Proof.
     intros.
-    unfold disjoint.
+    unfold disjoint; cbn [contents] in *.
     intro t.
     instant H t.
     destruct H.
-    unfold get in H.
+    unfold get in H; cbn [contents] in *.
     rewrite H.
     crush.
     destruct H.
-    unfold get in H.
+    unfold get in H; cbn [contents] in *.
     rewrite H.
     destruct (x t); crush.
     heat.
-    unfold get in *.
+    unfold get in *; cbn [contents] in *.
     rewrite H0.
     rewrite H1.
     crush.
@@ -1179,7 +1180,7 @@ Module HalfPermMap.
         get x t = Some v' ->
         v = v'.
   Proof.
-    unfold get.
+    unfold get; cbn [contents] in *.
     intros.
     rewrite H in H0.
     inversion H0; auto.
@@ -1189,7 +1190,7 @@ Module HalfPermMap.
     forall t v,
       get (sig t v) t = Some v.
   Proof.    
-    unfold get; unfold sig; unfold set.
+    unfold get; cbn [contents] in *; unfold sig; unfold set; cbn [contents] in *.
     intros.
     destruct (dec_A t t).
     auto.
@@ -1201,11 +1202,11 @@ Module HalfPermMap.
       t <> t' ->
       get (sig t v) t' = None.
   Proof.
-    unfold get; unfold sig; unfold set.
+    unfold get; cbn [contents] in *; unfold sig; unfold set; cbn [contents] in *.
     intros.
     destruct (dec_A t' t).
     subst; tauto.
-    unfold emp.
+    unfold emp; cbn [contents] in *.
     auto.
   Qed.    
     
@@ -1213,7 +1214,7 @@ Module HalfPermMap.
     forall x t v,
       get (set x t v) t = Some v.
   Proof.
-    unfold get; unfold set.
+    unfold get; cbn [contents] in *; unfold set; cbn [contents] in *.
     intros.
     destruct (dec_A t t); auto.
     tauto.
@@ -1224,7 +1225,7 @@ Module HalfPermMap.
       t <> t' ->
       get (set x t v) t' = get x t'.
   Proof.    
-    unfold get; unfold set.
+    unfold get; cbn [contents] in *; unfold set; cbn [contents] in *.
     intros.
     destruct (dec_A t' t); auto.
     subst; auto.
@@ -1237,7 +1238,7 @@ Module HalfPermMap.
       get x t = None ->
       get (merge x y ) t = get y t.
   Proof.
-    unfold merge; unfold disjoint; unfold get.
+    unfold merge; cbn [contents] in *; unfold disjoint; cbn [contents] in *; unfold get; cbn [contents] in *.
     intros.
     rewrite H0 in *.
     auto.
@@ -1281,12 +1282,12 @@ Module HalfPermMap.
       v' = flip v1 ->
       v1 = v2 /\ isRw v1 = false /\ get z t = Some v'.
   Proof.
-    unfold join; unfold disjoint; unfold merge; unfold get; unfold flip.
+    unfold join; unfold disjoint; cbn [contents] in *; unfold merge; cbn [contents] in *; unfold get; cbn [contents] in *; unfold flip.
     intros.
     destruct H0.
     destruct v1; destruct v2.
     generalize (extensionality_rev H4); clear H4; intro H4.
-    instant H4 t.
+    instant H4 t; cbn [contents] in *.
     instant H0 t.
     rewrite H1 in *.
     rewrite H2 in *.
@@ -1312,9 +1313,9 @@ Module HalfPermMap.
     forall t v,
       set emp t v = sig t v.
   Proof.
-    unfold sig; unfold set; unfold emp.
+    unfold sig; unfold set; cbn [contents] in *; unfold emp; cbn [contents] in *.
     intros.
-    apply extensionality.
+    apply extensionality; cbn [contents] in *.
     intros.
     crush.
   Qed.
@@ -1323,9 +1324,9 @@ Module HalfPermMap.
     forall t v v',
       set (sig t v) t v' = sig t v'.
   Proof.
-    unfold sig; unfold set; unfold emp.
+    unfold sig; unfold set; cbn [contents] in *; unfold emp; cbn [contents] in *.
     intros.
-    apply extensionality.
+    apply extensionality; cbn [contents] in *.
     intros.
     crush.
   Qed.   
@@ -1350,20 +1351,20 @@ Module HalfPermMap.
       get x t = None ->
       disjoint x (set y t v).
   Proof.    
-    unfold disjoint.
+    unfold disjoint; cbn [contents] in *.
     intros.
     rename x0 into t'.
     assert (F1: (t = t') \/ (t <> t')) by tauto.
     destruct F1.
     subst.
-    unfold get in *.
+    unfold get in *; cbn [contents] in *.
     rewrite H0 in *.
-    unfold set.
+    unfold set; cbn [contents] in *.
     crush.
 
     instant H t'.
     destruct (x t').
-    unfold set.
+    unfold set; cbn [contents] in *.
     destruct b.
     destruct b.
     destruct (y t').
@@ -1392,14 +1393,14 @@ Module HalfPermMap.
     apply map_disjoint_comm.
     apply map_disjoint_set; meauto.
 
-    apply extensionality.
+    apply extensionality; cbn [contents] in *.
     intros.
     rewrite H1 in *.
     clear H1.
-    unfold merge; unfold set; unfold get in *.
+    unfold merge; cbn [contents] in *; unfold set; cbn [contents] in *; unfold get in *; cbn [contents] in *.
     destruct (dec_A x0 t). subst.
     destruct (y t). crush. auto.
-    unfold disjoint in *. 
+    unfold disjoint in *; cbn [contents] in *.
     instant H x0.
     destruct (x x0); crush.
   Qed.
@@ -1418,23 +1419,23 @@ Module HalfPermMap.
     unfold join in *.
     destruct H0.
     split.
-    unfold disjoint in *; unfold get in *; unfold isRw in *; unfold fst in *.
+    unfold disjoint in *; cbn [contents] in *; unfold get in *; cbn [contents] in *; unfold isRw in *; unfold fst in *.
     intros.
-    unfold set.     
+    unfold set; cbn [contents] in *.
     destruct (dec_A x0 t); subst.
     destruct (y t); crush.
     instant H0 x0.
     destruct v.
-    destruct (x x0).
+    destruct (x x0) eqn:Ex.
     destruct b0. destruct b0.
     auto.
     auto.
     auto.
 
-    apply extensionality.
+    apply extensionality; cbn [contents] in *.
     intros.
-    unfold disjoint in *; unfold merge in *; unfold get in *; unfold isRw in *; unfold flip in *;
-    unfold fst in *; unfold snd in *; unfold negb in *; unfold set in *.
+    unfold disjoint in *; cbn [contents] in *; unfold merge in *; cbn [contents] in *; unfold get in *; cbn [contents] in *; unfold isRw in *; unfold flip in *;
+    unfold fst in *; unfold snd in *; unfold negb in *; unfold set in *; cbn [contents] in *.
     destruct v.
     destruct b.
     destruct (dec_A x0 t).
@@ -1459,12 +1460,13 @@ Module HalfPermMap.
     crush.
 
     instant H0 x0.
-    destruct (x x0).
-    destruct (y x0).
+    destruct (x x0) eqn:Ex.
+    destruct (y x0) eqn:Ey.
     destruct b.
     destruct b; auto.
     auto.
     auto.
+    all: cbn [contents] in *; try contradiction; try rewrite Ex; try rewrite Ey; auto.
   Qed.    
     
   Lemma map_join_get_sig:
@@ -1474,15 +1476,15 @@ Module HalfPermMap.
   Proof.
     intros.
     exists (del x t).
-    unfold get, join, sig in *.
-    unfold disjoint, set, emp, del, merge.
+    unfold get, join, sig in *; cbn [contents] in *.
+    unfold disjoint, set, emp, del, merge; cbn [contents] in *.
     split.
     intros.
     induction (dec_A x0 t).
     destruct v; auto.
     destruct b; auto.
     destruct (x x0); auto.
-    eapply extensionality.
+    eapply extensionality; cbn [contents] in *.
     intros.
     induction (dec_A x0 t).
     subst; auto.
@@ -1497,26 +1499,26 @@ Module HalfPermMap.
       v' = flip v ->
       exists x1 x2, join (sig t v') x1 x /\ join (sig t v') x2 x1.
   Proof.
-    unfold get; unfold isRw; unfold fst; unfold flip; unfold snd.
+    unfold get; cbn [contents] in *; unfold isRw; unfold fst; unfold flip; unfold snd.
     unfold negb.
     unfold fst.
     intros.
     exists (set x t v').
     exists (del x t).
     destruct v.
-    unfold set; unfold del.
+    unfold set; cbn [contents] in *; unfold del; cbn [contents] in *.
     unfold sig.
-    unfold set; unfold emp.
+    unfold set; cbn [contents] in *; unfold emp; cbn [contents] in *.
     subst.
 
     split.
     unfold join; split.
-    unfold disjoint.
+    unfold disjoint; cbn [contents] in *.
     intros.
     destruct (dec_A x0 t); subst; crush.
 
-    unfold merge.
-    apply extensionality.
+    unfold merge; cbn [contents] in *.
+    apply extensionality; cbn [contents] in *.
     intros.
     destruct (dec_A x0 t); subst; crush.
     rewrite H0.
@@ -1524,12 +1526,12 @@ Module HalfPermMap.
     tauto.
 
     unfold join; split.
-    unfold disjoint.
+    unfold disjoint; cbn [contents] in *.
     intros.
     destruct (dec_A x0 t); subst; crush.
 
-    unfold merge.
-    apply extensionality.
+    unfold merge; cbn [contents] in *.
+    apply extensionality; cbn [contents] in *.
     intros.
     destruct (dec_A x0 t); subst; crush.
   Qed.
@@ -1615,12 +1617,12 @@ Module HalfPermMap.
 
   Ltac junfold :=
     try (unfold join);
-    try (unfold disjoint);
-    try (unfold merge);
-    try (unfold minus);
-    try (unfold del);
-    try (unfold get);
-    try (unfold set);
+    try (unfold disjoint); cbn [contents] in *;
+    try (unfold merge); cbn [contents] in *;
+    try (unfold minus); cbn [contents] in *;
+    try (unfold del); cbn [contents] in *;
+    try (unfold get); cbn [contents] in *;
+    try (unfold set); cbn [contents] in *;
     try (unfold sig);
     try (unfold rjoin);
     try (unfold rminus);
@@ -1674,7 +1676,8 @@ Module HalfPermMap.
     junfold.
     intros.
     instant H0 x.
-    crush.
+    destruct (m1 x) as [[p1 v1]|]; destruct (m2 x) as [[p2 v2]|];
+      try destruct p1; try destruct p2; simpl in *; intuition congruence.
   Qed.
     
   Lemma map_disjoint_semp':
@@ -1699,7 +1702,9 @@ Module HalfPermMap.
     junfold.
     intros.
     instant H0 t.
-    crush.
+    cbn [get] in *.
+    destruct (m1 t) as [[p1 v1]|]; destruct (m2 t) as [[p2 v2]|];
+      try destruct p1; try destruct p2; simpl in *; intuition congruence.
   Qed.
 
   
@@ -1724,7 +1729,7 @@ Module HalfPermMap.
   Proof.
     intros.
     junfold.
-    crush.
+    destruct (m a); destruct (m1 a); crush.
   Qed.
 
   Lemma map_del_sem:
@@ -1742,8 +1747,11 @@ Module HalfPermMap.
     
 End HalfPermMap.
 
+(* Keep function-style reads available to clients without exporting the module. *)
+Coercion HalfPermMap.contents : HalfPermMap.Map >-> Funclass.
 
-(*The memory is defined as a partial function from addresses to memory values with permissions*)
+
+(* Memory packages a permission-valued address function with an occupied-block bound. *)
 Definition mem := HalfPermMap.Map.
 
 Instance memMap: PermMap addr (bool * memval) mem.
@@ -1820,6 +1828,14 @@ Proof.
 Definition fresh (m : mem) (b : block) : Prop :=
   forall l i, l = (b, i) -> ~ indom m l.
 
+(* Stable interface used by allocation progress and soundness clients. *)
+Theorem memory_has_fresh_block : forall m, exists b, fresh m b.
+Proof.
+  intro m; destruct (HalfPermMap.bounded m) as [upper Hbound].
+  exists upper; intros l i Heq [v Hget]; subst l.
+  apply (Pos.lt_irrefl upper); eapply Hbound; exact Hget.
+Qed.
+
 Fixpoint allocb (m : mem) (b: block) (i : offset)  (n : nat) {struct n} :  mem :=
   match n  with
     | O =>  m
@@ -1861,9 +1877,13 @@ Fixpoint loadbytes (m : mem) (l : addr) (n : nat) {struct n}: option (list memva
 
 Definition FullMemory m := forall b, exists i, indom m (b,i).
 
-(*To make the memory allocation never fail, we introduce the following axiom,
-which assumes that we have infinite memory space *)
-Axiom MemoryNotFull : forall m, ~FullMemory m.
+(* Every representable memory has an occupied-block bound. *)
+Theorem memory_not_full : forall m, ~FullMemory m.
+Proof.
+  intros m Hfull; destruct (HalfPermMap.bounded m) as [upper Hbound].
+  destruct (Hfull upper) as [i [v Hget]].
+  apply (Pos.lt_irrefl upper); eapply Hbound; exact Hget.
+Qed.
 
 
 (********************************************************************)

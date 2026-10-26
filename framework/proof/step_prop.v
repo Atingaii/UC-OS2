@@ -5241,7 +5241,7 @@ Proof.
   auto.
   unfold set in *; simpl in *.
   rewrite H2.
-  auto.
+  unfold offset in *; rewrite eq3; reflexivity.
 
   false.
   unfolds in H0; mytac.

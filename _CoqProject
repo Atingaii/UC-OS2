@@ -108,3 +108,5 @@ tactics/sepauto/seplog_lemmas.v
 tactics/sepauto/seplog_tactics.v
 
 framework/proof/memory_bound.v
+
+framework/proof/memory_representation.v

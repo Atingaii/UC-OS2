@@ -67,7 +67,7 @@ status:
 	@echo 'V293 sources:' $$(find certiucos/v293 -name '*.v' | wc -l)
 	@git status --short --branch
 
-# Positive bounded interfaces and a separate intentionally failing trust gate.
+# Bounded/refinement checks and the repaired framework dependency-closure gate.
 check-memory-bound:
 	COQBIN="$(COQBIN)" PYTHONDONTWRITEBYTECODE=1 python3 scripts/check-memory-trust.py --bounds-only
 

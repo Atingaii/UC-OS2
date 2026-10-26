@@ -456,21 +456,8 @@ Proof.
 Qed.
 
 
-Lemma fresh_exist : forall m, (exists b,fresh m b).
-Proof.
-  intros.
-  generalize MemoryNotFull.
-  intros.
-  generalize (H m).
-  intros.
-  unfold FullMemory in H0.
-  apply not_all_ex_not in H0.
-  destruct H0. exists x.
-  unfold fresh.
-  intros.
-  red. intros. apply H0.
-  exists i. subst. eauto.
-Qed.
+Lemma fresh_exist : forall m, (exists b, fresh m b).
+Proof. exact memory_has_fresh_block. Qed.
 
 (* memory update *)
 Lemma alloc_false : forall x t le M M', ~alloc x t le M le M'.

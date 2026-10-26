@@ -1,4 +1,5 @@
 Require Import Coqlib.
+Require Import Coq.Logic.FunctionalExtensionality.
 
 
 Hint Extern 4 (~( _ = _ )) => discriminate : core.
@@ -103,7 +104,8 @@ Definition compat : Map -> Map -> Prop :=
 
 
 (* extensional equality about Maps *)
-Axiom extensionality : forall (A : Set) (B : Type) (f g : A -> B), (forall x : A, f x = g x) -> f = g.
+Lemma extensionality : forall (A : Set) (B : Type) (f g : A -> B), (forall x : A, f x = g x) -> f = g.
+Proof. intros; apply functional_extensionality; assumption. Qed.
 (*
 Definition extensional_eqMap := extensionality A (option B).
 *)

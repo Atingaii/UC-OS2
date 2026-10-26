@@ -6,6 +6,7 @@ Require Export ZArith.
 Require Export Znumtheory.
 Require Export List.
 Require Export Bool.
+Require Import Coq.Logic.FunctionalExtensionality.
 
 (* *********************************************************************** *)
 (** * The [skip] tactic from Stephanie Weirich and Brian Andemir of UPenn  *)
@@ -24,9 +25,10 @@ Require Export Bool.
 (* *)
 
 (** Section 1: optionT and pairT **)
-Axiom extensionality:
+Lemma extensionality:
   forall (A B: Set) (f g : A -> B),
   (forall x, f x = g x) -> f = g.
+Proof. intros; apply functional_extensionality; assumption. Qed.
 
 Inductive OptionT (T : Type) : Type :=
     NoneT1 : OptionT T

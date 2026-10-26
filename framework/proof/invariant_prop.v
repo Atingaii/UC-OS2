@@ -3171,7 +3171,7 @@ Proof.
 Qed.
 
 Lemma mem_set_get_neq :
-  forall m a a' x,
+  forall (m : mem) a a' x,
     a <> a' ->
     set m a x a' = m a'.
 Proof.

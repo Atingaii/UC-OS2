@@ -141,6 +141,7 @@ Proof.
   destruct H.
   rewrite H1.
   unfold HalfPermMap.get in *.
+  cbn [HalfPermMap.contents] in *.
   lets aa: H t.
   rewrite H0 in *.
   destruct b.

@@ -1,6 +1,5 @@
-(* A fresh block requires a bound on occupied block identifiers, not an axiom
-   about every arbitrary partial function. This invariant is NOT yet threaded
-   through the existing operational semantics and soundness proofs. *)
+(* Explicit bounds remain available for clients that need a particular upper.
+   The memory representation now also carries existence of such a bound. *)
 Require Import memory.
 Local Open Scope Z_scope.
 
