@@ -1,18 +1,23 @@
 COQBIN ?=
+COQC ?= $(COQBIN)coqc
 COQMAKEFILE := $(COQBIN)coq_makefile
 COQPROJECT := _CoqProject
 COQMF := Makefile.coq
 JOBS ?= 2
 
-.PHONY: all build clean audit fetch-source source-audit config-audit status
+.PHONY: all build clean audit test check-coq check-build check-models fetch-source source-audit config-audit status
 
 all: build
 
 $(COQMF): $(COQPROJECT)
 	$(COQMAKEFILE) -f $(COQPROJECT) -o $(COQMF)
 
-build: $(COQMF)
-	$(MAKE) -f $(COQMF) -j$(JOBS)
+check-coq:
+	@$(COQBIN)coqc --version | head -n 1 | grep -Eq 'version 8\.18\.0( |$$)' || \
+	  { echo 'This project requires Coq 8.18.0.' >&2; exit 1; }
+
+build: check-coq $(COQMF)
+	$(MAKE) -f $(COQMF) -j$(JOBS) COQC="$(COQC)"
 
 clean:
 	@if [ -f $(COQMF) ]; then $(MAKE) -f $(COQMF) clean; fi
@@ -32,6 +37,15 @@ config-audit:
 audit:
 	python3 scripts/project-audit.py
 	python3 scripts/coverage-audit.py
+
+test:
+	python3 -m unittest discover -s tests -v
+
+check-models:
+	COQBIN="$(COQBIN)" bash scripts/check-v293-models.sh
+
+check-build:
+	COQBIN="$(COQBIN)" JOBS="$(JOBS)" bash scripts/check-clean-build.sh
 
 status:
 	@echo 'Coq sources:' $$(find framework tactics certiucos/v293 -name '*.v' | wc -l)

@@ -1,4 +1,6 @@
 Require Import CertiOS.certiucos.v293.spec.V293SafetySpec.
+Require Import CertiOS.certiucos.v293.model.V293PendModel.
+Require Import CertiOS.certiucos.v293.model.V293TaskDeleteModel.
 
 Theorem V293_timeout_suspend_resume_safety_proved :
   V293_timeout_suspend_resume_safety.
@@ -10,7 +12,7 @@ Qed.
 
 Theorem V293_nested_mutex_restoration_safety_proved :
   V293_nested_mutex_restoration_safety.
-Proof. intros; reflexivity. Qed.
+Proof. intros base remaining; reflexivity. Qed.
 
 Theorem V293_locked_self_delete_safety_proved :
   V293_locked_self_delete_safety.

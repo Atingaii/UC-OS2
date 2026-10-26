@@ -14,8 +14,8 @@ shift
 stack_kb=${COQ_STACK_KB:-524288}
 ulimit -s "$stack_kb" 2>/dev/null || true
 
-# Give the OCaml runtime a larger minor heap, reducing GC overhead in several
-# legacy proof scripts. Callers may override OCAMLRUNPARAM.
+# Optional legacy GC setting: o controls space overhead, not the minor heap.
+# No performance improvement is claimed; callers may override OCAMLRUNPARAM.
 export OCAMLRUNPARAM="${OCAMLRUNPARAM:-o=5}"
 
 exec "$coq_compiler" "$@"

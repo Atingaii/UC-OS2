@@ -6,6 +6,7 @@
 *.cache
 Makefile.coq
 Makefile.coq.conf
+.Makefile.coq.d
 .DS_Store
 __pycache__/
 *.pyc
