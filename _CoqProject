@@ -106,3 +106,5 @@ tactics/sepauto/sep_join_lemmas.v
 tactics/sepauto/sep_lemmas_ext.v
 tactics/sepauto/seplog_lemmas.v
 tactics/sepauto/seplog_tactics.v
+
+framework/proof/memory_bound.v

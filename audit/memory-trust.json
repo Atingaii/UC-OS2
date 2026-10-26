@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "scope": "MEMORY_TRUST_DIAGNOSTIC_NOT_KERNEL_PROOF",
+  "coq_version": "The Coq Proof Assistant, version 8.18.0\ncompiled with OCaml 4.14.2",
+  "checks": {
+    "BoundedMemory": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "BoundedAssumptions": {
+      "exit_code": 0,
+      "stdout": "Axioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\n",
+      "stderr": ""
+    },
+    "BoundNecessary": {
+      "exit_code": 0,
+      "stdout": "Axioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\n",
+      "stderr": ""
+    },
+    "bounded_coqchk": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "BaselineMemory": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "BaselineMemoryWitness": {
+      "exit_code": 0,
+      "stdout": "Axioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\n",
+      "stderr": ""
+    },
+    "BaselineMemoryContradiction": {
+      "exit_code": 0,
+      "stdout": "Axioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nMemoryNotFull : forall m : mem, ~ FullMemory m\n",
+      "stderr": ""
+    },
+    "WithoutAxiomMemory": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "WithoutAxiomMemoryWitness": {
+      "exit_code": 0,
+      "stdout": "Axioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\n",
+      "stderr": ""
+    },
+    "WithoutAxiomMemoryContradiction": {
+      "exit_code": 1,
+      "stdout": "Axioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\n",
+      "stderr": "File \"/tmp/ucos-memory-trust-cccn5plc/WithoutAxiomMemoryContradiction.v\", line 10, characters 15-28:\nError: The variable MemoryNotFull was not found in the current environment.\n\n"
+    }
+  },
+  "input_sha256": {
+    "scripts/check-memory-trust.py": "bc64e5204d2ec9a396e16fd4b2ca867760f342b76c539d8fa62623a1a11595f4",
+    "framework/model/memory.v": "d21bb403d587f9a8b34928da88360b48f9d5529af349b8afae17178b40f1e2ab",
+    "framework/proof/memory_bound.v": "c81fadd5cd12bcf98efc8009330ca32c9087a304660676be6c75119cef9e0772",
+    "framework/auxlibs/Maps.v": "3e039ae98bfa2f2735d859fceae5188213cdfc89a666177529a40ef7da37cc77"
+  },
+  "bounded_roots_checked": [
+    "blocks_below_monotone",
+    "blocks_below_empty",
+    "blocks_below_fresh",
+    "bounded_memory_has_fresh_block",
+    "blocks_below_set",
+    "blocks_below_set_grow",
+    "blocks_below_del",
+    "blocks_below_allocb",
+    "blocks_below_allocb_grow",
+    "blocks_below_storebytes",
+    "blocks_below_freeb"
+  ],
+  "bounded_root_assumptions": [
+    "Classical_Prop.classic",
+    "FunctionalExtensionality.functional_extensionality_dep"
+  ],
+  "bounded_roots_exclude_MemoryNotFull": true,
+  "framework_status": "BLOCKED_GLOBAL_MEMORY_AXIOM_DERIVES_FALSE",
+  "global_framework_repaired": false
+}

@@ -5,7 +5,7 @@ COQPROJECT := _CoqProject
 COQMF := Makefile.coq
 JOBS ?= 2
 
-.PHONY: all build clean audit test check-coq check-build check-models check-c check-c-evidence fetch-source source-audit config-audit source-inventory source-inventory-check source-freeze-check status
+.PHONY: all build clean audit test check-coq check-build check-models check-c check-c-evidence fetch-source source-audit config-audit source-inventory source-inventory-check source-freeze-check check-memory-bound check-framework-trust status
 
 all: build
 
@@ -66,3 +66,10 @@ status:
 	@echo 'Coq sources:' $$(find framework tactics certiucos/v293 -name '*.v' | wc -l)
 	@echo 'V293 sources:' $$(find certiucos/v293 -name '*.v' | wc -l)
 	@git status --short --branch
+
+# Positive bounded interfaces and a separate intentionally failing trust gate.
+check-memory-bound:
+	COQBIN="$(COQBIN)" PYTHONDONTWRITEBYTECODE=1 python3 scripts/check-memory-trust.py --bounds-only
+
+check-framework-trust:
+	COQBIN="$(COQBIN)" PYTHONDONTWRITEBYTECODE=1 python3 scripts/check-memory-trust.py
