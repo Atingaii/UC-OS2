@@ -5,7 +5,7 @@ COQPROJECT := _CoqProject
 COQMF := Makefile.coq
 JOBS ?= 2
 
-.PHONY: all build clean audit test check-coq check-build check-models fetch-source source-audit config-audit status
+.PHONY: all build clean audit test check-coq check-build check-models fetch-source source-audit config-audit source-inventory source-inventory-check status
 
 all: build
 
@@ -34,11 +34,17 @@ config-audit:
 	  csrc/upstream/v2.93.01/checkout/Cfg/Template/os_cfg.h \
 	  csrc/upstream/v2.93.01/checkout/os_cfg.h
 
+source-inventory: source-audit
+	python3 scripts/inventory-v293-source.py
+
+source-inventory-check: source-audit
+	python3 scripts/inventory-v293-source.py --check
+
 audit:
 	python3 scripts/project-audit.py
 	python3 scripts/coverage-audit.py
 
-test:
+test: source-audit
 	python3 -m unittest discover -s tests -v
 
 check-models:

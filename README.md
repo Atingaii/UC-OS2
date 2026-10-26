@@ -2,7 +2,7 @@
 
 使用 CoqImp 通用框架，在 **Coq 8.18** 环境中验证一个固定配置的 uC/OS-II V2.93.01 程序的源码级功能正确性与 safety 性质。
 
-**当前是验证基础工程，不是已完成的内核证明。** 配置后的函数清单尚未生成，真实源码函数的六阶段覆盖均为 0，最终 `GOOD_OS` 定理尚未完成。Git 工作区整洁只表示改动已归档，不表示构建或证明验收通过。
+**当前是验证基础工程，不是已完成的内核证明。** 固定配置上游已清点出 92 个 C 定义与 16 个声明级边界；授权修复后的源码尚未冻结，真实源码函数的六阶段覆盖均为 0，最终 `GOOD_OS` 定理尚未完成。Git 工作区整洁只表示改动已归档，不表示构建或证明验收通过。
 
 ## 第一次阅读
 
@@ -12,7 +12,9 @@
 4. [第一阶段教学](docs/阶段/01-Coq818与基础检查.md)：Coq 环境、编译、导入与审计的逐步讲解。
 5. [第一阶段检查记录](audit/STAGE01_BASELINE.md)：实际执行结果与局限。
 6. [初始基线核对报告](audit/BASELINE_REPORT.md)：保留整理前的问题与交接材料错位。
-7. [开发路线图](ROADMAP.md)：后续各阶段及验收条件。
+7. [第二阶段教学](docs/阶段/02-源码配置与函数清单.md)：实际 C 源码、配置、函数清单和 CPU 边界。
+8. [第二阶段检查记录](audit/STAGE02_SOURCE_INVENTORY.md)：92 个上游函数的身份与交叉检查。
+9. [开发路线图](ROADMAP.md)：后续各阶段及验收条件。
 
 ## 唯一验证目标
 
@@ -39,21 +41,25 @@
 
 ## 环境与常用命令
 
-准备好 Coq 8.18.0、Git、Python 3、GNU Make、Bash 与 tar 后，在仓库根目录执行：
+准备好 Coq 8.18.0、Git、Python 3、GNU Make、Bash、tar、Clang、GCC 与支持 JSON 的 Universal Ctags 后，在仓库根目录执行：
 
 ```sh
 coqc --version
+# 仅在 checkout 不存在时获取；已有修改时不要重建。
+make fetch-source
+make source-audit
+make config-audit
+make source-inventory-check
 make test
 make audit
 make check-models
 make check-build
-make fetch-source
-make source-audit
-make config-audit
 make build
 ```
 
 本机已降为 Coq 8.18.0。第一阶段已修复小模型的导入与参数引入问题，审计回归测试、静态审计、六文件隔离编译、三个小模型根定理的假设与 `coqchk` 检查均已通过。完整构建结果与源码校验见第一阶段检查记录；这些检查不能替代最终整核证明。
+
+第二阶段新增真实源码清单及 12 项集成测试，`make test` 合计 26 项且要求已获取锁定源码；具体前后对照和结果见第二阶段检查记录。`make source-inventory-check` 只核对，不改写已提交清单。
 
 `make build` 在当前目录增量构建；`make check-build` 仅复制活动 Coq 源码和构建入口，在没有参考资料与旧 `.vo` 的一次性目录中完整构建，结束后清理该目录。
 

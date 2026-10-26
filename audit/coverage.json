@@ -1,7 +1,7 @@
 {
   "target_release": "V2.93.01",
   "target_commit": "0c4a48e6fbc6e915714e816196619a5481accf0c",
-  "inventory_status": "PENDING_PINNED_SOURCE_FETCH_AND_PREPROCESS",
+  "inventory_status": "UPSTREAM_INVENTORY_AVAILABLE_REPAIRED_SOURCE_FREEZE_PENDING",
   "states": [
     "located",
     "modeled",
