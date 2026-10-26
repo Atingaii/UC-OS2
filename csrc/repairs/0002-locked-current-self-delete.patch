@@ -1,0 +1,15 @@
+--- a/Source/os_task.c
++++ b/Source/os_task.c
+@@ -492,6 +492,12 @@
+     if (ptcb == OS_TCB_RESERVED) {                      /* Must not be assigned to Mutex               */
+         OS_EXIT_CRITICAL();
+         return (OS_ERR_TASK_DEL);
++    }
++
++    /* Reject before reclaiming the executing task or changing kernel state. */
++    if ((ptcb == OSTCBCur) && (OSLockNesting > 0u)) {
++        OS_EXIT_CRITICAL();
++        return (OS_ERR_SCHED_LOCKED);
+     }
+
+     OSRdyTbl[ptcb->OSTCBY] &= (OS_PRIO)~ptcb->OSTCBBitX;

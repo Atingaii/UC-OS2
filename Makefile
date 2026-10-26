@@ -5,7 +5,7 @@ COQPROJECT := _CoqProject
 COQMF := Makefile.coq
 JOBS ?= 2
 
-.PHONY: all build clean audit test check-coq check-build check-models fetch-source source-audit config-audit source-inventory source-inventory-check status
+.PHONY: all build clean audit test check-coq check-build check-models check-c check-c-evidence fetch-source source-audit config-audit source-inventory source-inventory-check status
 
 all: build
 
@@ -49,6 +49,12 @@ test: source-audit
 
 check-models:
 	COQBIN="$(COQBIN)" bash scripts/check-v293-models.sh
+
+check-c: source-audit
+	python3 scripts/check-v293-c-regressions.py
+
+check-c-evidence: source-audit
+	python3 scripts/check-v293-c-regressions.py --check-report audit/c-regressions.json
 
 check-build:
 	COQBIN="$(COQBIN)" JOBS="$(JOBS)" bash scripts/check-clean-build.sh
