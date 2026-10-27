@@ -18,8 +18,8 @@
 
 ## 尚未完成
 
-- 修复后的源码身份及完整位置清单已冻结；`OSVersion` 有完整的受限 AST 检查翻译，`OS_SchedNew` 有两次赋值及查表的源码绑定检查点；完整 C 到 CoqImp 对应仍未完成。
-- 其余 93 个函数尚未完成函数级六门覆盖；其中 `OS_SchedNew` 已有数学选择性质、实际读取与两次赋值执行证明，但尚无函数级 Hoare／内部组件。
+- 修复后的源码身份及完整位置清单已冻结；`OSVersion` 有完整的受限 AST 检查翻译，`OS_SchedNew` 有分离资源、两次赋值及 void 返回的函数体 Hoare 检查点；完整 C 到 CoqImp 对应仍未完成。
+- 其余 93 个函数尚未完成函数级六门覆盖；其中 `OS_SchedNew` 已有数学选择性质、实际读取、两次赋值执行及函数体 Hoare，但入口分配／返回释放和内部组件尚缺。
 - 仅 `OSVersion` 接入单函数 API 单元；完整 API 表及整体程序连接仍未完成。
 - `V293_low_level_os_code`、`V293_os_spec`、`V293_ucos_init` 及最终 `GOOD_OS` 证明尚未完成。
 
@@ -133,3 +133,13 @@
 `located → modeled → specified → local_hoare → component_linked → full_target_linked`
 
 新增辅助引理或独立模型不自动提升函数覆盖。只有连接到当前冻结源码与最终程序的证据才能计入对应阶段。
+
+## 第十阶段：分离资源与函数体 Hoare
+
+新增 `V293OSSchedNewHoare.v` 与 `V293OSSchedNewWitness.v`：实际只读表／行／组资源推出真实读取，两个可写字节经 `assign_rule` 依次更新，再由返回规则连接完整函数体。主接口保留任意调用方的 `CurLINV` 与 frame；另有具体有界内存证明空间前置可满足，避免仅以互相可能冲突的读取等式当见证。
+
+完整验收范围和实测结果见[第十阶段报告](audit/STAGE10_SCHEDULER_BODY_HOARE.md)。新检查器另写预期资源和实际函数体类型，并检查删除输入资源、去掉局部写权限、错误输出后置以及额外 `False` 前提四项控制；不以早期拒绝冒充下游义务。旧阶段九五项语义控制及 `OSVersion` 根／组件控制全部保留。
+
+120 个活动 Coq 文件空目录重编通过；调度器十五根与原六个函数／组件根的独立接口、假设及 `coqchk` 通过，实际假设并集仍仅含经典逻辑与依赖函数外延性。143 项 Python 回归、静态审计、源码冻结、368 次 C 矩阵重放比较及小模型检查均通过；新记录为 [function-evidence-stage10.json](audit/function-evidence-stage10.json)。
+
+这是**函数体检查点而非完整内部函数证据**，覆盖仍为 `94 / 1 / 1 / 1 / 1 / 0`。下一步在同一个函数上连接 `BuildPreI`／`BuildRetI`／`WFFunEnv`、局部变量生命周期和真实共享不变量，最终 `GOOD_OS` 仍未闭合。阶段七／八／九 JSON 保留历史，不回写；新证据使用 stage10 文件。

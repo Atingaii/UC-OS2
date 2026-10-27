@@ -24,7 +24,7 @@ CODE = 'certiucos/v293/code/V293OSVersion.v'
 SPEC = 'certiucos/v293/spec/V293OSVersionSpec.v'
 PROOF = 'certiucos/v293/proofs/V293OSVersionProof.v'
 API = 'certiucos/v293/proofs/V293OSVersionAPI.v'
-REPORT = 'audit/function-evidence-stage09.json'
+REPORT = 'audit/function-evidence-stage10.json'
 SCOPE = 'CHECKED_SOURCE_AND_SINGLE_FUNCTION_API_COMPONENT_NOT_GOOD_OS'
 ROOTS = ['V293_OSVersion_local_hoare', 'V293_OSVersion_post_exact',
          'V293_OSVersion_execution']
@@ -397,14 +397,14 @@ def validate_record(root, report):
     checkpoint = report['scheduler_checkpoint']
     if checkpoint != {
             'shift': 3, 'lookup_entries': 256,
-            'scope': 'SOURCE_BOUND_READS_AND_UNINTERLEAVED_UPDATES_NOT_FUNCTION_HOARE',
+            'scope': scheduler.SCOPE,
             'coverage_credit': False, 'roots': scheduler.ROOTS,
             'root_assumptions': checkpoint['root_assumptions'],
             'negative_controls': scheduler.NEGATIVE_CONTROLS}:
         raise ValueError('scheduler checkpoint scope/roots/controls differ')
     if not set(checkpoint['root_assumptions']) <= load(root, 'check-memory-trust.py').FRAMEWORK_ALLOWED:
         raise ValueError('unexpected scheduler-root assumptions')
-    for rel in [scheduler.TABLE, scheduler.CODE, scheduler.MODEL, scheduler.EVAL, scheduler.EXEC]:
+    for rel in scheduler.FILES:
         if checks['scheduler:positive:' + Path(rel).stem]['exit_code'] != 0:
             raise ValueError('scheduler checkpoint positive compilation failed')
     if any(checks[k]['exit_code'] != 0 for k in ['scheduler:positive:contract', 'scheduler:coqchk']):
@@ -418,6 +418,16 @@ def validate_record(root, report):
         if (checks['scheduler:' + label + ':actual']['exit_code'] != 0
                 or checks['scheduler:' + label + ':rejected']['exit_code'] != 1):
             raise ValueError('scheduler designated concrete semantic control missing')
+    for label in scheduler.BODY_CONTROLS:
+        if any(checks['scheduler:' + label + ':' + Path(rel).stem]['exit_code'] != 0
+               for rel in scheduler.FILES[:scheduler.FILES.index(scheduler.HOARE)]):
+            raise ValueError('scheduler body control prerequisite compilation missing')
+        if checks['scheduler:' + label + ':V293OSSchedNewHoare']['exit_code'] != (0 if label == 'body_false_premise_added_only' else 1):
+            raise ValueError('scheduler designated body control missing')
+    if (checks['scheduler:body_false_premise_added_only:V293OSSchedNewWitness']['exit_code'] != 0
+            or checks['scheduler:body_false_premise_added_only_probe:V293OSSchedNewWitness']['exit_code'] != 0
+            or checks['scheduler:body_false_premise_added_only_probe:contract']['exit_code'] != 1):
+        raise ValueError('scheduler vacuous body mutant/probe evidence missing')
     return report['functions']
 
 

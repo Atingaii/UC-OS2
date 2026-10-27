@@ -238,7 +238,7 @@ class SchedulerCheckpointTests(FrozenFixture):
         with self.assertRaisesRegex(ValueError, message):
             COVERAGE.audit(self.root)
 
-    def test_scheduler_scope_cannot_claim_function_hoare(self):
+    def test_scheduler_checkpoint_cannot_claim_function_coverage(self):
         self.reject_report(lambda x: x['scheduler_checkpoint'].update(coverage_credit=True),
                            'scheduler checkpoint scope/roots/controls differ')
 
@@ -282,4 +282,48 @@ class SchedulerCheckpointTests(FrozenFixture):
         self.edit('audit/coverage.json', lambda x: next(r for r in x['rows']
                   if r['name'] == 'OS_SchedNew').update(modeled=True))
         with self.assertRaisesRegex(ValueError, 'evidence checker not implemented'):
+            COVERAGE.audit(self.root)
+
+    def test_body_hoare_positive_compilation_required(self):
+        self.reject_report(lambda x: x['checks']['scheduler:positive:V293OSSchedNewHoare'].update(exit_code=1),
+                           'scheduler checkpoint positive compilation failed')
+
+    def test_spatial_witness_positive_compilation_required(self):
+        self.reject_report(lambda x: x['checks']['scheduler:positive:V293OSSchedNewWitness'].update(exit_code=1),
+                           'scheduler checkpoint positive compilation failed')
+
+    def test_erased_read_resource_control_must_fail(self):
+        self.reject_report(lambda x: x['checks']['scheduler:group_resource_removed_only:V293OSSchedNewHoare'].update(exit_code=0),
+                           'scheduler designated body control missing')
+
+    def test_readonly_local_control_must_first_reach_hoare(self):
+        self.reject_report(lambda x: x['checks']['scheduler:local_write_permission_removed_only:V293OSSchedNewEval'].update(exit_code=1),
+                           'scheduler body control prerequisite compilation missing')
+
+    def test_old_output_post_control_must_fail(self):
+        self.reject_report(lambda x: x['checks']['scheduler:output_post_restores_old_value_only:V293OSSchedNewHoare'].update(exit_code=0),
+                           'scheduler designated body control missing')
+
+    def test_false_premise_mutant_must_compile_first(self):
+        self.reject_report(lambda x: x['checks']['scheduler:body_false_premise_added_only:V293OSSchedNewHoare'].update(exit_code=1),
+                           'scheduler designated body control missing')
+
+    def test_false_premise_mutant_must_be_rejected_by_exact_type(self):
+        self.reject_report(lambda x: x['checks']['scheduler:body_false_premise_added_only_probe:contract'].update(exit_code=0),
+                           'scheduler vacuous body mutant/probe evidence missing')
+
+    def test_vacuous_mutant_witness_must_still_compile(self):
+        self.reject_report(lambda x: x['checks']['scheduler:body_false_premise_added_only:V293OSSchedNewWitness'].update(exit_code=1),
+                           'scheduler vacuous body mutant/probe evidence missing')
+
+    def test_changed_body_proof_invalidates_report(self):
+        path = self.root / 'certiucos/v293/proofs/V293OSSchedNewHoare.v'
+        path.write_text(path.read_text() + '\n(* mutation *)\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_changed_spatial_witness_invalidates_report(self):
+        path = self.root / 'certiucos/v293/proofs/V293OSSchedNewWitness.v'
+        path.write_text(path.read_text() + '\n(* mutation *)\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
             COVERAGE.audit(self.root)

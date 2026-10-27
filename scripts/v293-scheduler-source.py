@@ -10,10 +10,16 @@ TABLE = 'certiucos/v293/code/V293ReadyTable.v'
 MODEL = 'certiucos/v293/model/V293ReadyBitmap.v'
 EVAL = 'certiucos/v293/proofs/V293OSSchedNewEval.v'
 EXEC = 'certiucos/v293/proofs/V293OSSchedNewExec.v'
+HOARE = 'certiucos/v293/proofs/V293OSSchedNewHoare.v'
+WITNESS = 'certiucos/v293/proofs/V293OSSchedNewWitness.v'
+FILES = [TABLE, CODE, MODEL, EVAL, EXEC, HOARE, WITNESS]
+SCOPE = 'SOURCE_BOUND_BODY_HOARE_NOT_INTERNAL_COMPONENT_OR_GOOD_OS'
 ROOTS = ['V293_ready_table_checked', 'V293_ready_selection', 'V293_ready_selection_range',
          'V293_OSSchedNew_row_eval', 'V293_shift_add_narrow', 'V293_OSSchedNew_priority_eval', 'V293_OSSchedNew_updates_execution',
          'V293_OSSchedNew_updates_frame', 'V293_OSSchedNew_updates_result',
-         'V293_OSSchedNew_precondition_witness']
+         'V293_OSSchedNew_precondition_witness', 'V293_sched_inputs_load',
+         'V293_OSSchedNew_row_hoare', 'V293_OSSchedNew_priority_hoare',
+         'V293_OSSchedNew_body_hoare', 'V293_OSSchedNew_spatial_precondition_witness']
 
 
 def canonical(node):
@@ -202,7 +208,7 @@ def check_source(root, work, loader):
         if (root / rel).read_text() != generated:
             raise ValueError('scheduler Coq emission differs from actual configured AST: ' + rel)
     return {'shift': shift, 'lookup_entries': len(table),
-            'scope': 'SOURCE_BOUND_READS_AND_UNINTERLEAVED_UPDATES_NOT_FUNCTION_HOARE',
+            'scope': SCOPE,
             'coverage_credit': False, 'roots': ROOTS}, nodes[0], table
 
 # Kept independent of exported theorem declarations; inline the byte-level
@@ -273,6 +279,59 @@ Definition checked_nonvacuity : exists ge le M,
     (exists p, V293_bitmap_ready 0 16 p) := V293_OSSchedNew_precondition_witness.
 '''
 
+# Deliberately duplicate the expected resource/spec shape. In particular the
+# writable flags, nonempty input, absence of an expression oracle, and absence
+# of a False premise must not follow a weakened exported definition.
+PROBE += r'''
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedNewHoare.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedNewWitness.
+Fixpoint checked_bytes (b : block) (i : Z) (values : list nat) : asrt :=
+  match values with
+  | nil => Aemp
+  | cons v tail => Amapsto (b, i) Tint8 false (V293_byteval v) ** checked_bytes b (i + 1)%Z tail
+  end.
+Definition checked_bindings unmap group rows high y bt bg br bh byblock : asrt :=
+  Agvarenv unmap (Tarray Tint8 256) (bt, 0%Z) //\\
+  Agvarenv group Tint8 (bg, 0%Z) //\\
+  Agvarenv rows (Tarray Tint8 2) (br, 0%Z) //\\
+  Agvarenv high Tint8 (bh, 0%Z) //\\
+  Alvarenv y Tint8 (byblock, 0%Z) //\\
+  A_notin_lenv unmap //\\ A_notin_lenv group //\\ A_notin_lenv rows //\\ A_notin_lenv high.
+Definition checked_common unmap group rows high y bt bg br bh byblock lo hi g li tid frame :=
+  (checked_bindings unmap group rows high y bt bg br bh byblock **
+    (checked_bytes bt 0 V293_ready_table ** checked_bytes br 0 (cons lo (cons hi nil)) **
+      Amapsto (bg, 0%Z) Tint8 false (V293_byteval g))) ** (CurLINV li tid ** frame).
+Definition checked_state common byblock bh yv hv :=
+  (common ** PV (byblock, Int.zero) @ Tint8 |-> yv) ** PV (bh, Int.zero) @ Tint8 |-> hv.
+Definition checked_body_hoare : forall Spec sd li I tid aop frame
+    unmap group rows high y bt bg br bh byblock lo hi g yold hold,
+  lo < 256 -> hi < 256 -> g = V293_ready_group lo hi ->
+  (exists p, V293_bitmap_ready lo hi p) ->
+  let common := checked_common unmap group rows high y bt bg br bh byblock lo hi g li tid frame in
+  InfRules Spec sd li I
+    (fun result => <||aop||> **
+      ([|result = None /\ V293_bitmap_ready lo hi (V293_ready_select lo hi g) /\
+        (forall p, V293_bitmap_ready lo hi p -> V293_ready_select lo hi g <= p)|] **
+        checked_state common byblock bh (V293_byteval (V293_ready_lookup g))
+          (V293_byteval (V293_ready_select lo hi g)))) Afalse
+    (<||aop||> ** checked_state common byblock bh yold hold)
+    (sseq
+      (sseq (sassign (evar y) (earrayelem (evar unmap) (evar group)))
+        (sassign (evar high)
+          (ecast (ebinop oplus
+            (ebinop olshift (ecast (evar y) Tint32) (econst32 (Int.repr 3)))
+            (ecast (earrayelem (evar unmap) (earrayelem (evar rows) (evar y))) Tint32)) Tint8))) sret)
+    Afalse tid := V293_OSSchedNew_body_hoare.
+Definition checked_spatial_witness : exists s,
+  s |= <||spec_done None||> **
+    checked_state
+      (checked_common 100%Z 101%Z 102%Z 103%Z 104%Z
+        1%positive 2%positive 3%positive 4%positive 5%positive
+        0 16 2 (fun _ _ => Aemp) (7%positive, Int.zero) Aemp)
+      5%positive 4%positive (V293_byteval 0) (V293_byteval 0)
+  := V293_OSSchedNew_spatial_precondition_witness.
+'''
+
 CONTROLS = {
     'group_coherence_removed_only': (
         'Definition actual_result : V293_ready_select 2 16 2 = 12 := eq_refl.\n',
@@ -292,7 +351,14 @@ CONTROLS = {
         'Some (V293_write_byte readonly_M 5%positive 1) := eq_refl.\n',
         'REJECTED_AT_should_store'),
 }
+BODY_CONTROLS = {
+    'group_resource_removed_only': 'REJECTED_AT_V293_sched_inputs_load',
+    'local_write_permission_removed_only': 'REJECTED_AT_V293_OSSchedNew_row_hoare',
+    'output_post_restores_old_value_only': 'REJECTED_AT_V293_OSSchedNew_priority_hoare',
+    'body_false_premise_added_only': 'MUTANT_COMPILES_REJECTED_AT_checked_body_hoare',
+}
 NEGATIVE_CONTROLS = {
+    **BODY_CONTROLS,
     'table_entry_16_changed_only': 'REJECTED_AT_V293_ready_table_checked',
     'shift_changed_only': 'REJECTED_AT_V293_OSSchedNew_priority_eval',
     **{k: v[2] for k, v in CONTROLS.items()},
@@ -307,7 +373,7 @@ def check_proofs(root, work, build, coqbin, run, loader, table):
                  '-R', str(dest / 'certiucos'), 'CertiOS.certiucos',
                  '-R', str(dest / 'checks'), 'SchedulerCheck']
         (dest / 'checks').mkdir(parents=True)
-        for rel in [TABLE, CODE, MODEL, EVAL, EXEC]:
+        for rel in FILES:
             target = dest / rel
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text((replacements or {}).get(rel, (root / rel).read_text()))
@@ -324,6 +390,8 @@ def check_proofs(root, work, build, coqbin, run, loader, table):
         start = source.index(declaration)
         lo = source[:start].count('\n') + 1
         end = source.find('Qed.', start)
+        if declaration.startswith('Definition '):
+            end = source.find('\nDefinition ', start + len(declaration))
         hi = source[:end].count('\n') + 1 if end >= 0 else source.count('\n') + 1
         if row['exit_code'] != 1 or not match or not lo <= int(match[1]) <= hi:
             raise ValueError('scheduler control missed designated obligation: ' + str(row))
@@ -340,7 +408,7 @@ def check_proofs(root, work, build, coqbin, run, loader, table):
     if out.count('Axioms:') + out.count('Closed under the global context') != len(ROOTS):
         raise ValueError('missing scheduler root assumption output')
     row = run('scheduler:coqchk', [coqbin + 'coqchk', '-silent', *flags,
-        'CertiOS.certiucos.v293.proofs.V293OSSchedNewExec', 'SchedulerCheck.Contract'], dest)
+        'CertiOS.certiucos.v293.proofs.V293OSSchedNewWitness', 'SchedulerCheck.Contract'], dest)
     if row['exit_code']:
         raise ValueError('scheduler coqchk failed: ' + str(row))
 
@@ -367,4 +435,42 @@ def check_proofs(root, work, build, coqbin, run, loader, table):
         match = re.search(r'line (\d+), characters', row['stderr'])
         if row['exit_code'] != 1 or not match or int(match[1]) != prefix.count('\n') + 1:
             raise ValueError('scheduler concrete semantic control did not reject at its expected statement')
+    # Prospective single-factor mutations. Keep source/table, all other
+    # contracts, proof bodies, and the independent expected type unchanged.
+    source = (root / HOARE).read_text()
+    def replace_once(text, old, new):
+        if text.count(old) != 1:
+            raise ValueError('body mutation anchor is not unique')
+        return text.replace(old, new, 1)
+    mutations = {
+        'group_resource_removed_only': (
+            replace_once(source, '  Amapsto (bg, 0%Z) Tint8 false (V293_byteval g).', '  Aemp.'),
+            'Lemma V293_sched_inputs_load'),
+        'local_write_permission_removed_only': (
+            replace_once(source, '(common ** PV (byblock, Int.zero) @ Tint8 |-> yv)',
+                         '(common ** PV (byblock, Int.zero) @ Tint8 |-r-> yv)'),
+            'Theorem V293_OSSchedNew_row_hoare'),
+    }
+    # Change only the second assignment's post, not its input or implementation.
+    start = source.index('Theorem V293_OSSchedNew_priority_hoare')
+    end = source.index('Proof.', start)
+    mutations['output_post_restores_old_value_only'] = (
+        source[:start] + replace_once(source[start:end],
+            '(V293_byteval (V293_ready_select lo hi g))) tid.', 'hold) tid.') + source[end:],
+        'Theorem V293_OSSchedNew_priority_hoare')
+    for label, (changed, declaration) in mutations.items():
+        row, _, _ = compile_tree(label, {HOARE: changed})
+        failed_at(row, changed, declaration)
+    # A stronger, vacuous theorem is easy to compile. Only the independent
+    # expected interface, not merely compilation or a source hash, rejects it.
+    start = source.index('Theorem V293_OSSchedNew_body_hoare')
+    changed = source[:start] + source[start:].replace(
+        '  lo < 256 -> hi < 256 ->', '  False -> lo < 256 -> hi < 256 ->', 1).replace(
+        'hold Hlo Hhi Hgroup Hready common.', 'hold Hfalse Hlo Hhi Hgroup Hready common.', 1)
+    label = 'body_false_premise_added_only'
+    row, _, _ = compile_tree(label, {HOARE: changed})
+    if row['exit_code']:
+        raise ValueError('vacuous body mutant must compile before type rejection')
+    row, _, _ = compile_tree(label + '_probe', {HOARE: changed}, probe=PROBE)
+    failed_at(row, PROBE, 'Definition checked_body_hoare')
     return {'root_assumptions': sorted(assumptions), 'negative_controls': NEGATIVE_CONTROLS}
