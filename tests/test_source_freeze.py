@@ -877,3 +877,23 @@ class SchedulerSwitchPreCheckpointTests(FrozenFixture):
         path.write_text(path.read_text() + '\n(* mutation *)\n')
         with self.assertRaisesRegex(ValueError, 'stale function evidence'):
             COVERAGE.audit(self.root)
+
+
+class SharedCoreIdentityTests(FrozenFixture):
+    def test_shared_checker_identity_drift_is_stale(self):
+        path = self.root / 'scripts/v293-shared-state.py'
+        path.write_text(path.read_text() + '\n# identity drift\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_shared_core_identity_drift_is_stale(self):
+        path = self.root / 'certiucos/v293/proofs/V293SharedState.v'
+        path.write_text(path.read_text() + '\n(* identity drift *)\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_shared_case_witness_identity_drift_is_stale(self):
+        path = self.root / 'certiucos/v293/proofs/V293SharedStateWitness.v'
+        path.write_text(path.read_text() + '\n(* identity drift *)\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)

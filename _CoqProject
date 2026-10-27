@@ -153,3 +153,7 @@ certiucos/v293/proofs/V293OSSchedCriticalWitness.v
 
 certiucos/v293/proofs/V293OSSchedSwitchPre.v
 certiucos/v293/proofs/V293OSSchedSwitchPreWitness.v
+
+certiucos/v293/proofs/V293SharedState.v
+
+certiucos/v293/proofs/V293SharedStateWitness.v
