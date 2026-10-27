@@ -168,3 +168,6 @@ certiucos/v293/proofs/V293OSSchedSwitchWitness.v
 
 certiucos/v293/proofs/V293OSSchedDispatchShared.v
 certiucos/v293/proofs/V293OSSchedDispatchSharedWitness.v
+
+certiucos/v293/proofs/V293OSSchedDispatchTail.v
+certiucos/v293/proofs/V293OSSchedDispatchTailWitness.v
