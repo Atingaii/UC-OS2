@@ -327,3 +327,74 @@ class SchedulerCheckpointTests(FrozenFixture):
         path.write_text(path.read_text() + '\n(* mutation *)\n')
         with self.assertRaisesRegex(ValueError, 'stale function evidence'):
             COVERAGE.audit(self.root)
+
+
+class SchedulerInternalCheckpointTests(FrozenFixture):
+    def reject_report(self, mutate, message):
+        self.edit(FUNCTIONS.REPORT, mutate)
+        with self.assertRaisesRegex(ValueError, message):
+            COVERAGE.audit(self.root)
+
+    def test_internal_checkpoint_cannot_claim_kernel_or_function_credit(self):
+        self.reject_report(lambda x: x['scheduler_internal_checkpoint'].update(coverage_credit=True),
+                           'internal checkpoint scope/roots/controls differ')
+
+    def test_changed_internal_contract_invalidates_evidence(self):
+        path = self.root / 'certiucos/v293/proofs/V293OSSchedNewInternal.v'
+        path.write_text(path.read_text() + '\n(* changed contract input *)\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_changed_internal_checker_invalidates_evidence(self):
+        path = self.root / 'scripts/v293-scheduler-internal.py'
+        path.write_text(path.read_text() + '\n# changed checker\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_missing_wffun_root_is_rejected(self):
+        self.reject_report(lambda x: x['scheduler_internal_checkpoint']['roots'].remove('V293_OSSchedNew_WFFunEnv'),
+                           'internal checkpoint scope/roots/controls differ')
+
+    def test_unknown_internal_assumption_is_rejected(self):
+        self.reject_report(lambda x: x['scheduler_internal_checkpoint']['root_assumptions'].append('Unknown.assumption'),
+                           'unexpected internal root assumptions')
+
+    def test_failed_internal_positive_is_rejected(self):
+        self.reject_report(lambda x: x['checks']['internal:positive:V293OSSchedNewInternal'].update(exit_code=1),
+                           'internal positive compilation failed')
+
+    def test_failed_internal_witness_is_rejected(self):
+        self.reject_report(lambda x: x['checks']['internal:positive:V293OSSchedNewInternalWitness'].update(exit_code=1),
+                           'internal positive compilation failed')
+
+    def test_failed_internal_coqchk_is_rejected(self):
+        self.reject_report(lambda x: x['checks']['internal:coqchk'].update(exit_code=1),
+                           'internal positive/isolation check failed')
+
+    def test_failed_isolation_baseline_is_rejected(self):
+        self.reject_report(lambda x: x['checks']['internal:contract_isolation_baseline:contract'].update(exit_code=1),
+                           'internal positive/isolation check failed')
+
+    def test_vacuous_mutant_must_compile_before_interface_rejection(self):
+        self.reject_report(lambda x: x['checks']['internal:contract_false_premise_added_only:V293OSSchedNewInternal'].update(exit_code=1),
+                           'internal designated core control missing')
+
+    def test_internal_false_contract_probe_must_reject(self):
+        self.reject_report(lambda x: x['checks']['internal:contract_false_premise_added_only:contract'].update(exit_code=0),
+                           'internal vacuous contract/selector probe control missing')
+
+    def test_internal_semantic_control_must_reach_its_core(self):
+        self.reject_report(lambda x: x['checks']['internal:local_domain_removed_only:V293OSSchedNewInternal'].update(exit_code=0),
+                           'internal designated core control missing')
+
+    def test_internal_control_cannot_claim_early_failure_as_downstream_evidence(self):
+        self.reject_report(lambda x: x['checks']['internal:return_value_changed_only:V293OSSchedNewHoare'].update(exit_code=1),
+                           'internal control prerequisite failed')
+
+    def test_all_false_selector_probe_must_reject(self):
+        self.reject_report(lambda x: x['checks']['internal:pre_assertion_false_only:contract'].update(exit_code=0),
+                           'internal vacuous contract/selector probe control missing')
+
+    def test_all_false_selector_mutant_must_compile(self):
+        self.reject_report(lambda x: x['checks']['internal:pre_assertion_false_only:V293OSSchedNewInternal'].update(exit_code=1),
+                           'internal designated core control missing')
