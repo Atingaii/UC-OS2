@@ -115,3 +115,9 @@ certiucos/v293/spec/V293OSVersionSpec.v
 certiucos/v293/proofs/V293OSVersionProof.v
 
 certiucos/v293/proofs/V293OSVersionAPI.v
+
+certiucos/v293/code/V293ReadyTable.v
+certiucos/v293/code/V293OSSchedNew.v
+certiucos/v293/model/V293ReadyBitmap.v
+certiucos/v293/proofs/V293OSSchedNewEval.v
+certiucos/v293/proofs/V293OSSchedNewExec.v

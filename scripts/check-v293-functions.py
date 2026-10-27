@@ -24,7 +24,7 @@ CODE = 'certiucos/v293/code/V293OSVersion.v'
 SPEC = 'certiucos/v293/spec/V293OSVersionSpec.v'
 PROOF = 'certiucos/v293/proofs/V293OSVersionProof.v'
 API = 'certiucos/v293/proofs/V293OSVersionAPI.v'
-REPORT = 'audit/function-evidence-stage08.json'
+REPORT = 'audit/function-evidence-stage09.json'
 SCOPE = 'CHECKED_SOURCE_AND_SINGLE_FUNCTION_API_COMPONENT_NOT_GOOD_OS'
 ROOTS = ['V293_OSVersion_local_hoare', 'V293_OSVersion_post_exact',
          'V293_OSVersion_execution']
@@ -194,7 +194,7 @@ def input_hashes(root):
     paths |= set(freeze['input_sha256'])
     paths |= {'csrc/repairs/FROZEN_SOURCE.json', 'audit/repaired-source-inventory.json',
               'scripts/check-v293-functions.py', 'scripts/coverage-audit.py', 'scripts/project-audit.py',
-              'scripts/check-memory-trust.py', 'Makefile', '_CoqProject'}
+              'scripts/check-memory-trust.py', 'scripts/v293-scheduler-source.py', 'Makefile', '_CoqProject'}
     return {p: sha(root / p) for p in sorted(paths)}
 
 
@@ -220,6 +220,8 @@ def inspect(root=ROOT):
     with tempfile.TemporaryDirectory(prefix='ucos-function-proof-') as directory:
         work = Path(directory)
         inventory, node, literal = source_replay(root, work)
+        scheduler = load(root, 'v293-scheduler-source.py')
+        scheduler_info, _, scheduler_table = scheduler.check_source(root, work, load)
         report['source_identity_sha256'] = inventory['source_identity_sha256']
         report['functions'] = {'OSVersion': {
             'gates': GATES,
@@ -241,6 +243,9 @@ def inspect(root=ROOT):
                 shutil.copyfile(root / rel, target)
         passed(run('clean_build', ['make', 'build', f'COQBIN={coqbin}', 'JOBS=2'], build),
                'isolated clean build')
+
+        scheduler_info.update(scheduler.check_proofs(root, work, build, coqbin, run, load, scheduler_table))
+        report['scheduler_checkpoint'] = scheduler_info
 
         def compile_tree(label, model=None, spec=None, proof=None, api=None,
                          probe=False, component=True):
@@ -388,6 +393,31 @@ def validate_record(root, report):
         raise ValueError('function evidence is missing designated negative controls')
     if not set(report['root_assumptions']) <= load(root, 'check-memory-trust.py').FRAMEWORK_ALLOWED:
         raise ValueError('unexpected function-root assumptions')
+    scheduler = load(root, 'v293-scheduler-source.py')
+    checkpoint = report['scheduler_checkpoint']
+    if checkpoint != {
+            'shift': 3, 'lookup_entries': 256,
+            'scope': 'SOURCE_BOUND_READS_AND_UNINTERLEAVED_UPDATES_NOT_FUNCTION_HOARE',
+            'coverage_credit': False, 'roots': scheduler.ROOTS,
+            'root_assumptions': checkpoint['root_assumptions'],
+            'negative_controls': scheduler.NEGATIVE_CONTROLS}:
+        raise ValueError('scheduler checkpoint scope/roots/controls differ')
+    if not set(checkpoint['root_assumptions']) <= load(root, 'check-memory-trust.py').FRAMEWORK_ALLOWED:
+        raise ValueError('unexpected scheduler-root assumptions')
+    for rel in [scheduler.TABLE, scheduler.CODE, scheduler.MODEL, scheduler.EVAL, scheduler.EXEC]:
+        if checks['scheduler:positive:' + Path(rel).stem]['exit_code'] != 0:
+            raise ValueError('scheduler checkpoint positive compilation failed')
+    if any(checks[k]['exit_code'] != 0 for k in ['scheduler:positive:contract', 'scheduler:coqchk']):
+        raise ValueError('scheduler checkpoint probe/coqchk failed')
+    if (checks['scheduler:wrong_table:V293ReadyBitmap']['exit_code'] != 1
+            or checks['scheduler:wrong_table:V293ReadyTable']['exit_code'] != 0
+            or checks['scheduler:wrong_shift:V293ReadyBitmap']['exit_code'] != 0
+            or checks['scheduler:wrong_shift:V293OSSchedNewEval']['exit_code'] != 1):
+        raise ValueError('scheduler designated table/shift rejection missing')
+    for label in scheduler.CONTROLS:
+        if (checks['scheduler:' + label + ':actual']['exit_code'] != 0
+                or checks['scheduler:' + label + ':rejected']['exit_code'] != 1):
+            raise ValueError('scheduler designated concrete semantic control missing')
     return report['functions']
 
 

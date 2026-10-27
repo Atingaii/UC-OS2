@@ -1,0 +1,379 @@
+{
+  "origin": "frozen configured GCC preprocessing parsed by Clang; locations and transient identities removed",
+  "preprocessed_body_sha256": "79b7dfc83a0691b32d2d74f1009397bee928f720f68cec034fd98d13dd350815",
+  "function": {
+    "kind": "FunctionDecl",
+    "name": "OS_SchedNew",
+    "type": {
+      "qualType": "void (void)"
+    },
+    "storageClass": "static",
+    "inner": [
+      {
+        "kind": "CompoundStmt",
+        "inner": [
+          {
+            "kind": "DeclStmt",
+            "inner": [
+              {
+                "kind": "VarDecl",
+                "name": "y",
+                "type": {
+                  "desugaredQualType": "unsigned char",
+                  "qualType": "INT8U"
+                }
+              }
+            ]
+          },
+          {
+            "kind": "BinaryOperator",
+            "type": {
+              "desugaredQualType": "unsigned char",
+              "qualType": "INT8U"
+            },
+            "valueCategory": "prvalue",
+            "opcode": "=",
+            "inner": [
+              {
+                "kind": "DeclRefExpr",
+                "type": {
+                  "desugaredQualType": "unsigned char",
+                  "qualType": "INT8U"
+                },
+                "valueCategory": "lvalue",
+                "referencedDecl": {
+                  "kind": "VarDecl",
+                  "name": "y",
+                  "type": {
+                    "desugaredQualType": "unsigned char",
+                    "qualType": "INT8U"
+                  }
+                }
+              },
+              {
+                "kind": "ImplicitCastExpr",
+                "type": {
+                  "desugaredQualType": "unsigned char",
+                  "qualType": "INT8U"
+                },
+                "valueCategory": "prvalue",
+                "castKind": "LValueToRValue",
+                "inner": [
+                  {
+                    "kind": "ArraySubscriptExpr",
+                    "type": {
+                      "desugaredQualType": "const unsigned char",
+                      "qualType": "const INT8U"
+                    },
+                    "valueCategory": "lvalue",
+                    "inner": [
+                      {
+                        "kind": "ImplicitCastExpr",
+                        "type": {
+                          "qualType": "const INT8U *"
+                        },
+                        "valueCategory": "prvalue",
+                        "castKind": "ArrayToPointerDecay",
+                        "inner": [
+                          {
+                            "kind": "DeclRefExpr",
+                            "type": {
+                              "qualType": "const INT8U[256]"
+                            },
+                            "valueCategory": "lvalue",
+                            "referencedDecl": {
+                              "kind": "VarDecl",
+                              "name": "OSUnMapTbl",
+                              "type": {
+                                "qualType": "const INT8U[256]"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "ImplicitCastExpr",
+                        "type": {
+                          "desugaredQualType": "unsigned char",
+                          "qualType": "OS_PRIO"
+                        },
+                        "valueCategory": "prvalue",
+                        "castKind": "LValueToRValue",
+                        "inner": [
+                          {
+                            "kind": "DeclRefExpr",
+                            "type": {
+                              "desugaredQualType": "unsigned char",
+                              "qualType": "OS_PRIO"
+                            },
+                            "valueCategory": "lvalue",
+                            "referencedDecl": {
+                              "kind": "VarDecl",
+                              "name": "OSRdyGrp",
+                              "type": {
+                                "desugaredQualType": "unsigned char",
+                                "qualType": "OS_PRIO"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "BinaryOperator",
+            "type": {
+              "desugaredQualType": "unsigned char",
+              "qualType": "INT8U"
+            },
+            "valueCategory": "prvalue",
+            "opcode": "=",
+            "inner": [
+              {
+                "kind": "DeclRefExpr",
+                "type": {
+                  "desugaredQualType": "unsigned char",
+                  "qualType": "INT8U"
+                },
+                "valueCategory": "lvalue",
+                "referencedDecl": {
+                  "kind": "VarDecl",
+                  "name": "OSPrioHighRdy",
+                  "type": {
+                    "desugaredQualType": "unsigned char",
+                    "qualType": "INT8U"
+                  }
+                }
+              },
+              {
+                "kind": "CStyleCastExpr",
+                "type": {
+                  "desugaredQualType": "unsigned char",
+                  "qualType": "INT8U"
+                },
+                "valueCategory": "prvalue",
+                "castKind": "IntegralCast",
+                "inner": [
+                  {
+                    "kind": "ParenExpr",
+                    "type": {
+                      "qualType": "int"
+                    },
+                    "valueCategory": "prvalue",
+                    "inner": [
+                      {
+                        "kind": "BinaryOperator",
+                        "type": {
+                          "qualType": "int"
+                        },
+                        "valueCategory": "prvalue",
+                        "opcode": "+",
+                        "inner": [
+                          {
+                            "kind": "ParenExpr",
+                            "type": {
+                              "qualType": "int"
+                            },
+                            "valueCategory": "prvalue",
+                            "inner": [
+                              {
+                                "kind": "BinaryOperator",
+                                "type": {
+                                  "qualType": "int"
+                                },
+                                "valueCategory": "prvalue",
+                                "opcode": "<<",
+                                "inner": [
+                                  {
+                                    "kind": "ImplicitCastExpr",
+                                    "type": {
+                                      "qualType": "int"
+                                    },
+                                    "valueCategory": "prvalue",
+                                    "castKind": "IntegralCast",
+                                    "inner": [
+                                      {
+                                        "kind": "ImplicitCastExpr",
+                                        "type": {
+                                          "desugaredQualType": "unsigned char",
+                                          "qualType": "INT8U"
+                                        },
+                                        "valueCategory": "prvalue",
+                                        "castKind": "LValueToRValue",
+                                        "inner": [
+                                          {
+                                            "kind": "DeclRefExpr",
+                                            "type": {
+                                              "desugaredQualType": "unsigned char",
+                                              "qualType": "INT8U"
+                                            },
+                                            "valueCategory": "lvalue",
+                                            "referencedDecl": {
+                                              "kind": "VarDecl",
+                                              "name": "y",
+                                              "type": {
+                                                "desugaredQualType": "unsigned char",
+                                                "qualType": "INT8U"
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "kind": "IntegerLiteral",
+                                    "type": {
+                                      "qualType": "unsigned int"
+                                    },
+                                    "valueCategory": "prvalue",
+                                    "value": "3"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "ImplicitCastExpr",
+                            "type": {
+                              "qualType": "int"
+                            },
+                            "valueCategory": "prvalue",
+                            "castKind": "IntegralCast",
+                            "inner": [
+                              {
+                                "kind": "ImplicitCastExpr",
+                                "type": {
+                                  "desugaredQualType": "unsigned char",
+                                  "qualType": "INT8U"
+                                },
+                                "valueCategory": "prvalue",
+                                "castKind": "LValueToRValue",
+                                "inner": [
+                                  {
+                                    "kind": "ArraySubscriptExpr",
+                                    "type": {
+                                      "desugaredQualType": "const unsigned char",
+                                      "qualType": "const INT8U"
+                                    },
+                                    "valueCategory": "lvalue",
+                                    "inner": [
+                                      {
+                                        "kind": "ImplicitCastExpr",
+                                        "type": {
+                                          "qualType": "const INT8U *"
+                                        },
+                                        "valueCategory": "prvalue",
+                                        "castKind": "ArrayToPointerDecay",
+                                        "inner": [
+                                          {
+                                            "kind": "DeclRefExpr",
+                                            "type": {
+                                              "qualType": "const INT8U[256]"
+                                            },
+                                            "valueCategory": "lvalue",
+                                            "referencedDecl": {
+                                              "kind": "VarDecl",
+                                              "name": "OSUnMapTbl",
+                                              "type": {
+                                                "qualType": "const INT8U[256]"
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "kind": "ImplicitCastExpr",
+                                        "type": {
+                                          "desugaredQualType": "unsigned char",
+                                          "qualType": "OS_PRIO"
+                                        },
+                                        "valueCategory": "prvalue",
+                                        "castKind": "LValueToRValue",
+                                        "inner": [
+                                          {
+                                            "kind": "ArraySubscriptExpr",
+                                            "type": {
+                                              "desugaredQualType": "unsigned char",
+                                              "qualType": "OS_PRIO"
+                                            },
+                                            "valueCategory": "lvalue",
+                                            "inner": [
+                                              {
+                                                "kind": "ImplicitCastExpr",
+                                                "type": {
+                                                  "qualType": "OS_PRIO *"
+                                                },
+                                                "valueCategory": "prvalue",
+                                                "castKind": "ArrayToPointerDecay",
+                                                "inner": [
+                                                  {
+                                                    "kind": "DeclRefExpr",
+                                                    "type": {
+                                                      "qualType": "OS_PRIO[2]"
+                                                    },
+                                                    "valueCategory": "lvalue",
+                                                    "referencedDecl": {
+                                                      "kind": "VarDecl",
+                                                      "name": "OSRdyTbl",
+                                                      "type": {
+                                                        "qualType": "OS_PRIO[2]"
+                                                      }
+                                                    }
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "kind": "ImplicitCastExpr",
+                                                "type": {
+                                                  "desugaredQualType": "unsigned char",
+                                                  "qualType": "INT8U"
+                                                },
+                                                "valueCategory": "prvalue",
+                                                "castKind": "LValueToRValue",
+                                                "inner": [
+                                                  {
+                                                    "kind": "DeclRefExpr",
+                                                    "type": {
+                                                      "desugaredQualType": "unsigned char",
+                                                      "qualType": "INT8U"
+                                                    },
+                                                    "valueCategory": "lvalue",
+                                                    "referencedDecl": {
+                                                      "kind": "VarDecl",
+                                                      "name": "y",
+                                                      "type": {
+                                                        "desugaredQualType": "unsigned char",
+                                                        "qualType": "INT8U"
+                                                      }
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

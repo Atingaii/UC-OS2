@@ -1,0 +1,454 @@
+{
+  "schema_version": 1,
+  "scope": "CHECKED_SOURCE_AND_SINGLE_FUNCTION_API_COMPONENT_NOT_GOOD_OS",
+  "input_sha256": {
+    "Makefile": "0566157be6b25fec8e7698775622bb85e29bba39030a1726ae72a76c55d3c0f9",
+    "_CoqProject": "450de459f697d12646e56051518f22516fdae37a0683ff20a3ff30de93e088e8",
+    "audit/c-regressions.json": "7581063ce5e993f7d28bde998c5932b58d4f035a8720491034ed56e4c44224cc",
+    "audit/repaired-source-inventory.json": "f40453a294256356d8cd954568f59a74bb091d33c4a1f3a0013e5653740076c5",
+    "audit/source-inventory.json": "a4b402bff2ffe38f1c054bc6c9b5ca4cb2517313f16590d983938503403ba662",
+    "certiucos/v293/code/V293Config.v": "72a356d3884bf2ca8aa50786883fad1ea1db032f518a024f83b49372d7c138ed",
+    "certiucos/v293/code/V293OSSchedNew.v": "a684cb85d69c5113e3379efe2c369e4511eb763b041bff14de00510ea9fd945a",
+    "certiucos/v293/code/V293OSVersion.v": "b806443081b5a67795a507b6bdc2570e2fb68edf45069e372522baaef19d06dd",
+    "certiucos/v293/code/V293ReadyTable.v": "f9a3e42a26248ef7994365f993ac5cf90130672af2830b3ed4223c5fe387d2b9",
+    "certiucos/v293/model/V293MutexPriorityModel.v": "365433081c7df31f98eccc61e12f223c76475dd893fb3f8e58abdb1c76a06efd",
+    "certiucos/v293/model/V293PendModel.v": "1ba77b930fba50cfa677d58ed04e06b2e105c3c055e10cba2ef607d46f0ccb98",
+    "certiucos/v293/model/V293ReadyBitmap.v": "17907f782a948887ab47c9fb35ca34c842e412a66d861f985c9959dd6965af09",
+    "certiucos/v293/model/V293TaskDeleteModel.v": "e9b70137c7d22b967b7a5a461a88bc3d3f4890994a45e594179b4787ece6e4a3",
+    "certiucos/v293/proofs/V293OSSchedNewEval.v": "3ec135df38ae030b9c37d4461546026e71f4fab63f004c4fa623ca0c1be46b68",
+    "certiucos/v293/proofs/V293OSSchedNewExec.v": "844e1d04be3fa64beb72bcd314ddd330f1e16cad2f5f30a50bf0f33974ef4945",
+    "certiucos/v293/proofs/V293OSVersionAPI.v": "c1c21dfae4be7d0b441cd01a115a27a562048ee2a7312ed69ba1847db0103c21",
+    "certiucos/v293/proofs/V293OSVersionProof.v": "664d06e3ce70a0a2aebd5b2938aed4c08e13b08c00dee555d9393ff217ed1df2",
+    "certiucos/v293/proofs/V293SafetyProof.v": "a298d2a1d0bb2b5daa86eada6284febcc64fcbbd87b2f80851f56690d318c607",
+    "certiucos/v293/spec/V293OSVersionSpec.v": "dd0e40d9b6ee7d33fe55f48bf63a2b6099a737355da44701efb04a3125aee3af",
+    "certiucos/v293/spec/V293SafetySpec.v": "ca78bd56b4bd0a5950c6694668bd3352668542ce9477f7133ee3c9b58c10e971",
+    "csrc/UPSTREAM.lock.json": "a153f4bb8688e9d1a89e16ca61bbfa8b4e2be30f1aad7adf0705b6d130e05599",
+    "csrc/analysis-port/app_cfg.h": "ba6853b3e72679f7cce7ec50ac387b7b0d61408a16dc36c0648ecc8da4f21b4d",
+    "csrc/analysis-port/os_cpu.h": "454db56791a5d88f16e34ee86084f219022ed2e96b10616c506a238b5c7e4a85",
+    "csrc/config/v29301-profile.json": "5ea85a1543c9e4bb69fc17f9a78e97b4f9a70286c940d703d87385962292e3a3",
+    "csrc/repairs/0001-nested-mutex-restoration.patch": "7afabfef93acc3c66d0aaa2eb368b7814ac8d39d33b6f97a74d1bc93c589b1ea",
+    "csrc/repairs/0002-locked-current-self-delete.patch": "c7c5b4ee6eaaf46a59f6ef41be9c55f345ed08f0992cda47fa72aebab6f303ea",
+    "csrc/repairs/FROZEN_SOURCE.json": "452810aee253070b53c7be28028ef0290dab6439d04b7684441a5181b7b1971c",
+    "csrc/repairs/REPAIR_TARGET.json": "8a72adabb4c45f422a110ca1601b22e6dde11719b2b96f659e0a5fe546d7ca3c",
+    "framework/auxlibs/Coqlib.v": "5838f7f06351bbf88d9ffc2046462395038b5027ea3e3aa1d7b332c98f745e33",
+    "framework/auxlibs/IntBool.v": "590f49fee4d0fbe24648f0c3c0086f49ebaacb4b08b8811297b3d433f06a09c8",
+    "framework/auxlibs/Integers.v": "7a8a15c2c67b2ef00489ea9116726fd09fd8480cbe85c28fde5e58a329dce3e9",
+    "framework/auxlibs/MapLib.v": "f8867b4d74871b5536745fd335f07d5efd41972f5200aa09dc26079fc3faf635",
+    "framework/auxlibs/Maps.v": "3e039ae98bfa2f2735d859fceae5188213cdfc89a666177529a40ef7da37cc77",
+    "framework/auxlibs/Modules.v": "8660c4b67c876e18d82596c890e8d2e4d72cd290ccc85ab391172e7e353891f6",
+    "framework/auxlibs/extac.v": "c0bd568aa73dcb41c95649e363ada2928d18b7ef7ea0294aec286c4e33e92053",
+    "framework/include_frm.v": "764679c645ed9384dab40e10b6f3dfe9b53ff4d81f7e3e480ec69f4fab21b01b",
+    "framework/logic/assertion.v": "afc62e810122b27b03c92bae03123e3d5f139b6ec01a5845f0c0a2ddf7fc8f5f",
+    "framework/logic/inferules.v": "1d55c9ad8cb8d6e286b5b80224595fbea1928c90125db833d8d42f2da9979eb9",
+    "framework/model/code_notations.v": "3e557f09b7dffeab493df92afe7cbeb3c9a73587d588173bb2d292d9d772fc72",
+    "framework/model/language.v": "e0f5740d0bca61b8f61c66ce3f7dfea2da0d59a4695e29bcf4aaf080df516464",
+    "framework/model/memory.v": "176d93e207a101048e77382d62993c6499f4b703efdddcba1eb4aa73c2981884",
+    "framework/model/opsem.v": "30ca3415c7829d1f87ebeea6c660e3f1b5119228e978be4d0744fecac0b33fde",
+    "framework/proof/Map.v": "a787383c8d36748ff5ed10e50984ac9b13f5239935b7d6769f5e76073469c1dd",
+    "framework/proof/absinfer_sound.v": "ccef505a1237b0e0482782aa5c60ab3b3ebf51de0951297f6263856e699b92d4",
+    "framework/proof/assignsound.v": "4aa61fa5a82cfb8b97fcb421dde51c1df1cb514c6e25164b2661f97643ba3e6a",
+    "framework/proof/aux_map_lib.v": "d866b007ac77b054013fafe9f3f5a5ddb66d9d3fa683e6fd52ec7f06d9dbc8d2",
+    "framework/proof/auxdef.v": "9984b4fdb615764ed37c4af28abca2e5d5fb2be3dfab28f9eeb3a130450e9968",
+    "framework/proof/chkissound.v": "75a33f5599b94698128c42b2329a524a4c28226ee1bb343577389422bcdc4bdd",
+    "framework/proof/clistisound.v": "253b7fd249ebe409fbbe8747eda41654a864c1bec333d40d8bdc9a0e877a1b84",
+    "framework/proof/conseqsound.v": "f08f2b1d3f6418532f05e7c1e6fd768da7ba2499d508b4bde62b69bf896090b6",
+    "framework/proof/contLib.v": "71204715c2246b82cceed5eb5a2a99ea1b2fb6468aa9ff9a09da32b7f81442a2",
+    "framework/proof/crtsound.v": "7c84145d51d768392e21fb6ff3cd07e78b50825c0feccdf2ebd62ef4668c0f03",
+    "framework/proof/cstepLib.v": "6535071059f375f9f414f2388278db86f3b789ab7e89c1cb7fceea8017898170",
+    "framework/proof/eoisound.v": "c6f34047ed46c2b6900d9fa2ee026146dfec9698ab0eca7eada4d7b45d64d9ad",
+    "framework/proof/fcallsound.v": "df33aaa58852e492e362041cacd40029f2794e0de590298d7c4c7654e2518818",
+    "framework/proof/framesound.v": "ef7d257f996befc6dac0597bf6bb631b08089d308e3afc9adc22e9508b89faeb",
+    "framework/proof/funsim.v": "4d93568194540d303bf594099cdfa56a8e95f709845c5d32c232b0f466c9a6df",
+    "framework/proof/ifsound.v": "10be8046071c6b30d4d5d566b78f58bf5e9901c6d440d7e18eccbb990714db47",
+    "framework/proof/invariant_prop.v": "abc5865ec8f33a8d0b96ed555ae52b740b52e6d8469ae94565c6b42616f56534",
+    "framework/proof/invariant_prop_lemmas.v": "55c5b4dbf6186aeee3a5e899cff5fde4dc5b2621ede4c0a99321f9b6717ea39b",
+    "framework/proof/join_prop.v": "1bb2c56497e42bb99170cda51440e179e51f42b828d53aea8ec0c89a3b66326a",
+    "framework/proof/joinmemLib.v": "8b4c9f2c89f328d4ee9879ed128a1db0c92adcefb9965e2b80745b2438ce2c52",
+    "framework/proof/lemmasfortoptheo.v": "0a426860e6042d6ae62105a212b248add766d1cc0614f185b66ea0c05c432bf7",
+    "framework/proof/lmachLib.v": "92de66911a709a438ecbcb680c63889118157ca4f517f719f62c6c4c262ad816",
+    "framework/proof/mem_join_lemmas.v": "bd6fad082167273d774b4ca10c18f4b1aa8c93de3661461a6b6dff1837671993",
+    "framework/proof/memory_bound.v": "0a35e3878f7765106d6c59669a6f23c2e1e2b9ad863e5867c71815ebd1a54a93",
+    "framework/proof/memory_prop.v": "773b2ad8a03744374331745374ede4b63b7a9d10fb16182405eaf93039287882",
+    "framework/proof/memory_representation.v": "d2e1c2f3b790ff90f27ee814806e4d1a3c4e5780796f1f9807853bb7ff869c94",
+    "framework/proof/methsimlift.v": "f0ed4d202c51a847e94b824a1a6af769bcb43e44433cd5e291c0e5f8fff1f761",
+    "framework/proof/oscorrectness.v": "906d936436024975c98b21b69a2313e888f641a4eb0748df72b1a8f8a19a7d7a",
+    "framework/proof/retsound.v": "4887ab3baa133dcf7422f390ba592301e24c16662779bb3c38d4b9ba260f13b6",
+    "framework/proof/rulesound.v": "a3c194d2c6a4b582f7c8bf76ac0d3198597bf6a7ea445364f87701e26d7b1903",
+    "framework/proof/rulesoundlib.v": "4421d8022e3e5310f770af52fc1c9b1b50e22b3b9ce4f6e08d52c402be3bdc8f",
+    "framework/proof/seqcomsound.v": "866e74a56bfb3d971a56b0a1bc8574e0d58d40232bad7a2b0f3a40bc8de8d501",
+    "framework/proof/simplrulesound.v": "e4ea52bc6d7e7ea6e1892e11366ec3cd5abc548652f4a4198d1ccd3de1496c25",
+    "framework/proof/simulation.v": "a3d3a75415c56dac6b3b167424f3d02d2ac313db08e96cf871f767c5441d1da3",
+    "framework/proof/sound_include.v": "435ae377cdad34a3944dee502b4d7824cbc807a6de3f1d240cddd49c8684ea50",
+    "framework/proof/soundness.v": "21fe8d90403e330efbf780c89c3922d9810ad643e8b51aefe333becea242c7eb",
+    "framework/proof/step_prop.v": "69a6f678971cebda72411663b8034f0fc139cabd398fbdf711f8740191758e62",
+    "framework/proof/switchsound.v": "518149debbc78613bec18276df568d70460fde47f278682d37e806f263cecfb6",
+    "framework/proof/taskcrtsound.v": "597ec5c4544af362aebdc1ce172d91699871d7ef50561b35a2deeff976263014",
+    "framework/proof/taskdelsound.v": "5170c5bba6f18177ecaa983f7e0108a05bfcbdfb8835b21e16cbdac6c3f6338f",
+    "framework/proof/toptheorem.v": "87391fbd358ede236b35fb335cbfdc3afa9adf267c2970aae0c84f06a9df1e9e",
+    "framework/proof/whilesound.v": "364e0aec965ba6db4e2d3abab060e0da0cac2e34543d605560aa1fa675d06285",
+    "scripts/check-memory-trust.py": "6864b94333a6195939cc21e5e1b593e260a06015daee2d5e53c2068447705316",
+    "scripts/check-v293-c-regressions.py": "3f47901fe4cba8bcde93025ba18908df960d340c0f2f634a729c9b1e4fe2239c",
+    "scripts/check-v293-functions.py": "fbe403a91b79d64bb16c31441419d0e296c75df65fff99b6ed47fb666844811c",
+    "scripts/coverage-audit.py": "ab23b08f266ab92345d3b60dfdffa7aebf622e090ccf51db2a52e8eb400ab783",
+    "scripts/freeze-v293-source.py": "e1e9962bcea2d330ce4d74cf53732c3076c7ed8c733ce23d95cb2f5a94a4e1b6",
+    "scripts/inventory-v293-source.py": "3c4b0029800df5920f9be39308a8006ba65d4adc1bc2c98e16807341733a72aa",
+    "scripts/project-audit.py": "f961d80de67ea018fa5215fc6c09bddc649b2badaa7f9ac33cbb60bfe44ee125",
+    "scripts/v293-scheduler-source.py": "cae87ec8501674d41120c81d4a1b043ff7aee44dc257f780e04e3c579e12a423",
+    "tactics/abs_step.v": "0ba4ca3fdedc810fea2658c3e318ca9047cfae2b93b73257b2c1b2222d42e112",
+    "tactics/absstep/abs_infer_step.v": "b13daf6979564331478bd233b0f2e8aa5a92c33e716902cec030aab7bf3c8931",
+    "tactics/absstep/cancel_abs.v": "2032f231dc130d2dd938188032bd2244745acdb4513d0e59448c16961f6afbdc",
+    "tactics/base_tac.v": "cfdd2e3d8388ded20fe94c42201b5601edc6eb584393d2a57df8edf740f570b5",
+    "tactics/basetac/LibTactics.v": "f3e1cfd506fffee1be1495d38a8b97d75312710fa787e9a6ae52e535d361492c",
+    "tactics/basetac/join_general.v": "127d763aacff21652b761b393540c99d754fcc78b9284882074f183977967c25",
+    "tactics/basetac/join_lib.v": "36a378b91426772e07f7be4494aa8f2a51ef1dc6376789c23b8ae1a9de9db618",
+    "tactics/basetac/join_lib_aux.v": "629e3a28684088dc715299a604f7fa5b0ff19ad95b383826ee0d4623681e9b17",
+    "tactics/basetac/join_tactics.v": "06ef81e27e5bc22afb9c77f4230689a5f5e5ccab170af71a1363dafe11fae9fb",
+    "tactics/basetac/map_tactics.v": "4320448244fad61ff8169e674e4835f730c320445e28b1a4fb37cd99c8b7ba85",
+    "tactics/basetac/perm_map_lemmas.v": "5c96ed089c717558db2a8214d6fb10769732d24e92efeff976a9bde599788ae0",
+    "tactics/basetac/perm_map_lemmas_part1.v": "85b277484730b94b594eb8f447513c6f194522c42b4aba1411c59b8d83ecfd57",
+    "tactics/basetac/perm_map_lemmas_part2.v": "12cb5d74b00a03658c586c739eeb38e7becf57249ff059c0eedb12b9d8f68d6b",
+    "tactics/basetac/perm_map_lemmas_part3.v": "cee4e11edc47681c4467ced4e0d336fa41955213cd1fcc667bc86a744b0ad662",
+    "tactics/basetac/perm_map_lemmas_part4.v": "182184937e0dba1b498d195cd785ce46e2de97212527a98f7d52c9b3a51a6652",
+    "tactics/hoare_forward.v": "26a4660ce960dc0aee91ab9095b6b8fecffe55349bc2603e400866ac0b752b38",
+    "tactics/hoareforward/derived_rules.v": "7921e8ee1b2ef21b9d0d6ed2b638db7250178bbe75ee051ce03046112a95d8e0",
+    "tactics/hoareforward/hoare_assign.v": "377a899e54147922c4dd9c468171d99626b8e99756eba95a367f0acb3f96b194",
+    "tactics/hoareforward/hoare_call.v": "d60c61207c1fd28885914974d39159d17731c00642ca374e4859ec563b91e941",
+    "tactics/hoareforward/hoare_conseq.v": "df9b28e825ebb358e22b412055b982f97a8f5588f9a89e6d4fb237eaca417410",
+    "tactics/hoareforward/hoare_if.v": "fe3825e501ebf1d3d5a1567d5cacdc708c6afffb166da0d18dcb74846a546bbf",
+    "tactics/hoareforward/hoare_ret.v": "45e0794368f5a7a3a071883c88c6b69527d9ce15323e3496182fa36c33555789",
+    "tactics/hoareforward/hoare_tactics.v": "80f857d6a083b818f050f575f851fb8dbce2b393c5e32422dc7a6eb85e5ed428",
+    "tactics/hoareforward/init_spec.v": "91ea9490f39534edca5cea3437a958661d818ab6cc7c61195c97e547bef4f76e",
+    "tactics/hoareforward/symbolic_execution.v": "60d36bac886fb9dd8270d1b8a191b6abf7f903b6dc73767e719fa7bb584dd19e",
+    "tactics/hoareforward/symbolic_lemmas.v": "4c1b7ac0a82d0b6b66c155a0090f6b3b8ec85d692c54c6748a0abd420a0eddf7",
+    "tactics/math_auto.v": "eae2582c636c94e4828dbb4243372f59f0ce53bd53fba88af9576487016eed71",
+    "tactics/mathauto/int_auto.v": "cd05ef3f529b4d44e7d8f9e17eaa0e7bc4d43cabdaa27a28e706dc631140084d",
+    "tactics/mathauto/math_rewrite.v": "19fe4c4cb0ff788750e300f1500618b733e2ca980fd0853b478b3a596a160f11",
+    "tactics/mathauto/math_sol.v": "c48d85983a7eb453ca20ad4ecceba7e0cc331a518f81af89ed398d417e9ef06c",
+    "tactics/mathauto/protect.v": "bbc1511b3c69939ad87e26e0cd403e7fdab9a4cdbd1c7950648f95a5c101f782",
+    "tactics/pure.v": "a7b3bf73c8da927a1db70f3eec0698984e98b021e8e026fafc0c1c7d040450dc",
+    "tactics/pure/frmaop_sol.v": "48622021d9d30ac25fec6ac2e4304e387cc9d33ee2bac2d80fad389e9530f6b8",
+    "tactics/pure/go.v": "deacc25373f810064ff29f1745e97bb6427615bee4c955e800a47cd0efbcd495",
+    "tactics/pure/pure_auto.v": "f89b91865b56dceebcfe67b2b466cdc5f9596fac3982d2e98d8609957167baac",
+    "tactics/pure/pure_lib.v": "bee58f468f61438d6763ccb2649d527449b9a0054298389c51e3c8ab252ff6ab",
+    "tactics/pure/struct_type_match_solver.v": "60bb3ddcd9bf07f18dfb4113a96d9312476b73a771423e8839fab0ff2cec967b",
+    "tactics/pure/tv_match.v": "2b4dfd7454a6c814a12b06bb9635921017c6cbd2dda04ef77e376f66a391ce3d",
+    "tactics/sep_auto.v": "ad670a355b49666e9a1a6e8e688bf605f032e3ea9ed65c82b9fff6dad3e6e69a",
+    "tactics/sepauto/meta_find.v": "631fc49883dbe7fdc829bd30fdcf899b7c114b7374acc9b046c48d2dd3f3d54f",
+    "tactics/sepauto/sep_cancel_ext.v": "7253f0b8ab036582882111a11286220c650ae126a9a3c5972db8772101139e3b",
+    "tactics/sepauto/sep_combine.v": "c8a17c330c641cc46fcfd46f03df57fae6aabfd0bd184fa2072631afcd1f62d3",
+    "tactics/sepauto/sep_combine_lemmas.v": "4d227b5c6c0ab1d630655ac5ce667bef01ce79b58383bb49035f3511c8d4da71",
+    "tactics/sepauto/sep_join_lemmas.v": "46cfaab84eba70bf1238a727f60ae2d546e0bd3935ac64873a4b0e07d149b23e",
+    "tactics/sepauto/sep_lemmas_ext.v": "6fbaefe033ad49c1fbaffd0b6969de8e8f444eb0985d93c39f6c175d8b92762e",
+    "tactics/sepauto/seplog_lemmas.v": "9d7c7b1f66ae6892bfa496958ebe931b915fa52234a196238cd121ed94be0493",
+    "tactics/sepauto/seplog_tactics.v": "56a0aed0f7023ed8f179a522d4d815d39b66ae785627c698339bc7b438f8a554"
+  },
+  "kernel_GOOD_OS_proved": false,
+  "checks": {
+    "version": {
+      "exit_code": 0,
+      "stdout": "The Coq Proof Assistant, version 8.18.0\ncompiled with OCaml 4.14.2\n",
+      "stderr": ""
+    },
+    "project_audit": {
+      "exit_code": 0,
+      "stdout": "PROJECT AUDIT: PASS\n active V293 Coq files: 15\n framework/tactic Coq files: 103\n",
+      "stderr": ""
+    },
+    "clean_build": {
+      "exit_code": 0,
+      "stdout": "/data/home/lucentzhou/.opam/default/bin/coq_makefile -f _CoqProject -o Makefile.coq\nmake -f Makefile.coq -j2 COQC=\"/data/home/lucentzhou/.opam/default/bin/coqc\"\nmake[1]: Entering directory '/tmp/ucos-function-proof-_b618j7_/build'\nCOQDEP VFILES\nCOQC certiucos/v293/code/V293Config.v\nCOQC certiucos/v293/model/V293MutexPriorityModel.v\nCOQC certiucos/v293/model/V293PendModel.v\nCOQC certiucos/v293/model/V293TaskDeleteModel.v\nCOQC framework/auxlibs/Coqlib.v\nCOQC framework/auxlibs/IntBool.v\nCOQC framework/auxlibs/extac.v\nCOQC tactics/basetac/LibTactics.v\nCOQC framework/auxlibs/Maps.v\nCOQC framework/proof/Map.v\nCOQC certiucos/v293/code/V293ReadyTable.v\nCOQC certiucos/v293/spec/V293SafetySpec.v\nCOQC framework/auxlibs/Integers.v\nCOQC framework/auxlibs/MapLib.v\nCOQC tactics/basetac/join_general.v\nCOQC tactics/mathauto/protect.v\nCOQC certiucos/v293/model/V293ReadyBitmap.v\nCOQC certiucos/v293/proofs/V293SafetyProof.v\nCOQC framework/auxlibs/Modules.v\nCOQC tactics/basetac/map_tactics.v\nCOQC tactics/basetac/join_tactics.v\nCOQC tactics/mathauto/int_auto.v\nCOQC tactics/mathauto/math_rewrite.v\nCOQC framework/model/memory.v\nCOQC tactics/basetac/join_lib.v\nCOQC tactics/mathauto/math_sol.v\nCOQC framework/proof/memory_bound.v\nCOQC framework/model/language.v\nCOQC tactics/math_auto.v\nCOQC framework/proof/memory_representation.v\nCOQC certiucos/v293/code/V293OSVersion.v\nCOQC certiucos/v293/code/V293OSSchedNew.v\nCOQC framework/model/opsem.v\nCOQC framework/logic/assertion.v\nCOQC framework/model/code_notations.v\nCOQC framework/proof/contLib.v\nCOQC framework/logic/inferules.v\nCOQC framework/include_frm.v\nCOQC tactics/pure/frmaop_sol.v\nCOQC framework/proof/simulation.v\nCOQC tactics/pure/struct_type_match_solver.v\nCOQC certiucos/v293/spec/V293OSVersionSpec.v\nCOQC certiucos/v293/proofs/V293OSSchedNewEval.v\nCOQC framework/proof/auxdef.v\nCOQC tactics/pure/go.v\nCOQC framework/proof/oscorrectness.v\nCOQC tactics/base_tac.v\nCOQC tactics/sepauto/sep_join_lemmas.v\nCOQC tactics/basetac/perm_map_lemmas_part1.v\nCOQC tactics/basetac/perm_map_lemmas_part2.v\nCOQC tactics/basetac/perm_map_lemmas_part3.v\nCOQC tactics/basetac/perm_map_lemmas_part4.v\nCOQC framework/proof/aux_map_lib.v\nCOQC tactics/sepauto/sep_lemmas_ext.v\nCOQC framework/proof/invariant_prop_lemmas.v\nCOQC tactics/basetac/join_lib_aux.v\nCOQC tactics/pure/tv_match.v\nCOQC tactics/sepauto/seplog_lemmas.v\nCOQC tactics/basetac/perm_map_lemmas.v\nCOQC framework/proof/join_prop.v\nCOQC certiucos/v293/proofs/V293OSVersionProof.v\nCOQC tactics/sepauto/seplog_tactics.v\nCOQC framework/proof/mem_join_lemmas.v\nCOQC certiucos/v293/proofs/V293OSVersionAPI.v\nCOQC tactics/sepauto/sep_combine_lemmas.v\nCOQC tactics/sepauto/meta_find.v\nCOQC tactics/sepauto/sep_combine.v\nCOQC tactics/sepauto/sep_cancel_ext.v\nCOQC tactics/sep_auto.v\nCOQC framework/proof/joinmemLib.v\nCOQC tactics/hoareforward/symbolic_lemmas.v\nCOQC tactics/absstep/cancel_abs.v\nCOQC tactics/hoareforward/derived_rules.v\nCOQC tactics/pure/pure_lib.v\nCOQC framework/proof/absinfer_sound.v\nCOQC framework/proof/memory_prop.v\nCOQC tactics/absstep/abs_infer_step.v\nCOQC tactics/hoareforward/hoare_conseq.v\nCOQC tactics/hoareforward/symbolic_execution.v\nCOQC framework/proof/lmachLib.v\nCOQC tactics/abs_step.v\nCOQC tactics/hoareforward/hoare_assign.v\nCOQC tactics/hoareforward/hoare_if.v\nCOQC tactics/hoareforward/hoare_ret.v\nCOQC tactics/hoareforward/hoare_call.v\nCOQC framework/proof/rulesoundlib.v\nCOQC framework/proof/cstepLib.v\nCOQC tactics/hoareforward/hoare_tactics.v\nCOQC tactics/pure/pure_auto.v\nCOQC certiucos/v293/proofs/V293OSSchedNewExec.v\nCOQC tactics/hoareforward/init_spec.v\nCOQC tactics/pure.v\nCOQC framework/proof/sound_include.v\nCOQC tactics/hoare_forward.v\nCOQC framework/proof/assignsound.v\nCOQC framework/proof/chkissound.v\nCOQC framework/proof/clistisound.v\nCOQC framework/proof/conseqsound.v\nCOQC framework/proof/crtsound.v\nCOQC framework/proof/eoisound.v\nCOQC framework/proof/fcallsound.v\nCOQC framework/proof/framesound.v\nCOQC framework/proof/funsim.v\nCOQC framework/proof/ifsound.v\nCOQC framework/proof/simplrulesound.v\nCOQC framework/proof/whilesound.v\nCOQC framework/proof/retsound.v\nCOQC framework/proof/switchsound.v\nCOQC framework/proof/seqcomsound.v\nCOQC framework/proof/methsimlift.v\nCOQC framework/proof/taskcrtsound.v\nCOQC framework/proof/taskdelsound.v\nCOQC framework/proof/rulesound.v\nCOQC framework/proof/soundness.v\nCOQC framework/proof/step_prop.v\nCOQC framework/proof/invariant_prop.v\nCOQC framework/proof/lemmasfortoptheo.v\nCOQC framework/proof/toptheorem.v\nmake[1]: Leaving directory '/tmp/ucos-function-proof-_b618j7_/build'\n",
+      "stderr": ""
+    },
+    "scheduler:positive:V293ReadyTable": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "scheduler:positive:V293OSSchedNew": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "scheduler:positive:V293ReadyBitmap": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "scheduler:positive:V293OSSchedNewEval": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "scheduler:positive:V293OSSchedNewExec": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "scheduler:positive:contract": {
+      "exit_code": 0,
+      "stdout": "Closed under the global context\nClosed under the global context\nClosed under the global context\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nClosed under the global context\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\n",
+      "stderr": ""
+    },
+    "scheduler:coqchk": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "scheduler:wrong_table:V293ReadyTable": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "scheduler:wrong_table:V293OSSchedNew": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "scheduler:wrong_table:V293ReadyBitmap": {
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "File \"/tmp/ucos-function-proof-_b618j7_/scheduler_wrong_table/certiucos/v293/model/V293ReadyBitmap.v\", line 26, characters 19-30:\nError: Unable to unify \"true\" with \"false\".\n\n"
+    },
+    "scheduler:wrong_shift:V293ReadyTable": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "scheduler:wrong_shift:V293OSSchedNew": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "scheduler:wrong_shift:V293ReadyBitmap": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "scheduler:wrong_shift:V293OSSchedNewEval": {
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "File \"/tmp/ucos-function-proof-_b618j7_/scheduler_wrong_shift/certiucos/v293/proofs/V293OSSchedNewEval.v\", line 149, characters 9-36:\nError:\nIn environment\nge, le : env\nM : mem\nunmap, group, rows, y : var\nbt, bg, br, byblock : block\nlo, hi, g : nat\nEt : get le unmap = None\nEg : get le group = None\nEr : get le rows = None\nGt : get ge unmap = Some (bt, Tarray Tint8 256)\nGg : get ge group = Some (bg, Tint8)\nGr : get ge rows = Some (br, Tarray Tint8 2)\nMg : load Tint8 M (bg, 0%Z) = Some (V293_byteval g)\nMt : forall n : nat,\n     n < 256 ->\n     load Tint8 M (bt, Z.of_nat n) =\n     Some (V293_byteval (V293_ready_lookup n))\nMr0 : load Tint8 M (br, 0%Z) = Some (V293_byteval lo)\nMr1 : load Tint8 M (br, 1%Z) = Some (V293_byteval hi)\nEy : get le y = Some (byblock, Tint8)\nMy : load Tint8 M (byblock, 0%Z) = Some (V293_byteval (V293_ready_lookup g))\nHlo : lo < 256\nHhi : hi < 256\nHg : g = V293_ready_group lo hi\nHnonempty : exists p, V293_bitmap_ready lo hi p\nYbound : V293_ready_lookup g < 2\nYt : evaltype (evar y) (ge, le, M) = Some Tint8\nYv : evalval (evar y) (ge, le, M) = Some (V293_byteval (V293_ready_lookup g))\nRt : evaltype (evar rows) (ge, le, M) = Some (Tarray Tint8 2)\nRowsValue : evalval (evar rows) (ge, le, M) = Some (Vptr (br, Int.zero))\nRowv : load Tint8 M (br, Z.of_nat (V293_ready_lookup g)) =\n       Some (V293_byteval (V293_ready_row lo hi (V293_ready_lookup g)))\nRowval : evalval (earrayelem (evar rows) (evar y)) (ge, le, M) =\n         Some (V293_byteval (V293_ready_row lo hi (V293_ready_lookup g)))\nRowtype : evaltype (earrayelem (evar rows) (evar y)) (ge, le, M) = Some Tint8\nRowbound : V293_ready_row lo hi (V293_ready_lookup g) < 256\nTt : evaltype (evar unmap) (ge, le, M) = Some (Tarray Tint8 256)\nTv : evalval (evar unmap) (ge, le, M) = Some (Vptr (bt, Int.zero))\nBitval : evalval (earrayelem (evar unmap) (earrayelem (evar rows) (evar y)))\n           (ge, le, M) =\n         Some\n           (V293_byteval\n              (V293_ready_lookup (V293_ready_row lo hi (V293_ready_lookup g))))\nBittype : evaltype\n            (earrayelem (evar unmap) (earrayelem (evar rows) (evar y)))\n            (ge, le, M) = Some Tint8\nUnable to unify\n \"evalval\n    (ecast\n       (ebinop oplus\n          (ebinop olshift (ecast ?M2198 Tint32) (econst32 (Int.repr 3)))\n          (ecast ?M2199 Tint32)) Tint8) (?M2195, ?M2196, ?M2197) =\n  Some (V293_byteval (8 * ?M2200 + ?M2201)) /\\\n  evaltype\n    (ecast\n       (ebinop oplus\n          (ebinop olshift (ecast ?M2198 Tint32) (econst32 (Int.repr 3)))\n          (ecast ?M2199 Tint32)) Tint8) (?M2195, ?M2196, ?M2197) = \n  Some Tint8\" with\n \"evalval\n    (ecast\n       (ebinop oplus\n          (ebinop olshift (ecast (evar y) Tint32) (econst32 (Int.repr 2)))\n          (ecast (earrayelem (evar unmap) (earrayelem (evar rows) (evar y)))\n             Tint32)) Tint8) (ge, le, M) =\n  Some\n    (V293_byteval\n       (8 * V293_ready_lookup g +\n        V293_ready_lookup (V293_ready_row lo hi (V293_ready_lookup g)))) /\\\n  evaltype\n    (ecast\n       (ebinop oplus\n          (ebinop olshift (ecast (evar y) Tint32) (econst32 (Int.repr 2)))\n          (ecast (earrayelem (evar unmap) (earrayelem (evar rows) (evar y)))\n             Tint32)) Tint8) (ge, le, M) = Some Tint8\".\n\n"
+    },
+    "scheduler:group_coherence_removed_only:actual": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "scheduler:group_coherence_removed_only:rejected": {
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "File \"/tmp/ucos-function-proof-_b618j7_/scheduler_positive/checks/group_coherence_removed_only.v\", line 67, characters 67-74:\nError:\nThe term \"eq_refl\" has type\n \"V293_ready_select 2 16 2 = V293_ready_select 2 16 2\"\nwhile it is expected to have type \"V293_ready_select 2 16 2 = 1\"\n(cannot unify \"V293_ready_select 2 16 2\" and \"1\").\n\n"
+    },
+    "scheduler:nonempty_removed_only:actual": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "scheduler:nonempty_removed_only:rejected": {
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "File \"/tmp/ucos-function-proof-_b618j7_/scheduler_positive/checks/nonempty_removed_only.v\", line 67, characters 83-90:\nError:\nThe term \"eq_refl\" has type\n \"Nat.testbit 0 (V293_ready_select 0 0 0) =\n  Nat.testbit 0 (V293_ready_select 0 0 0)\" while it is expected to have type\n \"Nat.testbit 0 (V293_ready_select 0 0 0) = true\"\n(cannot unify \"Nat.testbit 0 (V293_ready_select 0 0 0)\" and \n\"true\").\n\n"
+    },
+    "scheduler:writable_permission_removed_only:actual": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "scheduler:writable_permission_removed_only:rejected": {
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "File \"/tmp/ucos-function-proof-_b618j7_/scheduler_positive/checks/writable_permission_removed_only.v\", line 69, characters 136-143:\nError:\nThe term \"eq_refl\" has type\n \"store Tint8 readonly_M (5%positive, 0%Z) (V293_byteval 1) =\n  store Tint8 readonly_M (5%positive, 0%Z) (V293_byteval 1)\"\nwhile it is expected to have type\n \"store Tint8 readonly_M (5%positive, 0%Z) (V293_byteval 1) =\n  Some (V293_write_byte readonly_M 5%positive 1)\"\n(cannot unify \"store Tint8 readonly_M (5%positive, 0%Z) (V293_byteval 1)\" and\n\"Some (V293_write_byte readonly_M 5%positive 1)\").\n\n"
+    },
+    "positive:V293OSVersion": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "positive:V293OSVersionSpec": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "positive:V293OSVersionProof": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "positive:V293OSVersionAPI": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "positive:contract": {
+      "exit_code": 0,
+      "stdout": "Axioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\nAxioms:\nFunctionalExtensionality.functional_extensionality_dep\n  : forall (A : Type) (B : A -> Type) (f g : forall x : A, B x),\n    (forall x : A, f x = g x) -> f = g\nClassical_Prop.classic : forall P : Prop, P \\/ ~ P\n",
+      "stderr": ""
+    },
+    "coqchk": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "wrong_literal:V293OSVersion": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "wrong_literal:V293OSVersionSpec": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "wrong_literal:V293OSVersionProof": {
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "File \"/tmp/ucos-function-proof-_b618j7_/wrong_literal/certiucos/v293/proofs/V293OSVersionProof.v\", line 12, characters 9-20:\nError: In environment\nge, le : env\nM : mem\nUnable to unify \"Some (Vint32 (Int.repr 29300))\" with\n \"evalval (ecast (econst32 (Int.repr 29301)) Tint16) (ge, le, M)\".\n\n"
+    },
+    "false_precondition:V293OSVersion": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "false_precondition:V293OSVersionSpec": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "false_precondition:V293OSVersionProof": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "false_precondition:contract": {
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "File \"/tmp/ucos-function-proof-_b618j7_/false_precondition/checks/Contract.v\", line 10, characters 51-77:\nError:\nThe term \"V293_OSVersion_local_hoare\" has type\n \"forall (Spec : funspec) (sd : ossched) (li : LocalInv) \n    (I : Inv) (tid : tid) (frame : asrt),\n  {|Spec, sd, li, I, V293OSVersionSpec.V293_OSVersion_post frame, Afalse|}\n  |- tid {{Afalse}} V293_OSVersion_body {{Afalse}}\"\nwhile it is expected to have type\n \"forall (Spec : funspec) (sd : ossched) (li : LocalInv) \n    (I : Inv) (tid : tid) (frame : asrt),\n  {|Spec, sd, li, I,\n  fun result : option val =>\n  [|result = Some (Vint32 (Int.repr 29300))|] ** frame, Afalse|}|- tid\n  {{frame}} V293_OSVersion_body {{Afalse}}\"\n(cannot unify \"{|Spec, sd, li, I,\n               V293OSVersionSpec.V293_OSVersion_post frame, Afalse|}|- tid\n               {{Afalse}} V293_OSVersion_body {{Afalse}}\" and\n\"{|Spec, sd, li, I,\n fun result : option val =>\n [|result = Some (Vint32 (Int.repr 29300))|] ** frame, Afalse|}|- tid\n {{frame}} V293_OSVersion_body {{Afalse}}\").\n\n"
+    },
+    "wrong_api_result:V293OSVersion": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "wrong_api_result:V293OSVersionSpec": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "wrong_api_result:V293OSVersionProof": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "wrong_api_result:V293OSVersionAPI": {
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "File \"/tmp/ucos-function-proof-_b618j7_/wrong_api_result/certiucos/v293/proofs/V293OSVersionAPI.v\", line 51, characters 58-64:\nError:\nIn environment\nP : fid -> option function\nf : fid\nSpec : funspec\nsd : ossched\nli : LocalInv\nI : Inv\nlg : list logicvar\ntid : Modules.tid\nHcode : P f = Some V293_OSVersion_function\nHpre : Some\n         (( <|| END Some (Vint32 (Int.repr 29301)) ||>  **\n           p_local li tid lg **\n           Aemp ** Aie true ** Ais nil ** Acs nil ** Aisr empisr) **\n          A_dom_lenv nil) =\n       Some\n         (( <|| END Some (Vint32 (Int.repr 29301)) ||>  **\n           p_local li tid lg **\n           Aemp ** Aie true ** Ais nil ** Acs nil ** Aisr empisr) **\n          A_dom_lenv nil)\nHpost : Some\n          (fun v : option val =>\n           ( <|| END v ||>  **\n            p_local li tid lg **\n            Aemp ** Aie true ** Ais nil ** Acs nil ** Aisr empisr) **\n           A_dom_lenv nil) =\n        Some\n          (fun v : option val =>\n           ( <|| END v ||>  **\n            p_local li tid lg **\n            Aemp ** Aie true ** Ais nil ** Acs nil ** Aisr empisr) **\n           A_dom_lenv nil)\nHlocal : {|Spec, sd, li, I,\n         V293_OSVersion_post\n           (( <|| END Some (Vint32 (Int.repr 29301)) ||>  **\n             p_local li tid lg **\n             Aemp ** Aie true ** Ais nil ** Acs nil ** Aisr empisr) **\n            A_dom_lenv nil), Afalse|}|- tid\n         {{( <|| END Some (Vint32 (Int.repr 29301)) ||>  **\n            p_local li tid lg **\n            Aemp ** Aie true ** Ais nil ** Acs nil ** Aisr empisr) **\n           A_dom_lenv nil}} V293_OSVersion_body {{Afalse}}\ns : RstateOP\nHframe : s\n         |= ( <|| END Some (Vint32 (Int.repr 29301)) ||>  **\n             p_local li tid lg **\n             Aemp ** Aie true ** Ais nil ** Acs nil ** Aisr empisr) **\n            A_dom_lenv nil\nThe term \"Hframe\" has type\n \"s\n  |= ( <|| END Some (Vint32 (Int.repr 29301)) ||>  **\n      p_local li tid lg **\n      Aemp ** Aie true ** Ais nil ** Acs nil ** Aisr empisr) **\n     A_dom_lenv nil\" while it is expected to have type\n \"s\n  |= ( <|| END Some V293_OSVersion_result ||>  **\n      p_local li tid lg **\n      Aemp ** Aie true ** Ais nil ** Acs nil ** Aisr empisr) **\n     A_dom_lenv nil\".\n\n"
+    },
+    "missing_api_entry:V293OSVersion": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "missing_api_entry:V293OSVersionSpec": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "missing_api_entry:V293OSVersionProof": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "missing_api_entry:V293OSVersionAPI": {
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "File \"/tmp/ucos-function-proof-_b618j7_/missing_api_entry/certiucos/v293/proofs/V293OSVersionAPI.v\", line 24, characters 33-44:\nError:\nIn environment\nversion_id, f : fid\ne : f = version_id\nx : osapi\nH : Some V293_OSVersion_api = Some x\nUnable to unify \"Some ?fdef\" with \"None\".\n\n"
+    }
+  },
+  "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+  "functions": {
+    "OSVersion": {
+      "gates": [
+        "located",
+        "modeled",
+        "specified",
+        "local_hoare",
+        "component_linked"
+      ],
+      "location": {
+        "name": "OSVersion",
+        "category": "public",
+        "linkage": "external",
+        "type": "INT16U (void)",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1025,
+        "last_line": 1028,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "cbac6e6da53ea19ab6f11abda9690b1ca12042d496fe3e047a77b83b7c452fd1",
+        "preprocessed_begin_byte": 20745,
+        "preprocessed_end_byte_exclusive": 20793,
+        "preprocessed_definition_sha256": "1db8f8ea39f82c55714d60632ed1ce69cc6ff0da1c3cb2e5494e265cf4fd9647",
+        "preprocessed_body_sha256": "c40cce164244e01dd739466cf3f489a5432b989088ced13bac949c4d5a685986",
+        "direct_calls": [],
+        "indirect_call_sites": 0
+      },
+      "model": "certiucos/v293/code/V293OSVersion.v",
+      "specification": "certiucos/v293/spec/V293OSVersionSpec.v",
+      "proof": "certiucos/v293/proofs/V293OSVersionProof.v",
+      "roots": [
+        "V293_OSVersion_local_hoare",
+        "V293_OSVersion_post_exact",
+        "V293_OSVersion_execution"
+      ],
+      "component": "certiucos/v293/proofs/V293OSVersionAPI.v",
+      "component_roots": [
+        "V293_OSVersion_api_contract",
+        "V293_OSVersion_api_rule",
+        "V293_OSVersion_api_builders"
+      ],
+      "component_scope": "SINGLE_FUNCTION_API_UNIT_FOR_ANY_LINKER_ID_NOT_FULL_KERNEL",
+      "source_literal": 29300,
+      "return_conversion": "unsigned int -> unsigned short",
+      "correspondence": "RESTRICTED_TRUSTED_CLANG_AST_EMITTER_NOT_VERIFIED_C_COMPILER"
+    }
+  },
+  "scheduler_checkpoint": {
+    "shift": 3,
+    "lookup_entries": 256,
+    "scope": "SOURCE_BOUND_READS_AND_UNINTERLEAVED_UPDATES_NOT_FUNCTION_HOARE",
+    "coverage_credit": false,
+    "roots": [
+      "V293_ready_table_checked",
+      "V293_ready_selection",
+      "V293_ready_selection_range",
+      "V293_OSSchedNew_row_eval",
+      "V293_shift_add_narrow",
+      "V293_OSSchedNew_priority_eval",
+      "V293_OSSchedNew_updates_execution",
+      "V293_OSSchedNew_updates_frame",
+      "V293_OSSchedNew_updates_result",
+      "V293_OSSchedNew_precondition_witness"
+    ],
+    "root_assumptions": [
+      "Classical_Prop.classic",
+      "FunctionalExtensionality.functional_extensionality_dep"
+    ],
+    "negative_controls": {
+      "table_entry_16_changed_only": "REJECTED_AT_V293_ready_table_checked",
+      "shift_changed_only": "REJECTED_AT_V293_OSSchedNew_priority_eval",
+      "group_coherence_removed_only": "REJECTED_AT_should_select_minimum",
+      "nonempty_removed_only": "REJECTED_AT_should_select_ready",
+      "writable_permission_removed_only": "REJECTED_AT_should_store"
+    }
+  },
+  "root_assumptions": [
+    "Classical_Prop.classic",
+    "FunctionalExtensionality.functional_extensionality_dep"
+  ],
+  "negative_controls": {
+    "literal_changed_only": "REJECTED_AT_V293_OSVersion_eval",
+    "false_precondition_only": "MUTANT_ROOT_COMPILED_REJECTED_AT_checked_local_hoare",
+    "api_result_changed_only": "REJECTED_AT_V293_OSVersion_api_contract",
+    "api_entry_removed_only": "REJECTED_AT_V293_OSVersion_api_domains"
+  }
+}

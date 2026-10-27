@@ -230,3 +230,56 @@ class ComponentCreditTests(FrozenFixture):
             lambda data: data['checks']['missing_api_entry:V293OSVersionAPI'].update(exit_code=0))
         with self.assertRaisesRegex(ValueError, 'designated negative controls'):
             COVERAGE.audit(self.root)
+
+
+class SchedulerCheckpointTests(FrozenFixture):
+    def reject_report(self, mutate, message):
+        self.edit(FUNCTIONS.REPORT, mutate)
+        with self.assertRaisesRegex(ValueError, message):
+            COVERAGE.audit(self.root)
+
+    def test_scheduler_scope_cannot_claim_function_hoare(self):
+        self.reject_report(lambda x: x['scheduler_checkpoint'].update(coverage_credit=True),
+                           'scheduler checkpoint scope/roots/controls differ')
+
+    def test_changed_scheduler_model_invalidates_report(self):
+        path = self.root / 'certiucos/v293/code/V293OSSchedNew.v'
+        path.write_text(path.read_text().replace('Int.repr 3', 'Int.repr 2'))
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_changed_source_seam_invalidates_report(self):
+        path = self.root / 'scripts/v293-scheduler-source.py'
+        path.write_text(path.read_text() + '\n# mutation\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_scheduler_compilation_failure_rejects_report(self):
+        self.reject_report(lambda x: x['checks']['scheduler:positive:V293OSSchedNewExec'].update(exit_code=1),
+                           'scheduler checkpoint positive compilation failed')
+
+    def test_scheduler_coqchk_failure_rejects_report(self):
+        self.reject_report(lambda x: x['checks']['scheduler:coqchk'].update(exit_code=1),
+                           'scheduler checkpoint probe/coqchk failed')
+
+    def test_missing_table_rejection_rejects_report(self):
+        self.reject_report(lambda x: x['checks']['scheduler:wrong_table:V293ReadyBitmap'].update(exit_code=0),
+                           'scheduler designated table/shift rejection missing')
+
+    def test_early_shift_rejection_is_not_downstream_evidence(self):
+        self.reject_report(lambda x: x['checks']['scheduler:wrong_shift:V293ReadyBitmap'].update(exit_code=1),
+                           'scheduler designated table/shift rejection missing')
+
+    def test_permission_control_must_first_compile_actual_result(self):
+        self.reject_report(lambda x: x['checks']['scheduler:writable_permission_removed_only:actual'].update(exit_code=1),
+                           'scheduler designated concrete semantic control missing')
+
+    def test_nonempty_control_must_reject_wrong_property(self):
+        self.reject_report(lambda x: x['checks']['scheduler:nonempty_removed_only:rejected'].update(exit_code=0),
+                           'scheduler designated concrete semantic control missing')
+
+    def test_scheduler_cannot_borrow_modeling_credit_from_checkpoint(self):
+        self.edit('audit/coverage.json', lambda x: next(r for r in x['rows']
+                  if r['name'] == 'OS_SchedNew').update(modeled=True))
+        with self.assertRaisesRegex(ValueError, 'evidence checker not implemented'):
+            COVERAGE.audit(self.root)

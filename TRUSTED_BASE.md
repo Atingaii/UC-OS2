@@ -47,3 +47,13 @@ Coq 8.18.0 实际打印的假设并集如下（不是仅按源码声明猜测）
 第八阶段另外生成 [function-evidence-stage08.json](audit/function-evidence-stage08.json)，不覆盖第七阶段快照。全部 113 个活动文件干净构建，六个局部／组件根与独立接口探针经 `coqchk` 检查；实际假设并集仍只有经典逻辑与依赖函数外延性。新增单函数 API 单元仅连接 `OSVersion`，没有具体全局程序、共享初始化或最终 `GOOD_OS`。
 
 静态 `make audit` 检查报告输入身份和支持范围，不是证明重放或签名认证；实际重放仍用 `make check-functions`。调度器的有限枚举调查不属于 Coq 验收，不获得覆盖信用。
+
+## 调度器读／写检查点的增量边界
+
+第九阶段的新记录为 [function-evidence-stage09.json](audit/function-evidence-stage09.json)，不覆盖阶段七／八历史。118 个活动文件在无旧对象的一次性目录重编；调度器十个根的独立接口、实际假设和依赖闭包 `coqchk` 通过，假设并集仍为 `Classical_Prop.classic` 与 `FunctionalExtensionality.functional_extensionality_dep`。原六个 `OSVersion` 根与四项控制也重新通过。
+
+`scripts/v293-scheduler-source.py` 是受信任的受限 AST 对应工具，不是已经证明的 C 前端。它从两种预处理结果的真实声明／初始化器生成查表及两次赋值程序，逐字检查；数组退化和左值读取对应框架原生数组／变量语义。框架 `Tint32` 不单独区分完整 C signedness；本检查点仅在已证明的非负小范围内对应本函数的整数提升、移位／加法及最终字节窄化，不外推一般带符号 C 运算。
+
+内存前置是实际 `load`／环境叶子条件，不是假设最终表达式值。具体有界见证让查表／组／行只读、输出／局部字节可写；证明没有把全部内存设为可写。两次赋值的 `cstepstar` 不含任务／中断交错，尚未连接关闭中断不变量、分离资源、局部分配／返回／释放、完整全局符号表或函数级 Hoare。因此 `coverage_credit` 明确为 `false`；最终 `GOOD_OS` 仍开放。
+
+五项语义控制须分别到达查表定理、实际表达式、最小性、就绪性和写权限义务；不能以相关的提前拒绝替代这些证据。AST 回归夹具只用于检查器单元测试，真实门禁重新提取固定源码，不以夹具作为源码权威。原位图有限调查保持历史身份，新结论依赖本轮 Coq 定理而不是把旧 JSON 当成当前证明。
