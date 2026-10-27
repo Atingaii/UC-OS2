@@ -1,0 +1,693 @@
+{
+  "origin": "frozen configured GCC preprocessing parsed by Clang; source locations removed and transient declaration IDs normalized",
+  "preprocessed_body_sha256": "4bbf6819f5a458dfdadb30dbc8aeaad5156553b98f1b6466d4b89054cbd965e9",
+  "function": {
+    "kind": "FunctionDecl",
+    "name": "OS_Sched",
+    "type": {
+      "qualType": "void (void)"
+    },
+    "inner": [
+      {
+        "kind": "CompoundStmt",
+        "inner": [
+          {
+            "kind": "DeclStmt",
+            "inner": [
+              {
+                "kind": "VarDecl",
+                "name": "cpu_sr",
+                "init": "c",
+                "type": {
+                  "desugaredQualType": "unsigned int",
+                  "qualType": "OS_CPU_SR"
+                },
+                "id": "declaration:cpu_sr",
+                "inner": [
+                  {
+                    "kind": "IntegerLiteral",
+                    "valueCategory": "prvalue",
+                    "value": "0",
+                    "type": {
+                      "qualType": "unsigned int"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "CallExpr",
+            "valueCategory": "prvalue",
+            "type": {
+              "qualType": "void"
+            },
+            "inner": [
+              {
+                "kind": "ImplicitCastExpr",
+                "valueCategory": "prvalue",
+                "castKind": "FunctionToPointerDecay",
+                "type": {
+                  "qualType": "void (*)(OS_CPU_SR *)"
+                },
+                "inner": [
+                  {
+                    "kind": "DeclRefExpr",
+                    "valueCategory": "prvalue",
+                    "type": {
+                      "qualType": "void (OS_CPU_SR *)"
+                    },
+                    "referencedDecl": {
+                      "kind": "FunctionDecl",
+                      "name": "V293_EnterCritical",
+                      "type": {
+                        "qualType": "void (OS_CPU_SR *)"
+                      },
+                      "id": "declaration:V293_EnterCritical"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "UnaryOperator",
+                "valueCategory": "prvalue",
+                "isPostfix": false,
+                "opcode": "&",
+                "type": {
+                  "qualType": "OS_CPU_SR *"
+                },
+                "inner": [
+                  {
+                    "kind": "DeclRefExpr",
+                    "valueCategory": "lvalue",
+                    "type": {
+                      "desugaredQualType": "unsigned int",
+                      "qualType": "OS_CPU_SR"
+                    },
+                    "referencedDecl": {
+                      "kind": "VarDecl",
+                      "name": "cpu_sr",
+                      "type": {
+                        "desugaredQualType": "unsigned int",
+                        "qualType": "OS_CPU_SR"
+                      },
+                      "id": "declaration:cpu_sr"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "IfStmt",
+            "inner": [
+              {
+                "kind": "BinaryOperator",
+                "valueCategory": "prvalue",
+                "opcode": "==",
+                "type": {
+                  "qualType": "int"
+                },
+                "inner": [
+                  {
+                    "kind": "ImplicitCastExpr",
+                    "valueCategory": "prvalue",
+                    "castKind": "IntegralCast",
+                    "type": {
+                      "qualType": "unsigned int"
+                    },
+                    "inner": [
+                      {
+                        "kind": "ImplicitCastExpr",
+                        "valueCategory": "prvalue",
+                        "castKind": "LValueToRValue",
+                        "type": {
+                          "desugaredQualType": "unsigned char",
+                          "qualType": "INT8U"
+                        },
+                        "inner": [
+                          {
+                            "kind": "DeclRefExpr",
+                            "valueCategory": "lvalue",
+                            "type": {
+                              "desugaredQualType": "unsigned char",
+                              "qualType": "INT8U"
+                            },
+                            "referencedDecl": {
+                              "kind": "VarDecl",
+                              "name": "OSIntNesting",
+                              "type": {
+                                "desugaredQualType": "unsigned char",
+                                "qualType": "INT8U"
+                              },
+                              "id": "declaration:OSIntNesting"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "IntegerLiteral",
+                    "valueCategory": "prvalue",
+                    "value": "0",
+                    "type": {
+                      "qualType": "unsigned int"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "CompoundStmt",
+                "inner": [
+                  {
+                    "kind": "IfStmt",
+                    "inner": [
+                      {
+                        "kind": "BinaryOperator",
+                        "valueCategory": "prvalue",
+                        "opcode": "==",
+                        "type": {
+                          "qualType": "int"
+                        },
+                        "inner": [
+                          {
+                            "kind": "ImplicitCastExpr",
+                            "valueCategory": "prvalue",
+                            "castKind": "IntegralCast",
+                            "type": {
+                              "qualType": "unsigned int"
+                            },
+                            "inner": [
+                              {
+                                "kind": "ImplicitCastExpr",
+                                "valueCategory": "prvalue",
+                                "castKind": "LValueToRValue",
+                                "type": {
+                                  "desugaredQualType": "unsigned char",
+                                  "qualType": "INT8U"
+                                },
+                                "inner": [
+                                  {
+                                    "kind": "DeclRefExpr",
+                                    "valueCategory": "lvalue",
+                                    "type": {
+                                      "desugaredQualType": "unsigned char",
+                                      "qualType": "INT8U"
+                                    },
+                                    "referencedDecl": {
+                                      "kind": "VarDecl",
+                                      "name": "OSLockNesting",
+                                      "type": {
+                                        "desugaredQualType": "unsigned char",
+                                        "qualType": "INT8U"
+                                      },
+                                      "id": "declaration:OSLockNesting"
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "IntegerLiteral",
+                            "valueCategory": "prvalue",
+                            "value": "0",
+                            "type": {
+                              "qualType": "unsigned int"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "CompoundStmt",
+                        "inner": [
+                          {
+                            "kind": "CallExpr",
+                            "valueCategory": "prvalue",
+                            "type": {
+                              "qualType": "void"
+                            },
+                            "inner": [
+                              {
+                                "kind": "ImplicitCastExpr",
+                                "valueCategory": "prvalue",
+                                "castKind": "FunctionToPointerDecay",
+                                "type": {
+                                  "qualType": "void (*)(void)"
+                                },
+                                "inner": [
+                                  {
+                                    "kind": "DeclRefExpr",
+                                    "valueCategory": "prvalue",
+                                    "type": {
+                                      "qualType": "void (void)"
+                                    },
+                                    "referencedDecl": {
+                                      "kind": "FunctionDecl",
+                                      "name": "OS_SchedNew",
+                                      "type": {
+                                        "qualType": "void (void)"
+                                      },
+                                      "id": "declaration:OS_SchedNew"
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "BinaryOperator",
+                            "valueCategory": "prvalue",
+                            "opcode": "=",
+                            "type": {
+                              "qualType": "OS_TCB *"
+                            },
+                            "inner": [
+                              {
+                                "kind": "DeclRefExpr",
+                                "valueCategory": "lvalue",
+                                "type": {
+                                  "qualType": "OS_TCB *"
+                                },
+                                "referencedDecl": {
+                                  "kind": "VarDecl",
+                                  "name": "OSTCBHighRdy",
+                                  "type": {
+                                    "qualType": "OS_TCB *"
+                                  },
+                                  "id": "declaration:OSTCBHighRdy"
+                                }
+                              },
+                              {
+                                "kind": "ImplicitCastExpr",
+                                "valueCategory": "prvalue",
+                                "castKind": "LValueToRValue",
+                                "type": {
+                                  "qualType": "OS_TCB *"
+                                },
+                                "inner": [
+                                  {
+                                    "kind": "ArraySubscriptExpr",
+                                    "valueCategory": "lvalue",
+                                    "type": {
+                                      "qualType": "OS_TCB *"
+                                    },
+                                    "inner": [
+                                      {
+                                        "kind": "ImplicitCastExpr",
+                                        "valueCategory": "prvalue",
+                                        "castKind": "ArrayToPointerDecay",
+                                        "type": {
+                                          "qualType": "OS_TCB **"
+                                        },
+                                        "inner": [
+                                          {
+                                            "kind": "DeclRefExpr",
+                                            "valueCategory": "lvalue",
+                                            "type": {
+                                              "qualType": "OS_TCB *[13]"
+                                            },
+                                            "referencedDecl": {
+                                              "kind": "VarDecl",
+                                              "name": "OSTCBPrioTbl",
+                                              "type": {
+                                                "qualType": "OS_TCB *[13]"
+                                              },
+                                              "id": "declaration:OSTCBPrioTbl"
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "kind": "ImplicitCastExpr",
+                                        "valueCategory": "prvalue",
+                                        "castKind": "LValueToRValue",
+                                        "type": {
+                                          "desugaredQualType": "unsigned char",
+                                          "qualType": "INT8U"
+                                        },
+                                        "inner": [
+                                          {
+                                            "kind": "DeclRefExpr",
+                                            "valueCategory": "lvalue",
+                                            "type": {
+                                              "desugaredQualType": "unsigned char",
+                                              "qualType": "INT8U"
+                                            },
+                                            "referencedDecl": {
+                                              "kind": "VarDecl",
+                                              "name": "OSPrioHighRdy",
+                                              "type": {
+                                                "desugaredQualType": "unsigned char",
+                                                "qualType": "INT8U"
+                                              },
+                                              "id": "declaration:OSPrioHighRdy"
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "IfStmt",
+                            "inner": [
+                              {
+                                "kind": "BinaryOperator",
+                                "valueCategory": "prvalue",
+                                "opcode": "!=",
+                                "type": {
+                                  "qualType": "int"
+                                },
+                                "inner": [
+                                  {
+                                    "kind": "ImplicitCastExpr",
+                                    "valueCategory": "prvalue",
+                                    "castKind": "IntegralCast",
+                                    "type": {
+                                      "qualType": "int"
+                                    },
+                                    "inner": [
+                                      {
+                                        "kind": "ImplicitCastExpr",
+                                        "valueCategory": "prvalue",
+                                        "castKind": "LValueToRValue",
+                                        "type": {
+                                          "desugaredQualType": "unsigned char",
+                                          "qualType": "INT8U"
+                                        },
+                                        "inner": [
+                                          {
+                                            "kind": "DeclRefExpr",
+                                            "valueCategory": "lvalue",
+                                            "type": {
+                                              "desugaredQualType": "unsigned char",
+                                              "qualType": "INT8U"
+                                            },
+                                            "referencedDecl": {
+                                              "kind": "VarDecl",
+                                              "name": "OSPrioHighRdy",
+                                              "type": {
+                                                "desugaredQualType": "unsigned char",
+                                                "qualType": "INT8U"
+                                              },
+                                              "id": "declaration:OSPrioHighRdy"
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "kind": "ImplicitCastExpr",
+                                    "valueCategory": "prvalue",
+                                    "castKind": "IntegralCast",
+                                    "type": {
+                                      "qualType": "int"
+                                    },
+                                    "inner": [
+                                      {
+                                        "kind": "ImplicitCastExpr",
+                                        "valueCategory": "prvalue",
+                                        "castKind": "LValueToRValue",
+                                        "type": {
+                                          "desugaredQualType": "unsigned char",
+                                          "qualType": "INT8U"
+                                        },
+                                        "inner": [
+                                          {
+                                            "kind": "DeclRefExpr",
+                                            "valueCategory": "lvalue",
+                                            "type": {
+                                              "desugaredQualType": "unsigned char",
+                                              "qualType": "INT8U"
+                                            },
+                                            "referencedDecl": {
+                                              "kind": "VarDecl",
+                                              "name": "OSPrioCur",
+                                              "type": {
+                                                "desugaredQualType": "unsigned char",
+                                                "qualType": "INT8U"
+                                              },
+                                              "id": "declaration:OSPrioCur"
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "kind": "CompoundStmt",
+                                "inner": [
+                                  {
+                                    "kind": "UnaryOperator",
+                                    "valueCategory": "prvalue",
+                                    "isPostfix": true,
+                                    "opcode": "++",
+                                    "type": {
+                                      "desugaredQualType": "unsigned int",
+                                      "qualType": "INT32U"
+                                    },
+                                    "inner": [
+                                      {
+                                        "kind": "DeclRefExpr",
+                                        "valueCategory": "lvalue",
+                                        "type": {
+                                          "desugaredQualType": "unsigned int",
+                                          "qualType": "INT32U"
+                                        },
+                                        "referencedDecl": {
+                                          "kind": "VarDecl",
+                                          "name": "OSCtxSwCtr",
+                                          "type": {
+                                            "desugaredQualType": "unsigned int",
+                                            "qualType": "INT32U"
+                                          },
+                                          "id": "declaration:OSCtxSwCtr"
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "kind": "CallExpr",
+                                    "valueCategory": "prvalue",
+                                    "type": {
+                                      "qualType": "void"
+                                    },
+                                    "inner": [
+                                      {
+                                        "kind": "ImplicitCastExpr",
+                                        "valueCategory": "prvalue",
+                                        "castKind": "FunctionToPointerDecay",
+                                        "type": {
+                                          "qualType": "void (*)(void)"
+                                        },
+                                        "inner": [
+                                          {
+                                            "kind": "DeclRefExpr",
+                                            "valueCategory": "prvalue",
+                                            "type": {
+                                              "qualType": "void (void)"
+                                            },
+                                            "referencedDecl": {
+                                              "kind": "FunctionDecl",
+                                              "name": "OSCtxSw",
+                                              "type": {
+                                                "qualType": "void (void)"
+                                              },
+                                              "id": "declaration:OSCtxSw"
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "CallExpr",
+            "valueCategory": "prvalue",
+            "type": {
+              "qualType": "void"
+            },
+            "inner": [
+              {
+                "kind": "ImplicitCastExpr",
+                "valueCategory": "prvalue",
+                "castKind": "FunctionToPointerDecay",
+                "type": {
+                  "qualType": "void (*)(OS_CPU_SR *)"
+                },
+                "inner": [
+                  {
+                    "kind": "DeclRefExpr",
+                    "valueCategory": "prvalue",
+                    "type": {
+                      "qualType": "void (OS_CPU_SR *)"
+                    },
+                    "referencedDecl": {
+                      "kind": "FunctionDecl",
+                      "name": "V293_ExitCritical",
+                      "type": {
+                        "qualType": "void (OS_CPU_SR *)"
+                      },
+                      "id": "declaration:V293_ExitCritical"
+                    }
+                  }
+                ]
+              },
+              {
+                "kind": "UnaryOperator",
+                "valueCategory": "prvalue",
+                "isPostfix": false,
+                "opcode": "&",
+                "type": {
+                  "qualType": "OS_CPU_SR *"
+                },
+                "inner": [
+                  {
+                    "kind": "DeclRefExpr",
+                    "valueCategory": "lvalue",
+                    "type": {
+                      "desugaredQualType": "unsigned int",
+                      "qualType": "OS_CPU_SR"
+                    },
+                    "referencedDecl": {
+                      "kind": "VarDecl",
+                      "name": "cpu_sr",
+                      "type": {
+                        "desugaredQualType": "unsigned int",
+                        "qualType": "OS_CPU_SR"
+                      },
+                      "id": "declaration:cpu_sr"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "declarations": [
+    {
+      "kind": "VarDecl",
+      "name": "cpu_sr",
+      "type": {
+        "desugaredQualType": "unsigned int",
+        "qualType": "OS_CPU_SR"
+      },
+      "id": "declaration:cpu_sr"
+    },
+    {
+      "kind": "FunctionDecl",
+      "name": "V293_EnterCritical",
+      "type": {
+        "qualType": "void (OS_CPU_SR *)"
+      },
+      "id": "declaration:V293_EnterCritical"
+    },
+    {
+      "kind": "VarDecl",
+      "name": "OSIntNesting",
+      "type": {
+        "desugaredQualType": "unsigned char",
+        "qualType": "INT8U"
+      },
+      "id": "declaration:OSIntNesting"
+    },
+    {
+      "kind": "VarDecl",
+      "name": "OSLockNesting",
+      "type": {
+        "desugaredQualType": "unsigned char",
+        "qualType": "INT8U"
+      },
+      "id": "declaration:OSLockNesting"
+    },
+    {
+      "kind": "FunctionDecl",
+      "name": "OS_SchedNew",
+      "type": {
+        "qualType": "void (void)"
+      },
+      "id": "declaration:OS_SchedNew"
+    },
+    {
+      "kind": "VarDecl",
+      "name": "OSTCBHighRdy",
+      "type": {
+        "qualType": "OS_TCB *"
+      },
+      "id": "declaration:OSTCBHighRdy"
+    },
+    {
+      "kind": "VarDecl",
+      "name": "OSTCBPrioTbl",
+      "type": {
+        "qualType": "OS_TCB *[13]"
+      },
+      "id": "declaration:OSTCBPrioTbl"
+    },
+    {
+      "kind": "VarDecl",
+      "name": "OSPrioHighRdy",
+      "type": {
+        "desugaredQualType": "unsigned char",
+        "qualType": "INT8U"
+      },
+      "id": "declaration:OSPrioHighRdy"
+    },
+    {
+      "kind": "VarDecl",
+      "name": "OSPrioCur",
+      "type": {
+        "desugaredQualType": "unsigned char",
+        "qualType": "INT8U"
+      },
+      "id": "declaration:OSPrioCur"
+    },
+    {
+      "kind": "VarDecl",
+      "name": "OSCtxSwCtr",
+      "type": {
+        "desugaredQualType": "unsigned int",
+        "qualType": "INT32U"
+      },
+      "id": "declaration:OSCtxSwCtr"
+    },
+    {
+      "kind": "FunctionDecl",
+      "name": "OSCtxSw",
+      "type": {
+        "qualType": "void (void)"
+      },
+      "id": "declaration:OSCtxSw"
+    },
+    {
+      "kind": "FunctionDecl",
+      "name": "V293_ExitCritical",
+      "type": {
+        "qualType": "void (OS_CPU_SR *)"
+      },
+      "id": "declaration:V293_ExitCritical"
+    }
+  ]
+}

@@ -127,3 +127,9 @@ certiucos/v293/proofs/V293OSSchedNewWitness.v
 
 certiucos/v293/proofs/V293OSSchedNewInternal.v
 certiucos/v293/proofs/V293OSSchedNewInternalWitness.v
+
+certiucos/v293/code/V293OSSchedDispatch.v
+certiucos/v293/model/V293SchedulerTasks.v
+certiucos/v293/proofs/V293OSSchedCall.v
+certiucos/v293/proofs/V293OSSchedTarget.v
+certiucos/v293/proofs/V293OSSchedTargetWitness.v

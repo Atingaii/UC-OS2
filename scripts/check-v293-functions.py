@@ -24,7 +24,7 @@ CODE = 'certiucos/v293/code/V293OSVersion.v'
 SPEC = 'certiucos/v293/spec/V293OSVersionSpec.v'
 PROOF = 'certiucos/v293/proofs/V293OSVersionProof.v'
 API = 'certiucos/v293/proofs/V293OSVersionAPI.v'
-REPORT = 'audit/function-evidence-stage11.json'
+REPORT = 'audit/function-evidence-stage12.json'
 SCOPE = 'CHECKED_SOURCE_AND_SINGLE_FUNCTION_API_COMPONENT_NOT_GOOD_OS'
 ROOTS = ['V293_OSVersion_local_hoare', 'V293_OSVersion_post_exact',
          'V293_OSVersion_execution']
@@ -194,7 +194,7 @@ def input_hashes(root):
     paths |= set(freeze['input_sha256'])
     paths |= {'csrc/repairs/FROZEN_SOURCE.json', 'audit/repaired-source-inventory.json',
               'scripts/check-v293-functions.py', 'scripts/coverage-audit.py', 'scripts/project-audit.py',
-              'scripts/check-memory-trust.py', 'scripts/v293-scheduler-source.py', 'scripts/v293-scheduler-internal.py', 'Makefile', '_CoqProject'}
+              'scripts/check-memory-trust.py', 'scripts/v293-scheduler-source.py', 'scripts/v293-scheduler-internal.py', 'scripts/v293-scheduler-caller.py', 'Makefile', '_CoqProject'}
     return {p: sha(root / p) for p in sorted(paths)}
 
 
@@ -222,6 +222,8 @@ def inspect(root=ROOT):
         inventory, node, literal = source_replay(root, work)
         scheduler = load(root, 'v293-scheduler-source.py')
         scheduler_info, _, scheduler_table = scheduler.check_source(root, work, load)
+        caller = load(root, 'v293-scheduler-caller.py')
+        caller_location = caller.check_source(root, work, load)
         report['source_identity_sha256'] = inventory['source_identity_sha256']
         report['functions'] = {'OSVersion': {
             'gates': GATES,
@@ -248,6 +250,8 @@ def inspect(root=ROOT):
         report['scheduler_checkpoint'] = scheduler_info
         internal = load(root, 'v293-scheduler-internal.py')
         report['scheduler_internal_checkpoint'] = internal.check(root, work, build, coqbin, run, load)
+
+        report['scheduler_caller_checkpoint'] = caller.check(root, work, build, coqbin, run, load, caller_location)
 
         def compile_tree(label, model=None, spec=None, proof=None, api=None,
                          probe=False, component=True):
@@ -431,6 +435,7 @@ def validate_record(root, report):
             or checks['scheduler:body_false_premise_added_only_probe:contract']['exit_code'] != 1):
         raise ValueError('scheduler vacuous body mutant/probe evidence missing')
     load(root, 'v293-scheduler-internal.py').validate(root, report['scheduler_internal_checkpoint'], checks, load)
+    load(root, 'v293-scheduler-caller.py').validate(root, report['scheduler_caller_checkpoint'], checks, load)
     return report['functions']
 
 

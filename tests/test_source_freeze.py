@@ -398,3 +398,70 @@ class SchedulerInternalCheckpointTests(FrozenFixture):
     def test_all_false_selector_mutant_must_compile(self):
         self.reject_report(lambda x: x['checks']['internal:pre_assertion_false_only:V293OSSchedNewInternal'].update(exit_code=1),
                            'internal designated core control missing')
+
+
+class SchedulerCallerCheckpointTests(FrozenFixture):
+    def reject_report(self, mutate, message):
+        self.edit(FUNCTIONS.REPORT, mutate)
+        with self.assertRaisesRegex(ValueError, message):
+            COVERAGE.audit(self.root)
+
+    def test_caller_cannot_claim_coverage(self):
+        self.reject_report(lambda x: x['scheduler_caller_checkpoint'].update(coverage_credit=True),
+                           'caller checkpoint scope/roots/source/controls differ')
+
+    def test_whole_function_scope_cannot_replace_prefix_scope(self):
+        self.reject_report(lambda x: x['scheduler_caller_checkpoint'].update(scope='OS_SCHED_PROVED'),
+                           'caller checkpoint scope/roots/source/controls differ')
+
+    def test_source_location_is_exactly_bound(self):
+        self.reject_report(lambda x: x['scheduler_caller_checkpoint']['source_location'].update(first_line=1),
+                           'caller checkpoint scope/roots/source/controls differ')
+
+    def test_missing_task_selection_root(self):
+        self.reject_report(lambda x: x['scheduler_caller_checkpoint']['roots'].remove('V293_ready_selection_task'),
+                           'caller checkpoint scope/roots/source/controls differ')
+
+    def test_unknown_caller_assumption(self):
+        self.reject_report(lambda x: x['scheduler_caller_checkpoint']['root_assumptions'].append('Unknown.assumption'),
+                           'unexpected caller root assumptions')
+
+    def test_failed_target_witness(self):
+        self.reject_report(lambda x: x['checks']['caller:positive:V293OSSchedTargetWitness'].update(exit_code=1),
+                           'caller checkpoint positive check failed')
+
+    def test_failed_caller_coqchk(self):
+        self.reject_report(lambda x: x['checks']['caller:coqchk'].update(exit_code=1),
+                           'caller checkpoint positive check failed')
+
+    def test_missing_pointer_stride_control(self):
+        self.reject_report(lambda x: x['checks']['caller:pointer_resource_stride_changed_only:V293OSSchedTarget'].update(exit_code=0),
+                           'caller designated control missing')
+
+    def test_earlier_rejection_cannot_count_as_stride_evidence(self):
+        self.reject_report(lambda x: x['checks']['caller:pointer_resource_stride_changed_only:V293SchedulerTasks'].update(exit_code=1),
+                           'caller control prerequisite missing')
+
+    def test_vacuous_call_must_compile_first(self):
+        self.reject_report(lambda x: x['checks']['caller:call_false_premise_added_only:V293OSSchedCall'].update(exit_code=1),
+                           'caller control prerequisite missing')
+
+    def test_vacuous_call_requires_independent_rejection(self):
+        self.reject_report(lambda x: x['checks']['caller:call_false_premise_added_only:contract'].update(exit_code=0),
+                           'caller designated control missing')
+
+    def test_vacuous_target_must_compile_all_prerequisites(self):
+        self.reject_report(lambda x: x['checks']['caller:target_false_premise_added_only:V293OSSchedTargetWitness'].update(exit_code=1),
+                           'caller control prerequisite missing')
+
+    def test_modified_caller_coq_source_is_stale(self):
+        path = self.root / 'certiucos/v293/proofs/V293OSSchedTarget.v'
+        path.write_text(path.read_text() + '\n(* mutation *)\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_modified_caller_checker_is_stale(self):
+        path = self.root / 'scripts/v293-scheduler-caller.py'
+        path.write_text(path.read_text() + '\n# mutation\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
