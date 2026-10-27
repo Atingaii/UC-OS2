@@ -171,3 +171,6 @@ certiucos/v293/proofs/V293OSSchedDispatchSharedWitness.v
 
 certiucos/v293/proofs/V293OSSchedDispatchTail.v
 certiucos/v293/proofs/V293OSSchedDispatchTailWitness.v
+
+certiucos/v293/proofs/V293OSSchedDispatchFinish.v
+certiucos/v293/proofs/V293OSSchedDispatchFinishWitness.v

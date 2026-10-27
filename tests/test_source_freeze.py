@@ -1222,3 +1222,84 @@ class DispatchTailCheckpointTests(FrozenFixture):
                 self.reject_report(lambda x: x['checks']['dispatch_tail:expanded_half_present:' + suffix].update(exit_code=1),
                                    'dispatch-tail expanded ownership baseline missing')
                 (self.root / FUNCTIONS.REPORT).write_text(original)
+
+
+class DispatchFinishCheckpointTests(FrozenFixture):
+    def setUp(self):
+        super().setUp()
+        self.dispatch = load('v293-scheduler-dispatch-finish.py')
+
+    def reject_report(self, mutate, message):
+        self.edit(FUNCTIONS.REPORT, mutate)
+        with self.assertRaisesRegex(ValueError, message):
+            COVERAGE.audit(self.root)
+
+    def test_dispatch_finish_cannot_claim_function_coverage(self):
+        self.reject_report(lambda x: x['scheduler_dispatch_finish_checkpoint'].update(coverage_credit=True),
+                           'dispatch-finish checkpoint scope/roots/source/controls differ')
+
+    def test_dispatch_finish_cannot_claim_full_source_caller(self):
+        self.reject_report(lambda x: x['scheduler_dispatch_finish_checkpoint'].update(scope='FULL_OS_SCHED'),
+                           'dispatch-finish checkpoint scope/roots/source/controls differ')
+
+    def test_dispatch_finish_source_identity_and_roots_are_fixed(self):
+        self.reject_report(lambda x: x['scheduler_dispatch_finish_checkpoint']['source_location'].update(first_line=1),
+                           'dispatch-finish checkpoint scope/roots/source/controls differ')
+
+    def test_dispatch_finish_root_cannot_disappear(self):
+        self.reject_report(lambda x: x['scheduler_dispatch_finish_checkpoint']['roots'].pop(),
+                           'dispatch-finish checkpoint scope/roots/source/controls differ')
+
+    def test_unknown_dispatch_finish_assumption_rejected(self):
+        self.reject_report(lambda x: x['scheduler_dispatch_finish_checkpoint']['root_assumptions'].append('Unknown.dispatch_finish'),
+                           'unexpected dispatch-finish root assumptions')
+
+    def test_all_dispatch_finish_positive_commands_required(self):
+        for key in ['positive:' + Path(p).stem for p in self.dispatch.FILES] + ['positive:contract', 'coqchk']:
+            with self.subTest(key=key):
+                original = (self.root / FUNCTIONS.REPORT).read_text()
+                self.reject_report(lambda x: x['checks']['dispatch_finish:' + key].update(exit_code=1),
+                                   'dispatch-finish checkpoint positive check failed')
+                (self.root / FUNCTIONS.REPORT).write_text(original)
+
+    def test_all_dispatch_finish_designated_rejections_required(self):
+        for label, (rel, _) in self.dispatch.OBLIGATIONS.items():
+            suffix = 'contract' if rel is None else Path(rel).stem
+            with self.subTest(label=label):
+                original = (self.root / FUNCTIONS.REPORT).read_text()
+                self.reject_report(lambda x: x['checks']['dispatch_finish:' + label + ':' + suffix].update(exit_code=0),
+                                   'dispatch-finish designated control missing')
+                (self.root / FUNCTIONS.REPORT).write_text(original)
+
+    def test_false_dispatch_finish_control_requires_all_modules_success(self):
+        for rel in self.dispatch.FILES:
+            with self.subTest(rel=rel):
+                original = (self.root / FUNCTIONS.REPORT).read_text()
+                self.reject_report(lambda x: x['checks']['dispatch_finish:guard_false_premise_only:' + Path(rel).stem].update(exit_code=1),
+                                   'dispatch-finish control prerequisite missing')
+                (self.root / FUNCTIONS.REPORT).write_text(original)
+
+    def test_dispatch_finish_wrong_rejection_file_is_rejected(self):
+        key = 'dispatch_finish:equal_pending_post_only:V293OSSchedDispatchFinish'
+        self.reject_report(lambda x: x['checks'][key].update(stderr=x['checks'][key]['stderr'].replace(
+            self.dispatch.CORE, 'unrelated.v')), 'dispatch-finish control missed designated obligation')
+
+    def test_dispatch_finish_wrong_rejection_line_is_rejected(self):
+        import re
+        key = 'dispatch_finish:equal_pending_post_only:V293OSSchedDispatchFinish'
+        self.reject_report(lambda x: x['checks'][key].update(stderr=re.sub(
+            r'line \d+, characters', 'line 1, characters', x['checks'][key]['stderr'])),
+            'dispatch-finish control missed designated obligation')
+
+    def test_dispatch_finish_module_or_checker_drift_is_stale(self):
+        for rel in [*self.dispatch.FILES, 'scripts/v293-scheduler-dispatch-finish.py']:
+            with self.subTest(rel=rel):
+                path = self.root / rel; original = path.read_text()
+                path.write_text(original + '\n')
+                with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+                    COVERAGE.audit(self.root)
+                path.write_text(original)
+
+    def test_dispatch_finish_control_manifest_cannot_lose_a_factor(self):
+        self.reject_report(lambda x: x['scheduler_dispatch_finish_checkpoint']['negative_controls'].pop('equal_pending_post_only'),
+                           'dispatch-finish checkpoint scope/roots/source/controls differ')
