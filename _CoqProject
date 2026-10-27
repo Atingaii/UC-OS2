@@ -165,3 +165,6 @@ certiucos/v293/proofs/V293DispatchState.v
 certiucos/v293/proofs/V293OSSchedSwitch.v
 
 certiucos/v293/proofs/V293OSSchedSwitchWitness.v
+
+certiucos/v293/proofs/V293OSSchedDispatchShared.v
+certiucos/v293/proofs/V293OSSchedDispatchSharedWitness.v
