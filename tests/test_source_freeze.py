@@ -703,3 +703,94 @@ class SchedulerCurrentCheckpointTests(FrozenFixture):
         path.write_text(path.read_text() + '\n(* mutation *)\n')
         with self.assertRaisesRegex(ValueError, 'stale function evidence'):
             COVERAGE.audit(self.root)
+
+
+class SchedulerCriticalCheckpointTests(FrozenFixture):
+    def reject_report(self, mutate, message):
+        self.edit(FUNCTIONS.REPORT, mutate)
+        with self.assertRaisesRegex(ValueError, message):
+            COVERAGE.audit(self.root)
+
+    def test_critical_cannot_claim_coverage(self):
+        self.reject_report(lambda x: x['scheduler_critical_checkpoint'].update(coverage_credit=True),
+                           'critical checkpoint scope/roots/source/controls differ')
+
+    def test_critical_scope_cannot_claim_switch(self):
+        self.reject_report(lambda x: x['scheduler_critical_checkpoint'].update(scope='SWITCH_PROVED'),
+                           'critical checkpoint scope/roots/source/controls differ')
+
+    def test_critical_source_location_is_exact(self):
+        self.reject_report(lambda x: x['scheduler_critical_checkpoint']['source_location'].update(first_line=1),
+                           'critical checkpoint scope/roots/source/controls differ')
+
+    def test_critical_root_cannot_be_removed(self):
+        self.reject_report(lambda x: x['scheduler_critical_checkpoint']['roots'].pop(),
+                           'critical checkpoint scope/roots/source/controls differ')
+
+    def test_critical_unknown_assumption(self):
+        self.reject_report(lambda x: x['scheduler_critical_checkpoint']['root_assumptions'].append('Unknown.critical'),
+                           'unexpected critical root assumptions')
+
+    def test_critical_witness_must_succeed(self):
+        self.reject_report(lambda x: x['checks']['critical:positive:V293OSSchedCriticalWitness'].update(exit_code=1),
+                           'critical checkpoint positive check failed')
+
+    def test_critical_probe_must_succeed(self):
+        self.reject_report(lambda x: x['checks']['critical:positive:contract'].update(exit_code=1),
+                           'critical checkpoint positive check failed')
+
+    def test_critical_coqchk_must_succeed(self):
+        self.reject_report(lambda x: x['checks']['critical:coqchk'].update(exit_code=1),
+                           'critical checkpoint positive check failed')
+
+    def test_dropped_payload_must_reject(self):
+        self.reject_report(lambda x: x['checks']['critical:payload_return_dropped_only:V293OSSchedCritical'].update(exit_code=0),
+                           'critical designated control missing')
+
+    def test_reset_snapshot_must_reject(self):
+        self.reject_report(lambda x: x['checks']['critical:critical_call_snapshot_reset_only:V293OSSchedCritical'].update(exit_code=0),
+                           'critical designated control missing')
+
+    def test_ignored_stack_requires_core_success(self):
+        self.reject_report(lambda x: x['checks']['critical:critical_stack_ignored_only:V293OSSchedCritical'].update(exit_code=1),
+                           'critical control prerequisite missing')
+
+    def test_ignored_stack_requires_witness_success(self):
+        self.reject_report(lambda x: x['checks']['critical:critical_stack_ignored_only:V293OSSchedCriticalWitness'].update(exit_code=1),
+                           'critical control prerequisite missing')
+
+    def test_ignored_stack_selector_must_reject(self):
+        self.reject_report(lambda x: x['checks']['critical:critical_stack_ignored_only:contract'].update(exit_code=0),
+                           'critical designated control missing')
+
+    def test_critical_false_premise_requires_witness_success(self):
+        self.reject_report(lambda x: x['checks']['critical:critical_prefix_false_premise_added_only:V293OSSchedCriticalWitness'].update(exit_code=1),
+                           'critical control prerequisite missing')
+
+    def test_critical_false_premise_requires_probe_rejection(self):
+        self.reject_report(lambda x: x['checks']['critical:critical_prefix_false_premise_added_only:contract'].update(exit_code=0),
+                           'critical designated control missing')
+
+    def test_illegal_frame_requires_core_success(self):
+        self.reject_report(lambda x: x['checks']['critical:critical_prefix_illegal_frame_premise_added_only:V293OSSchedCritical'].update(exit_code=1),
+                           'critical control prerequisite missing')
+
+    def test_illegal_frame_requires_witness_success(self):
+        self.reject_report(lambda x: x['checks']['critical:critical_prefix_illegal_frame_premise_added_only:V293OSSchedCriticalWitness'].update(exit_code=1),
+                           'critical control prerequisite missing')
+
+    def test_illegal_frame_probe_must_reject(self):
+        self.reject_report(lambda x: x['checks']['critical:critical_prefix_illegal_frame_premise_added_only:contract'].update(exit_code=0),
+                           'critical designated control missing')
+
+    def test_critical_changed_checker_is_stale(self):
+        path = self.root / 'scripts/v293-scheduler-critical.py'
+        path.write_text(path.read_text() + '\n# mutation\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_critical_changed_proof_is_stale(self):
+        path = self.root / 'certiucos/v293/proofs/V293OSSchedCritical.v'
+        path.write_text(path.read_text() + '\n(* mutation *)\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
