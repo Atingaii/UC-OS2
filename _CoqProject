@@ -150,3 +150,6 @@ certiucos/v293/proofs/V293OSSchedCurrentWitness.v
 
 certiucos/v293/proofs/V293OSSchedCritical.v
 certiucos/v293/proofs/V293OSSchedCriticalWitness.v
+
+certiucos/v293/proofs/V293OSSchedSwitchPre.v
+certiucos/v293/proofs/V293OSSchedSwitchPreWitness.v

@@ -794,3 +794,86 @@ class SchedulerCriticalCheckpointTests(FrozenFixture):
         path.write_text(path.read_text() + '\n(* mutation *)\n')
         with self.assertRaisesRegex(ValueError, 'stale function evidence'):
             COVERAGE.audit(self.root)
+
+
+class SchedulerSwitchPreCheckpointTests(FrozenFixture):
+    def reject_report(self, mutate, message):
+        self.edit(FUNCTIONS.REPORT, mutate)
+        with self.assertRaisesRegex(ValueError, message):
+            COVERAGE.audit(self.root)
+
+    def test_switch_pre_cannot_claim_coverage(self):
+        self.reject_report(lambda x: x['scheduler_switch_pre_checkpoint'].update(coverage_credit=True),
+                           'switch_pre checkpoint scope/roots/source/controls differ')
+
+    def test_switch_pre_scope_cannot_claim_switch(self):
+        self.reject_report(lambda x: x['scheduler_switch_pre_checkpoint'].update(scope='SWITCH_PROVED'),
+                           'switch_pre checkpoint scope/roots/source/controls differ')
+
+    def test_switch_pre_source_location_is_exact(self):
+        self.reject_report(lambda x: x['scheduler_switch_pre_checkpoint']['source_location'].update(first_line=1),
+                           'switch_pre checkpoint scope/roots/source/controls differ')
+
+    def test_switch_pre_root_cannot_be_removed(self):
+        self.reject_report(lambda x: x['scheduler_switch_pre_checkpoint']['roots'].pop(),
+                           'switch_pre checkpoint scope/roots/source/controls differ')
+
+    def test_switch_pre_unknown_assumption(self):
+        self.reject_report(lambda x: x['scheduler_switch_pre_checkpoint']['root_assumptions'].append('Unknown.switch_pre'),
+                           'unexpected switch_pre root assumptions')
+
+    def test_switch_pre_core_must_succeed(self):
+        self.reject_report(lambda x: x['checks']['switch_pre:positive:V293OSSchedSwitchPre'].update(exit_code=1),
+                           'switch_pre checkpoint positive check failed')
+
+    def test_switch_pre_witness_must_succeed(self):
+        self.reject_report(lambda x: x['checks']['switch_pre:positive:V293OSSchedSwitchPreWitness'].update(exit_code=1),
+                           'switch_pre checkpoint positive check failed')
+
+    def test_switch_pre_probe_must_succeed(self):
+        self.reject_report(lambda x: x['checks']['switch_pre:positive:contract'].update(exit_code=1),
+                           'switch_pre checkpoint positive check failed')
+
+    def test_switch_pre_coqchk_must_succeed(self):
+        self.reject_report(lambda x: x['checks']['switch_pre:coqchk'].update(exit_code=1),
+                           'switch_pre checkpoint positive check failed')
+
+    def test_second_half_removal_must_reject(self):
+        self.reject_report(lambda x: x['checks']['switch_pre:current_second_half_removed_only:V293OSSchedSwitchPre'].update(exit_code=0),
+                           'switch_pre designated control missing')
+
+    def test_membership_removal_must_reject(self):
+        self.reject_report(lambda x: x['checks']['switch_pre:current_membership_removed_only:V293OSSchedSwitchPre'].update(exit_code=0),
+                           'switch_pre designated control missing')
+
+    def test_readonly_fixture_requires_core_success(self):
+        self.reject_report(lambda x: x['checks']['switch_pre:fixture_current_read_only:V293OSSchedSwitchPre'].update(exit_code=1),
+                           'switch_pre control prerequisite missing')
+
+    def test_readonly_fixture_must_reject(self):
+        self.reject_report(lambda x: x['checks']['switch_pre:fixture_current_read_only:V293OSSchedSwitchPreWitness'].update(exit_code=0),
+                           'switch_pre designated control missing')
+
+    def test_switch_pre_false_premise_requires_core_success(self):
+        self.reject_report(lambda x: x['checks']['switch_pre:switch_pre_false_premise_added_only:V293OSSchedSwitchPre'].update(exit_code=1),
+                           'switch_pre control prerequisite missing')
+
+    def test_switch_pre_false_premise_requires_witness_success(self):
+        self.reject_report(lambda x: x['checks']['switch_pre:switch_pre_false_premise_added_only:V293OSSchedSwitchPreWitness'].update(exit_code=1),
+                           'switch_pre control prerequisite missing')
+
+    def test_switch_pre_false_premise_requires_probe_rejection(self):
+        self.reject_report(lambda x: x['checks']['switch_pre:switch_pre_false_premise_added_only:contract'].update(exit_code=0),
+                           'switch_pre designated control missing')
+
+    def test_switch_pre_changed_checker_is_stale(self):
+        path = self.root / 'scripts/v293-scheduler-switch-pre.py'
+        path.write_text(path.read_text() + '\n# mutation\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_switch_pre_changed_proof_is_stale(self):
+        path = self.root / 'certiucos/v293/proofs/V293OSSchedSwitchPre.v'
+        path.write_text(path.read_text() + '\n(* mutation *)\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
