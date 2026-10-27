@@ -41,8 +41,18 @@ Ltac V293_prefix_single_join k :=
   destruct (Pos.eq_dec b k); [subst b | ];
   first [left; V293_prefix_outside | right; left; V293_prefix_outside].
 
+Section PrefixEnvironment.
+Variable ge : env.
+Hypothesis G100 : get ge 100%Z = Some (1%positive, Tarray Tint8 256).
+Hypothesis G101 : get ge 101%Z = Some (2%positive, Tint8).
+Hypothesis G102 : get ge 102%Z = Some (3%positive, Tarray Tint8 2).
+Hypothesis G103 : get ge 103%Z = Some (4%positive, Tint8).
+Hypothesis Gcur : get ge OSTCBCur = Some (6%positive, Tptr Tvoid).
+Hypothesis G106 : get ge 106%Z = Some (8%positive, Tarray (Tptr Tvoid) 13).
+Hypothesis G107 : get ge 107%Z = Some (10%positive, Tptr Tvoid).
+
 Lemma V293_prefix_fixture_inputs :
-  V293_wstate V293_prefix_fixture_ge emp V293_witness_inputs |=
+  V293_wstate ge emp V293_witness_inputs |=
     V293_sched_inputs 1%positive 2%positive 3%positive 0 16 2.
 Proof.
   eapply V293_wstate_star; [V293_prefix_single_join 1%positive | apply V293_read_bytes_witness | ].
@@ -51,7 +61,7 @@ Proof.
 Qed.
 
 Lemma V293_prefix_fixture_current :
-  V293_wstate V293_prefix_fixture_ge emp V293_witness_current |=
+  V293_wstate ge emp V293_witness_current |=
     CurLINV V293_witness_li V293_idle_tid.
 Proof.
   exists (nil : list logicvar).
@@ -60,7 +70,7 @@ Proof.
   - exists Tvoid. exists 6%positive.
     eapply V293_wstate_star with (m1 := emp) (m2 := V293_witness_current).
     + apply map_join_comm. apply map_join_emp.
-    + exists 6%positive. split; [vm_compute; reflexivity | ]. split; [reflexivity | split; reflexivity].
+    + exists 6%positive. split; [exact Gcur | ]. split; [reflexivity | split; reflexivity].
     + split; [apply V293_encoded_memory_mapsto | reflexivity].
   - eapply V293_wstate_star with (m1 := emp) (m2 := emp).
     + apply map_join_emp.
@@ -73,18 +83,18 @@ Proof.
 Qed.
 
 Lemma V293_prefix_fixture_globals :
-  V293_wstate V293_prefix_fixture_ge emp emp |=
+  V293_wstate ge emp emp |=
     V293_sched_globals 100%Z 101%Z 102%Z 103%Z 1%positive 2%positive 3%positive 4%positive.
 Proof.
   unfold V293_sched_globals. repeat split.
-  - exists 1%positive. vm_compute; repeat split; reflexivity.
-  - exists 2%positive. vm_compute; repeat split; reflexivity.
-  - exists 3%positive. vm_compute; repeat split; reflexivity.
-  - exists 4%positive. vm_compute; repeat split; reflexivity.
+  - exists 1%positive. split; [exact G100 | ]. repeat split; reflexivity.
+  - exists 2%positive. split; [exact G101 | ]. repeat split; reflexivity.
+  - exists 3%positive. split; [exact G102 | ]. repeat split; reflexivity.
+  - exists 4%positive. split; [exact G103 | ]. repeat split; reflexivity.
 Qed.
 
 Lemma V293_prefix_fixture_internal_sat :
-  V293_wstate V293_prefix_fixture_ge emp V293_prefix_fixture_internal |=
+  V293_wstate ge emp V293_prefix_fixture_internal |=
     V293_sched_internal_pre 100%Z 101%Z 102%Z 103%Z 1%positive 2%positive 3%positive 4%positive
       0 16 V293_witness_li V293_idle_tid (spec_done None).
 Proof.
@@ -104,7 +114,7 @@ Proof.
 Qed.
 
 Lemma V293_prefix_fixture_caller_sat :
-  V293_target_wstate V293_prefix_fixture_ge emp V293_prefix_fixture_caller V293_target_fixture_abs |=
+  V293_target_wstate ge emp V293_prefix_fixture_caller V293_target_fixture_abs |=
     V293_prefix_frame 106%Z 103%Z 107%Z Tvoid 8%positive 10%positive
       V293_idle_entries V293_idle_tasks Aemp ** V293_prefix_output Tvoid 10%positive Vnull.
 Proof.
@@ -115,8 +125,8 @@ Proof.
     + apply map_join_comm. apply map_join_emp.
     + apply map_join_comm. apply map_join_emp.
     + unfold V293_prefix_bindings. repeat split.
-      * exists 8%positive. vm_compute; repeat split; reflexivity.
-      * exists 10%positive. vm_compute; repeat split; reflexivity.
+      * exists 8%positive. split; [exact G106 | ]. repeat split; reflexivity.
+      * exists 10%positive. split; [exact G107 | ]. repeat split; reflexivity.
       * intros [v H]; discriminate.
       * intros [v H]; discriminate.
       * intros [v H]; discriminate.
@@ -129,6 +139,24 @@ Proof.
   - split; [apply V293_encoded_memory_mapsto | reflexivity].
 Qed.
 
+Lemma V293_prefix_pre_with_env :
+  V293_target_wstate ge emp V293_prefix_fixture_memory V293_target_fixture_abs |= V293_sched_internal_pre 100%Z 101%Z 102%Z 103%Z 1%positive 2%positive 3%positive 4%positive
+    0 16 V293_witness_li V293_idle_tid (spec_done None) **
+    (V293_prefix_frame 106%Z 103%Z 107%Z Tvoid 8%positive 10%positive V293_idle_entries V293_idle_tasks Aemp **
+      V293_prefix_output Tvoid 10%positive Vnull).
+Proof.
+  eapply V293_target_wstate_star with (o1 := emp) (o2 := V293_target_fixture_abs).
+  - apply map_join_merge. apply map_disjoint. intros [b i].
+    destruct (Pos.eq_dec b 8%positive); [subst b; left; V293_prefix_outside | ].
+    destruct (Pos.eq_dec b 10%positive); [subst b; left; V293_prefix_outside | ].
+    right; left; V293_prefix_outside.
+  - apply map_join_comm. apply map_join_emp.
+  - apply V293_prefix_fixture_internal_sat.
+  - apply V293_prefix_fixture_caller_sat.
+Qed.
+
+End PrefixEnvironment.
+
 Theorem V293_OSSched_prefix_precondition_witness : exists s,
   V293_bitmap_tasks 0 16 V293_idle_tasks /\ V293_priority_table V293_idle_entries V293_idle_tasks /\
   s |= V293_sched_internal_pre 100%Z 101%Z 102%Z 103%Z 1%positive 2%positive 3%positive 4%positive
@@ -138,12 +166,5 @@ Theorem V293_OSSched_prefix_precondition_witness : exists s,
 Proof.
   exists V293_prefix_fixture_state. destruct V293_idle_relations as [Hb Ht].
   split; [exact Hb | ]. split; [exact Ht | ].
-  eapply V293_target_wstate_star with (o1 := emp) (o2 := V293_target_fixture_abs).
-  - apply map_join_merge. apply map_disjoint. intros [b i].
-    destruct (Pos.eq_dec b 8%positive); [subst b; left; V293_prefix_outside | ].
-    destruct (Pos.eq_dec b 10%positive); [subst b; left; V293_prefix_outside | ].
-    right; left; V293_prefix_outside.
-  - apply map_join_comm. apply map_join_emp.
-  - apply V293_prefix_fixture_internal_sat.
-  - apply V293_prefix_fixture_caller_sat.
+  apply V293_prefix_pre_with_env; vm_compute; reflexivity.
 Qed.

@@ -528,3 +528,53 @@ class SchedulerPrefixCheckpointTests(FrozenFixture):
         path.write_text(path.read_text() + '\n# changed\n')
         with self.assertRaisesRegex(ValueError, 'stale function evidence'):
             COVERAGE.audit(self.root)
+
+    def test_guards_cannot_claim_function_coverage(self):
+        self.reject_report(lambda x: x['scheduler_guards_checkpoint'].update(coverage_credit=True),
+                           'guards checkpoint scope/roots/source/controls differ')
+
+    def test_guards_cannot_hide_open_suffix(self):
+        self.reject_report(lambda x: x['scheduler_guards_checkpoint'].update(scope='OS_SCHED_PROVED'),
+                           'guards checkpoint scope/roots/source/controls differ')
+
+    def test_guards_source_location_is_fixed(self):
+        self.reject_report(lambda x: x['scheduler_guards_checkpoint']['source_location'].update(first_line=1),
+                           'guards checkpoint scope/roots/source/controls differ')
+
+    def test_guards_missing_root(self):
+        self.reject_report(lambda x: x['scheduler_guards_checkpoint']['roots'].pop(),
+                           'guards checkpoint scope/roots/source/controls differ')
+
+    def test_guards_unknown_assumption(self):
+        self.reject_report(lambda x: x['scheduler_guards_checkpoint']['root_assumptions'].append('Unknown.guard'),
+                           'unexpected guards root assumptions')
+
+    def test_guards_failed_whole_witness(self):
+        self.reject_report(lambda x: x['checks']['guards:positive:V293OSSchedGuardsWitness'].update(exit_code=1),
+                           'guards checkpoint positive check failed')
+
+    def test_guards_failed_coqchk(self):
+        self.reject_report(lambda x: x['checks']['guards:coqchk'].update(exit_code=1),
+                           'guards checkpoint positive check failed')
+
+    def test_guards_missing_inner_guard_rejection(self):
+        self.reject_report(lambda x: x['checks']['guards:lock_guard_replaced_with_interrupt_only:V293OSSchedGuards'].update(exit_code=0),
+                           'guards designated control missing')
+
+    def test_guards_false_premise_requires_witness_success(self):
+        self.reject_report(lambda x: x['checks']['guards:continuation_false_premise_added_only:V293OSSchedGuardsWitness'].update(exit_code=1),
+                           'guards control prerequisite missing')
+
+    def test_guards_false_premise_probe_must_reject(self):
+        self.reject_report(lambda x: x['checks']['guards:continuation_false_premise_added_only:contract'].update(exit_code=0),
+                           'guards designated control missing')
+
+    def test_guards_changed_checker_is_stale(self):
+        path = self.root / 'scripts/v293-scheduler-guards.py'
+        path.write_text(path.read_text() + '\n# changed\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_guards_semantic_rejection_requires_code_success(self):
+        self.reject_report(lambda x: x['checks']['guards:lock_guard_replaced_with_interrupt_only:code:V293OSSchedGuards'].update(exit_code=1),
+                           'guards control code prerequisite missing')
