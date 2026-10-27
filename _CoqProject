@@ -133,3 +133,6 @@ certiucos/v293/model/V293SchedulerTasks.v
 certiucos/v293/proofs/V293OSSchedCall.v
 certiucos/v293/proofs/V293OSSchedTarget.v
 certiucos/v293/proofs/V293OSSchedTargetWitness.v
+
+certiucos/v293/proofs/V293OSSchedPrefix.v
+certiucos/v293/proofs/V293OSSchedPrefixWitness.v

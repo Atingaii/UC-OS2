@@ -465,3 +465,66 @@ class SchedulerCallerCheckpointTests(FrozenFixture):
         path.write_text(path.read_text() + '\n# mutation\n')
         with self.assertRaisesRegex(ValueError, 'stale function evidence'):
             COVERAGE.audit(self.root)
+
+
+class SchedulerPrefixCheckpointTests(FrozenFixture):
+    def reject_report(self, mutate, message):
+        self.edit(FUNCTIONS.REPORT, mutate)
+        with self.assertRaisesRegex(ValueError, message):
+            COVERAGE.audit(self.root)
+
+    def test_prefix_cannot_claim_function_coverage(self):
+        self.reject_report(lambda x: x['scheduler_prefix_checkpoint'].update(coverage_credit=True),
+                           'prefix checkpoint scope/roots/source/controls differ')
+
+    def test_prefix_cannot_claim_whole_function(self):
+        self.reject_report(lambda x: x['scheduler_prefix_checkpoint'].update(scope='OS_SCHED_PROVED'),
+                           'prefix checkpoint scope/roots/source/controls differ')
+
+    def test_prefix_wrong_source_location(self):
+        self.reject_report(lambda x: x['scheduler_prefix_checkpoint']['source_location'].update(first_line=1),
+                           'prefix checkpoint scope/roots/source/controls differ')
+
+    def test_prefix_missing_root(self):
+        self.reject_report(lambda x: x['scheduler_prefix_checkpoint']['roots'].remove('V293_OSSched_target_assign'),
+                           'prefix checkpoint scope/roots/source/controls differ')
+
+    def test_prefix_unknown_assumption(self):
+        self.reject_report(lambda x: x['scheduler_prefix_checkpoint']['root_assumptions'].append('Unknown.assumption'),
+                           'unexpected prefix root assumptions')
+
+    def test_prefix_failed_whole_precondition_witness(self):
+        self.reject_report(lambda x: x['checks']['prefix:positive:V293OSSchedPrefixWitness'].update(exit_code=1),
+                           'prefix checkpoint positive check failed')
+
+    def test_prefix_failed_coqchk(self):
+        self.reject_report(lambda x: x['checks']['prefix:coqchk'].update(exit_code=1),
+                           'prefix checkpoint positive check failed')
+
+    def test_prefix_missing_permission_rejection(self):
+        self.reject_report(lambda x: x['checks']['prefix:output_write_permission_removed_only:V293OSSchedPrefix'].update(exit_code=0),
+                           'prefix designated control missing')
+
+    def test_prefix_missing_order_rejection(self):
+        self.reject_report(lambda x: x['checks']['prefix:statement_order_reversed_only:V293OSSchedPrefix'].update(exit_code=0),
+                           'prefix designated control missing')
+
+    def test_prefix_vacuity_cannot_fail_before_probe(self):
+        self.reject_report(lambda x: x['checks']['prefix:prefix_false_premise_added_only:V293OSSchedPrefixWitness'].update(exit_code=1),
+                           'prefix control prerequisite missing')
+
+    def test_prefix_vacuity_probe_must_reject(self):
+        self.reject_report(lambda x: x['checks']['prefix:prefix_false_premise_added_only:contract'].update(exit_code=0),
+                           'prefix designated control missing')
+
+    def test_prefix_changed_coq_is_stale(self):
+        path = self.root / 'certiucos/v293/proofs/V293OSSchedPrefix.v'
+        path.write_text(path.read_text() + '\n(* changed *)\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_prefix_changed_checker_is_stale(self):
+        path = self.root / 'scripts/v293-scheduler-prefix.py'
+        path.write_text(path.read_text() + '\n# changed\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
