@@ -82,4 +82,6 @@
 
 ## 当前下一条纵向义务
 
-`OS_SchedNew` 已从真实分离资源证明两次赋值与 void 返回的函数体 `InfRules`，并构造空间前置见证，见[第十阶段报告](audit/STAGE10_SCHEDULER_BODY_HOARE.md)。下一步连接局部变量入口分配、返回释放及 `BuildPreI`／`BuildRetI`／`WFFunEnv`，形成真正的内部组件，然后连接 `OS_Sched` 和实际共享不变量／初始化。当前调用方提供的 `CurLINV` 尚未实例化为完整内核不变量；空不变量只用于可满足性测试。不以函数体规则替代完整组件，也不提前提升六门覆盖。
+`OS_SchedNew` 已有实际函数体、构造器、单函数 `WFFunEnv` 与内部调用；stage20 已将唯一共享任务表借给真实两句前缀再归还。stage21 新增含完整目标单元的共享核心并实例化普通 `switch_rule`，但它尚未与 stage20 前缀接通，不能把两个检查点相加当作完整 `OS_Sched`。
+
+下一条纵向义务：按新含目标单元的核心重组前缀的借还接口，连接两层 guard、比较和计数器，再处理 `OSPrioCur`／`OSCtxSw` 源码对应、已删除当前任务的切换与临界区。物理共享结构、完整函数环境和初始化仍须接入同一个程序，最后闭合 `GOOD_OS` 和同程序 K1–K4。细节见[stage21 报告](audit/STAGE21_SCHEDULER_SWITCH.md)。不提前提升函数六门覆盖。

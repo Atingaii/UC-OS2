@@ -983,3 +983,80 @@ class SharedPrefixCheckpointTests(FrozenFixture):
         path.write_text(path.read_text() + '\n(* identity drift *)\n')
         with self.assertRaisesRegex(ValueError, 'stale function evidence'):
             COVERAGE.audit(self.root)
+
+
+class NormalSwitchCheckpointTests(FrozenFixture):
+    def setUp(self):
+        super().setUp()
+        self.switch = load('v293-scheduler-switch.py')
+
+    def reject_report(self, mutate, message):
+        self.edit(FUNCTIONS.REPORT, mutate)
+        with self.assertRaisesRegex(ValueError, message):
+            COVERAGE.audit(self.root)
+
+    def test_switch_cannot_claim_function_coverage(self):
+        self.reject_report(lambda x: x['scheduler_switch_checkpoint'].update(coverage_credit=True),
+                           'normal-switch checkpoint scope/roots/source/controls differ')
+
+    def test_switch_cannot_claim_full_source_caller(self):
+        self.reject_report(lambda x: x['scheduler_switch_checkpoint'].update(scope='FULL_OS_SCHED'),
+                           'normal-switch checkpoint scope/roots/source/controls differ')
+
+    def test_switch_source_identity_and_roots_are_fixed(self):
+        self.reject_report(lambda x: x['scheduler_switch_checkpoint']['source_location'].update(first_line=1),
+                           'normal-switch checkpoint scope/roots/source/controls differ')
+
+    def test_switch_root_cannot_disappear(self):
+        self.reject_report(lambda x: x['scheduler_switch_checkpoint']['roots'].pop(),
+                           'normal-switch checkpoint scope/roots/source/controls differ')
+
+    def test_unknown_switch_assumption_rejected(self):
+        self.reject_report(lambda x: x['scheduler_switch_checkpoint']['root_assumptions'].append('Unknown.switch'),
+                           'unexpected normal-switch root assumptions')
+
+    def test_all_switch_positive_commands_required(self):
+        for key in ['positive:' + Path(p).stem for p in self.switch.FILES] + ['positive:contract', 'coqchk']:
+            with self.subTest(key=key):
+                original = (self.root / FUNCTIONS.REPORT).read_text()
+                self.reject_report(lambda x: x['checks']['normal_switch:' + key].update(exit_code=1),
+                                   'normal-switch checkpoint positive check failed')
+                (self.root / FUNCTIONS.REPORT).write_text(original)
+
+    def test_all_switch_designated_rejections_required(self):
+        for label, (rel, _) in self.switch.OBLIGATIONS.items():
+            suffix = 'contract' if rel is None else Path(rel).stem
+            with self.subTest(label=label):
+                original = (self.root / FUNCTIONS.REPORT).read_text()
+                self.reject_report(lambda x: x['checks']['normal_switch:' + label + ':' + suffix].update(exit_code=0),
+                                   'shared designated control missing')
+                (self.root / FUNCTIONS.REPORT).write_text(original)
+
+    def test_false_switch_control_requires_all_modules_success(self):
+        for rel in self.switch.FILES:
+            with self.subTest(rel=rel):
+                original = (self.root / FUNCTIONS.REPORT).read_text()
+                self.reject_report(lambda x: x['checks']['normal_switch:switch_false_premise_added_only:' + Path(rel).stem].update(exit_code=1),
+                                   'normal-switch control prerequisite missing')
+                (self.root / FUNCTIONS.REPORT).write_text(original)
+
+    def test_switch_wrong_rejection_file_is_rejected(self):
+        key = 'normal_switch:resumed_action_pending_only:V293OSSchedSwitch'
+        self.reject_report(lambda x: x['checks'][key].update(stderr=x['checks'][key]['stderr'].replace(
+            self.switch.CORE, 'unrelated.v')), 'normal-switch control missed designated obligation')
+
+    def test_switch_wrong_rejection_line_is_rejected(self):
+        import re
+        key = 'normal_switch:resumed_action_pending_only:V293OSSchedSwitch'
+        self.reject_report(lambda x: x['checks'][key].update(stderr=re.sub(
+            r'line \d+, characters', 'line 1, characters', x['checks'][key]['stderr'])),
+            'normal-switch control missed designated obligation')
+
+    def test_switch_module_or_checker_drift_is_stale(self):
+        for rel in [*self.switch.FILES, 'scripts/v293-scheduler-switch.py']:
+            with self.subTest(rel=rel):
+                path = self.root / rel; original = path.read_text()
+                path.write_text(original + '\n')
+                with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+                    COVERAGE.audit(self.root)
+                path.write_text(original)
