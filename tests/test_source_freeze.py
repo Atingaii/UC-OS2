@@ -578,3 +578,65 @@ class SchedulerPrefixCheckpointTests(FrozenFixture):
     def test_guards_semantic_rejection_requires_code_success(self):
         self.reject_report(lambda x: x['checks']['guards:lock_guard_replaced_with_interrupt_only:code:V293OSSchedGuards'].update(exit_code=1),
                            'guards control code prerequisite missing')
+
+    def test_changes_cannot_claim_function_coverage(self):
+        self.reject_report(lambda x: x['scheduler_change_checkpoint'].update(coverage_credit=True),
+                           'changes checkpoint scope/roots/source/controls differ')
+
+    def test_changes_cannot_hide_open_suffix(self):
+        self.reject_report(lambda x: x['scheduler_change_checkpoint'].update(scope='OS_SCHED_PROVED'),
+                           'changes checkpoint scope/roots/source/controls differ')
+
+    def test_changes_source_location_is_fixed(self):
+        self.reject_report(lambda x: x['scheduler_change_checkpoint']['source_location'].update(first_line=1),
+                           'changes checkpoint scope/roots/source/controls differ')
+
+    def test_changes_missing_root(self):
+        self.reject_report(lambda x: x['scheduler_change_checkpoint']['roots'].pop(),
+                           'changes checkpoint scope/roots/source/controls differ')
+
+    def test_changes_unknown_assumption(self):
+        self.reject_report(lambda x: x['scheduler_change_checkpoint']['root_assumptions'].append('Unknown.change'),
+                           'unexpected changes root assumptions')
+
+    def test_changes_failed_whole_witness(self):
+        self.reject_report(lambda x: x['checks']['changes:positive:V293OSSchedChangeWitness'].update(exit_code=1),
+                           'changes checkpoint positive check failed')
+
+    def test_changes_failed_coqchk(self):
+        self.reject_report(lambda x: x['checks']['changes:coqchk'].update(exit_code=1),
+                           'changes checkpoint positive check failed')
+
+    def test_changes_missing_equal_path_rejection(self):
+        self.reject_report(lambda x: x['checks']['changes:equal_priority_post_inverted_only:V293OSSchedChange'].update(exit_code=0),
+                           'changes designated control missing')
+
+    def test_changes_false_premise_requires_witness_success(self):
+        self.reject_report(lambda x: x['checks']['changes:guarded_change_false_premise_added_only:V293OSSchedChangeWitness'].update(exit_code=1),
+                           'changes control prerequisite missing')
+
+    def test_changes_false_premise_probe_must_reject(self):
+        self.reject_report(lambda x: x['checks']['changes:guarded_change_false_premise_added_only:contract'].update(exit_code=0),
+                           'changes designated control missing')
+
+    def test_changes_changed_checker_is_stale(self):
+        path = self.root / 'scripts/v293-scheduler-change.py'
+        path.write_text(path.read_text() + '\n# changed\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_changes_semantic_rejection_requires_code_success(self):
+        self.reject_report(lambda x: x['checks']['changes:equal_priority_post_inverted_only:code:V293OSSchedChange'].update(exit_code=1),
+                           'changes control code prerequisite missing')
+
+    def test_changes_normalization_boundary_is_fixed(self):
+        self.reject_report(lambda x: x['scheduler_change_checkpoint']['normalization'].update(boundary='VERIFIED'),
+                           'changes checkpoint scope/roots/source/controls differ')
+
+    def test_changes_no_wrap_control_requires_all_modules_success(self):
+        self.reject_report(lambda x: x['checks']['changes:counter_no_wrap_premise_added_only:V293OSSchedChangeWitness'].update(exit_code=1),
+                           'changes control prerequisite missing')
+
+    def test_changes_no_wrap_probe_must_reject(self):
+        self.reject_report(lambda x: x['checks']['changes:counter_no_wrap_premise_added_only:contract'].update(exit_code=0),
+                           'changes designated control missing')
