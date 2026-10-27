@@ -640,3 +640,66 @@ class SchedulerPrefixCheckpointTests(FrozenFixture):
     def test_changes_no_wrap_probe_must_reject(self):
         self.reject_report(lambda x: x['checks']['changes:counter_no_wrap_premise_added_only:contract'].update(exit_code=0),
                            'changes designated control missing')
+
+
+class SchedulerCurrentCheckpointTests(FrozenFixture):
+    def reject_report(self, mutate, message):
+        self.edit(FUNCTIONS.REPORT, mutate)
+        with self.assertRaisesRegex(ValueError, message):
+            COVERAGE.audit(self.root)
+
+    def test_current_cannot_claim_coverage(self):
+        self.reject_report(lambda x: x['scheduler_current_checkpoint'].update(coverage_credit=True),
+                           'current checkpoint scope/roots/source/controls differ')
+
+    def test_current_scope_cannot_claim_switch(self):
+        self.reject_report(lambda x: x['scheduler_current_checkpoint'].update(scope='SWITCH_PROVED'),
+                           'current checkpoint scope/roots/source/controls differ')
+
+    def test_current_source_location_is_exact(self):
+        self.reject_report(lambda x: x['scheduler_current_checkpoint']['source_location'].update(first_line=1),
+                           'current checkpoint scope/roots/source/controls differ')
+
+    def test_current_root_cannot_be_removed(self):
+        self.reject_report(lambda x: x['scheduler_current_checkpoint']['roots'].remove('V293_OSSched_guarded_current_prefix'),
+                           'current checkpoint scope/roots/source/controls differ')
+
+    def test_current_unknown_assumption(self):
+        self.reject_report(lambda x: x['scheduler_current_checkpoint']['root_assumptions'].append('Unknown.current'),
+                           'unexpected current root assumptions')
+
+    def test_current_witness_must_succeed(self):
+        self.reject_report(lambda x: x['checks']['current:positive:V293OSSchedCurrentWitness'].update(exit_code=1),
+                           'current checkpoint positive check failed')
+
+    def test_current_coqchk_must_succeed(self):
+        self.reject_report(lambda x: x['checks']['current:coqchk'].update(exit_code=1),
+                           'current checkpoint positive check failed')
+
+    def test_current_permission_control_must_reject(self):
+        self.reject_report(lambda x: x['checks']['current:target_output_read_permission_only:V293OSSchedCurrent'].update(exit_code=0),
+                           'current designated control missing')
+
+    def test_blocked_witness_requires_core_success(self):
+        self.reject_report(lambda x: x['checks']['current:blocked_current_forced_ready_only:V293OSSchedCurrent'].update(exit_code=1),
+                           'current control prerequisite missing')
+
+    def test_current_false_premise_requires_witness_success(self):
+        self.reject_report(lambda x: x['checks']['current:current_prefix_false_premise_added_only:V293OSSchedCurrentWitness'].update(exit_code=1),
+                           'current control prerequisite missing')
+
+    def test_current_false_premise_requires_probe_rejection(self):
+        self.reject_report(lambda x: x['checks']['current:current_prefix_false_premise_added_only:contract'].update(exit_code=0),
+                           'current designated control missing')
+
+    def test_current_changed_checker_is_stale(self):
+        path = self.root / 'scripts/v293-scheduler-current.py'
+        path.write_text(path.read_text() + '\n# mutation\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_current_changed_proof_is_stale(self):
+        path = self.root / 'certiucos/v293/proofs/V293OSSchedCurrent.v'
+        path.write_text(path.read_text() + '\n(* mutation *)\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)

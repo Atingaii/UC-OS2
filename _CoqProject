@@ -144,3 +144,6 @@ certiucos/v293/proofs/V293OSSchedGuardsWitness.v
 certiucos/v293/code/V293OSSchedChange.v
 certiucos/v293/proofs/V293OSSchedChange.v
 certiucos/v293/proofs/V293OSSchedChangeWitness.v
+
+certiucos/v293/proofs/V293OSSchedCurrent.v
+certiucos/v293/proofs/V293OSSchedCurrentWitness.v
