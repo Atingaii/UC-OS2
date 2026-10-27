@@ -172,15 +172,16 @@ Proof.
   split; [apply V293_sched_internal_post_good; exact Hli | apply V293_sched_critical_good].
 Defined.
 
-Theorem V293_OSSchedNew_critical_contract : forall P f Spec sd li I
+(* Resource ownership I and ambient rule invariant RI need not coincide. *)
+Theorem V293_resource_OSSchedNew_critical_contract : forall P f Spec sd li I RI
     unmap group rows high y bt bg br bh (Hli : GoodLInvAsrt li) lg tid vl pre post,
   unmap <> y -> group <> y -> rows <> y -> high <> y ->
   P f = Some (V293_OSSchedNew_function unmap group rows high y) ->
   Some pre = BuildPreI P f vl lg (V293_critical_fpre unmap group rows high bt bg br bh li I Hli) tid ->
   Some post = BuildRetI P f vl lg (V293_critical_fpost unmap group rows high bt bg br bh li I Hli) tid ->
-  InfRules Spec sd li I post Afalse pre (V293_OSSchedNew_body unmap group rows high y) Afalse tid.
+  InfRules Spec sd li RI post Afalse pre (V293_OSSchedNew_body unmap group rows high y) Afalse tid.
 Proof.
-  intros P f Spec sd li I unmap group rows high y bt bg br bh Hli lg tid vl pre post
+  intros P f Spec sd li I RI unmap group rows high y bt bg br bh Hli lg tid vl pre post
     Hu Hg Hr Hh Hcode Hpre Hpost.
   unfold BuildPreI in Hpre. rewrite Hcode in Hpre.
   destruct vl as [ | v vl].
@@ -199,17 +200,31 @@ Proof.
   destruct (V293_critical_args lg) as [[[[[lo hi] op] stack] critical] | ];
     [apply V293_sched_internal_payload; assumption | apply V293_sched_false_entry].
 Qed.
+
+Theorem V293_OSSchedNew_critical_contract : forall P f Spec sd li I
+    unmap group rows high y bt bg br bh (Hli : GoodLInvAsrt li) lg tid vl pre post,
+  unmap <> y -> group <> y -> rows <> y -> high <> y ->
+  P f = Some (V293_OSSchedNew_function unmap group rows high y) ->
+  Some pre = BuildPreI P f vl lg (V293_critical_fpre unmap group rows high bt bg br bh li I Hli) tid ->
+  Some post = BuildRetI P f vl lg (V293_critical_fpost unmap group rows high bt bg br bh li I Hli) tid ->
+  InfRules Spec sd li I post Afalse pre (V293_OSSchedNew_body unmap group rows high y) Afalse tid.
+Proof.
+  intros P f Spec sd li I unmap group rows high y bt bg br bh Hli lg tid vl pre post
+    Hu Hg Hr Hh Hcode Hpre Hpost.
+  eapply V293_resource_OSSchedNew_critical_contract; eassumption.
+Qed.
 Definition V293_critical_spec sched_id unmap group rows high bt bg br bh li I
     (Hli : GoodLInvAsrt li) : funspec :=
   fun f => if Z.eq_dec f sched_id then Some
     (V293_critical_fpre unmap group rows high bt bg br bh li I Hli,
      V293_critical_fpost unmap group rows high bt bg br bh li I Hli, (Tvoid, nil)) else None.
-Theorem V293_OSSchedNew_critical_WFFunEnv : forall sched_id unmap group rows high y bt bg br bh li I Hli sd,
+(* Resource ownership I and ambient rule invariant RI need not coincide. *)
+Theorem V293_resource_OSSchedNew_critical_WFFunEnv : forall sched_id unmap group rows high y bt bg br bh li I RI Hli sd,
   unmap <> y -> group <> y -> rows <> y -> high <> y ->
   WFFunEnv (V293_OSSchedNew_internal_unit sched_id unmap group rows high y)
-    (V293_critical_spec sched_id unmap group rows high bt bg br bh li I Hli) sd li I.
+    (V293_critical_spec sched_id unmap group rows high bt bg br bh li I Hli) sd li RI.
 Proof.
-  intros sched_id unmap group rows high y bt bg br bh li I Hli sd Hu Hg Hr Hh. split.
+  intros sched_id unmap group rows high y bt bg br bh li I RI Hli sd Hu Hg Hr Hh. split.
   - intros f. unfold V293_OSSchedNew_internal_unit, V293_critical_spec.
     destruct (Z.eq_dec f sched_id); split; intros [a H]; try discriminate; eexists; reflexivity.
   - intros f pre post t tl Hspec. unfold V293_critical_spec in Hspec.
@@ -219,8 +234,17 @@ Proof.
     + unfold V293_OSSchedNew_internal_unit. destruct (Z.eq_dec f sched_id); [reflexivity | contradiction].
     + split; [constructor | ]. split; [reflexivity | ].
       intros vl pre post lg tid Hpre Hpost.
-      eapply V293_OSSchedNew_critical_contract; try eassumption.
+      eapply V293_resource_OSSchedNew_critical_contract; try eassumption.
       unfold V293_OSSchedNew_internal_unit. destruct (Z.eq_dec f sched_id); [reflexivity | contradiction].
+Qed.
+
+Theorem V293_OSSchedNew_critical_WFFunEnv : forall sched_id unmap group rows high y bt bg br bh li I Hli sd,
+  unmap <> y -> group <> y -> rows <> y -> high <> y ->
+  WFFunEnv (V293_OSSchedNew_internal_unit sched_id unmap group rows high y)
+    (V293_critical_spec sched_id unmap group rows high bt bg br bh li I Hli) sd li I.
+Proof.
+  intros sched_id unmap group rows high y bt bg br bh li I Hli sd Hu Hg Hr Hh.
+  eapply V293_resource_OSSchedNew_critical_WFFunEnv; eassumption.
 Qed.
 
 Definition V293_critical_call_lg lo hi aop stack (critical : cs) : list logicvar :=
@@ -233,13 +257,14 @@ Proof.
   intros. unfold V293_critical_args, V293_critical_call_lg, V293_byteval.
   rewrite !V293_sched_snapshot_roundtrip by assumption. reflexivity.
 Qed.
-Theorem V293_OSSchedNew_critical_call : forall Spec sd li I r ri tid aop frame
+(* Resource ownership I and ambient rule invariant RI need not coincide. *)
+Theorem V293_resource_OSSchedNew_critical_call : forall Spec sd li I RI r ri tid aop frame
     sched_id unmap group rows high bt bg br bh lo hi stack critical (Hli : GoodLInvAsrt li),
   lo < 256 -> hi < 256 -> GoodFrm frame ->
   Spec sched_id = Some
     (V293_critical_fpre unmap group rows high bt bg br bh li I Hli,
      V293_critical_fpost unmap group rows high bt bg br bh li I Hli, (Tvoid, nil)) ->
-  InfRules Spec sd li I r ri
+  InfRules Spec sd li RI r ri
     ((V293_sched_internal_pre unmap group rows high bt bg br bh lo hi li tid aop **
        V293_sched_critical I stack critical) ** frame)
     (scall sched_id nil)
@@ -247,7 +272,7 @@ Theorem V293_OSSchedNew_critical_call : forall Spec sd li I r ri tid aop frame
       (V293_sched_internal_post unmap group rows high bt bg br bh lo hi li tid aop result **
         V293_sched_critical I stack critical) ** frame) tid.
 Proof.
-  intros Spec sd li I r ri tid aop frame sched_id unmap group rows high bt bg br bh lo hi stack critical Hli
+  intros Spec sd li I RI r ri tid aop frame sched_id unmap group rows high bt bg br bh lo hi stack critical Hli
     Hlo Hhi Hframe Hspec.
   assert (Ep : getasrt (V293_critical_fpre unmap group rows high bt bg br bh li I Hli nil
     (V293_critical_call_lg lo hi aop stack critical) tid) =
@@ -282,8 +307,76 @@ Proof.
       eapply V293_star_CurLINV_l; [ | exact Hs]. apply V293_sched_internal_post_CurLINV.
 Qed.
 
+Theorem V293_OSSchedNew_critical_call : forall Spec sd li I r ri tid aop frame
+    sched_id unmap group rows high bt bg br bh lo hi stack critical (Hli : GoodLInvAsrt li),
+  lo < 256 -> hi < 256 -> GoodFrm frame ->
+  Spec sched_id = Some
+    (V293_critical_fpre unmap group rows high bt bg br bh li I Hli,
+     V293_critical_fpost unmap group rows high bt bg br bh li I Hli, (Tvoid, nil)) ->
+  InfRules Spec sd li I r ri
+    ((V293_sched_internal_pre unmap group rows high bt bg br bh lo hi li tid aop **
+       V293_sched_critical I stack critical) ** frame)
+    (scall sched_id nil)
+    (EX result : option val,
+      (V293_sched_internal_post unmap group rows high bt bg br bh lo hi li tid aop result **
+        V293_sched_critical I stack critical) ** frame) tid.
+Proof.
+  intros Spec sd li I r ri tid aop frame sched_id unmap group rows high bt bg br bh lo hi stack critical Hli
+    Hlo Hhi Hframe Hspec.
+  eapply V293_resource_OSSchedNew_critical_call; eassumption.
+Qed.
+
 (* Resume the same source prefix with the switch invariant in the callee,
    and only genuinely admissible memory/abstract resources in its frame. *)
+(* Resource ownership I and ambient rule invariant RI need not coincide. *)
+Theorem V293_resource_OSSched_critical_prefix : forall Spec sd li I RI r ri tid aop frame
+    sched_id unmap group rows high bt bg br bh lo hi table target tp bp bo entries tasks old
+    stack critical (Hli : GoodLInvAsrt li),
+  lo < 256 -> hi < 256 -> (exists p, V293_bitmap_ready lo hi p) ->
+  V293_bitmap_tasks lo hi tasks -> V293_priority_table entries tasks -> GoodFrm frame ->
+  Spec sched_id = Some
+    (V293_critical_fpre unmap group rows high bt bg br bh li I Hli,
+     V293_critical_fpost unmap group rows high bt bg br bh li I Hli, (Tvoid, nil)) ->
+  InfRules Spec sd li RI r ri
+    ((V293_sched_internal_pre unmap group rows high bt bg br bh lo hi li tid aop **
+      V293_sched_critical I stack critical) **
+      (V293_prefix_frame table high target tp bp bo entries tasks frame ** V293_prefix_output tp bo old))
+    (V293_OSSched_unlocked_prefix sched_id table high target)
+    (EX t : Modules.tid, [|V293_highest_ready tasks t|] **
+      (V293_sched_internal_post unmap group rows high bt bg br bh lo hi li tid aop None **
+        (V293_prefix_frame table high target tp bp bo entries tasks
+          (V293_sched_critical I stack critical ** frame) ** V293_prefix_output tp bo (Vptr t)))) tid.
+Proof.
+  intros Spec sd li I RI r ri tid aop frame sched_id unmap group rows high bt bg br bh lo hi
+    table target tp bp bo entries tasks old stack critical Hli Hlo Hhi Hr Hb Htable Hframe Hspec.
+  destruct (V293_ready_selection_task lo hi entries tasks Hlo Hhi Hr Hb Htable)
+    as [t [m [Ht [Hentry Hhighest]]]].
+  unfold V293_OSSched_unlocked_prefix. eapply seq_rule with
+    (p' := V293_sched_internal_post unmap group rows high bt bg br bh lo hi li tid aop None **
+      (V293_prefix_frame table high target tp bp bo entries tasks
+        (V293_sched_critical I stack critical ** frame) ** V293_prefix_output tp bo old)).
+  - eapply conseq_rule with (q := EX result : option val,
+      (V293_sched_internal_post unmap group rows high bt bg br bh lo hi li tid aop result **
+        V293_sched_critical I stack critical) **
+        (V293_prefix_frame table high target tp bp bo entries tasks frame ** V293_prefix_output tp bo old)).
+    + intros s Hs; exact Hs.
+    + intros s [result Hs].
+      assert (Hs' : s |= V293_sched_internal_post unmap group rows high bt bg br bh lo hi li tid aop result **
+        (V293_prefix_frame table high target tp bp bo entries tasks
+          (V293_sched_critical I stack critical ** frame) ** V293_prefix_output tp bo old)).
+      { unfold V293_prefix_frame in *. sep auto. }
+      apply V293_prefix_call_post. exists result. exact Hs'.
+    + apply V293_resource_OSSchedNew_critical_call with (Hli := Hli); try assumption.
+      split; [apply V293_prefix_frame_good; exact Hframe | constructor].
+  - eapply conseq_rule with (q :=
+      V293_sched_internal_post unmap group rows high bt bg br bh lo hi li tid aop None **
+        (V293_prefix_frame table high target tp bp bo entries tasks
+          (V293_sched_critical I stack critical ** frame) ** V293_prefix_output tp bo (Vptr t))).
+    + intros s Hs; exact Hs.
+    + intros s Hs. exists t. apply astar_l_apure_intro; [exact Hs | exact Hhighest].
+    + apply V293_OSSched_target_assign; assumption.
+Qed.
+
 Theorem V293_OSSched_critical_prefix : forall Spec sd li I r ri tid aop frame
     sched_id unmap group rows high bt bg br bh lo hi table target tp bp bo entries tasks old
     stack critical (Hli : GoodLInvAsrt li),
@@ -304,32 +397,7 @@ Theorem V293_OSSched_critical_prefix : forall Spec sd li I r ri tid aop frame
 Proof.
   intros Spec sd li I r ri tid aop frame sched_id unmap group rows high bt bg br bh lo hi
     table target tp bp bo entries tasks old stack critical Hli Hlo Hhi Hr Hb Htable Hframe Hspec.
-  destruct (V293_ready_selection_task lo hi entries tasks Hlo Hhi Hr Hb Htable)
-    as [t [m [Ht [Hentry Hhighest]]]].
-  unfold V293_OSSched_unlocked_prefix. eapply seq_rule with
-    (p' := V293_sched_internal_post unmap group rows high bt bg br bh lo hi li tid aop None **
-      (V293_prefix_frame table high target tp bp bo entries tasks
-        (V293_sched_critical I stack critical ** frame) ** V293_prefix_output tp bo old)).
-  - eapply conseq_rule with (q := EX result : option val,
-      (V293_sched_internal_post unmap group rows high bt bg br bh lo hi li tid aop result **
-        V293_sched_critical I stack critical) **
-        (V293_prefix_frame table high target tp bp bo entries tasks frame ** V293_prefix_output tp bo old)).
-    + intros s Hs; exact Hs.
-    + intros s [result Hs].
-      assert (Hs' : s |= V293_sched_internal_post unmap group rows high bt bg br bh lo hi li tid aop result **
-        (V293_prefix_frame table high target tp bp bo entries tasks
-          (V293_sched_critical I stack critical ** frame) ** V293_prefix_output tp bo old)).
-      { unfold V293_prefix_frame in *. sep auto. }
-      apply V293_prefix_call_post. exists result. exact Hs'.
-    + apply V293_OSSchedNew_critical_call with (Hli := Hli); try assumption.
-      split; [apply V293_prefix_frame_good; exact Hframe | constructor].
-  - eapply conseq_rule with (q :=
-      V293_sched_internal_post unmap group rows high bt bg br bh lo hi li tid aop None **
-        (V293_prefix_frame table high target tp bp bo entries tasks
-          (V293_sched_critical I stack critical ** frame) ** V293_prefix_output tp bo (Vptr t))).
-    + intros s Hs; exact Hs.
-    + intros s Hs. exists t. apply astar_l_apure_intro; [exact Hs | exact Hhighest].
-    + apply V293_OSSched_target_assign; assumption.
+  eapply V293_resource_OSSched_critical_prefix; eassumption.
 Qed.
 
 Theorem V293_OSSched_guarded_critical_prefix : forall Spec sd li I r ri tid aop frame

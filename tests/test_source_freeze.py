@@ -897,3 +897,89 @@ class SharedCoreIdentityTests(FrozenFixture):
         path.write_text(path.read_text() + '\n(* identity drift *)\n')
         with self.assertRaisesRegex(ValueError, 'stale function evidence'):
             COVERAGE.audit(self.root)
+
+
+class SharedPrefixCheckpointTests(FrozenFixture):
+    def reject_report(self, mutate, message):
+        self.edit(FUNCTIONS.REPORT, mutate)
+        with self.assertRaisesRegex(ValueError, message):
+            COVERAGE.audit(self.root)
+
+    def test_shared_prefix_cannot_claim_coverage(self):
+        self.reject_report(lambda x: x['scheduler_shared_checkpoint'].update(coverage_credit=True),
+                           'shared-prefix checkpoint scope/roots/source/controls differ')
+
+    def test_shared_prefix_scope_cannot_claim_switch(self):
+        self.reject_report(lambda x: x['scheduler_shared_checkpoint'].update(scope='SWITCH_PROVED'),
+                           'shared-prefix checkpoint scope/roots/source/controls differ')
+
+    def test_shared_prefix_location_and_roots_are_exact(self):
+        self.reject_report(lambda x: x['scheduler_shared_checkpoint']['source_location'].update(first_line=1),
+                           'shared-prefix checkpoint scope/roots/source/controls differ')
+
+    def test_shared_prefix_root_cannot_be_removed(self):
+        self.reject_report(lambda x: x['scheduler_shared_checkpoint']['roots'].pop(),
+                           'shared-prefix checkpoint scope/roots/source/controls differ')
+
+    def test_shared_prefix_unknown_assumption_is_rejected(self):
+        self.reject_report(lambda x: x['scheduler_shared_checkpoint']['root_assumptions'].append('Unknown.shared_prefix'),
+                           'unexpected shared-prefix root assumptions')
+
+    def test_shared_prefix_all_positive_rows_must_succeed(self):
+        for key in ['positive:V293OSSchedShared', 'positive:V293OSSchedSharedWitness', 'positive:contract', 'coqchk']:
+            with self.subTest(key=key):
+                original = (self.root / FUNCTIONS.REPORT).read_text()
+                self.reject_report(lambda x: x['checks']['shared_prefix:' + key].update(exit_code=1),
+                                   'shared-prefix checkpoint positive check failed')
+                (self.root / FUNCTIONS.REPORT).write_text(original)
+
+    def test_shared_prefix_all_designated_failures_must_reject(self):
+        endings = [('post_time_changed_only', 'V293OSSchedShared'),
+                   ('callee_owns_shared_core_only', 'V293OSSchedShared'),
+                   ('witness_time_slot_removed_only', 'V293OSSchedSharedWitness'),
+                   ('prefix_false_premise_added_only', 'contract')]
+        for label, suffix in endings:
+            with self.subTest(label=label):
+                original = (self.root / FUNCTIONS.REPORT).read_text()
+                self.reject_report(lambda x: x['checks']['shared_prefix:' + label + ':' + suffix].update(exit_code=0),
+                                   'shared designated control missing')
+                (self.root / FUNCTIONS.REPORT).write_text(original)
+
+    def test_shared_prefix_false_control_requires_both_modules_to_compile(self):
+        for suffix in ['V293OSSchedShared', 'V293OSSchedSharedWitness']:
+            with self.subTest(suffix=suffix):
+                original = (self.root / FUNCTIONS.REPORT).read_text()
+                self.reject_report(lambda x: x['checks']['shared_prefix:prefix_false_premise_added_only:' + suffix].update(exit_code=1),
+                                   'shared-prefix control prerequisite missing')
+                (self.root / FUNCTIONS.REPORT).write_text(original)
+
+    def test_shared_prefix_wrong_rejection_file_is_rejected(self):
+        self.reject_report(lambda x: x['checks']['shared_prefix:post_time_changed_only:V293OSSchedShared'].update(
+            stderr=x['checks']['shared_prefix:post_time_changed_only:V293OSSchedShared']['stderr'].replace(
+                'certiucos/v293/proofs/V293OSSchedShared.v', 'unrelated.v')),
+            'shared-prefix control missed designated obligation')
+
+    def test_shared_prefix_wrong_rejection_line_is_rejected(self):
+        import re
+        self.reject_report(lambda x: x['checks']['shared_prefix:post_time_changed_only:V293OSSchedShared'].update(
+            stderr=re.sub(r'line \d+, characters', 'line 1, characters',
+                x['checks']['shared_prefix:post_time_changed_only:V293OSSchedShared']['stderr'])),
+            'shared-prefix control missed designated obligation')
+
+    def test_shared_prefix_checker_identity_drift_is_stale(self):
+        path = self.root / 'scripts/v293-scheduler-shared.py'
+        path.write_text(path.read_text() + '\n# identity drift\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_shared_prefix_core_identity_drift_is_stale(self):
+        path = self.root / 'certiucos/v293/proofs/V293OSSchedShared.v'
+        path.write_text(path.read_text() + '\n(* identity drift *)\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)
+
+    def test_shared_prefix_witness_identity_drift_is_stale(self):
+        path = self.root / 'certiucos/v293/proofs/V293OSSchedSharedWitness.v'
+        path.write_text(path.read_text() + '\n(* identity drift *)\n')
+        with self.assertRaisesRegex(ValueError, 'stale function evidence'):
+            COVERAGE.audit(self.root)

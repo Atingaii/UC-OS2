@@ -24,7 +24,7 @@ CODE = 'certiucos/v293/code/V293OSVersion.v'
 SPEC = 'certiucos/v293/spec/V293OSVersionSpec.v'
 PROOF = 'certiucos/v293/proofs/V293OSVersionProof.v'
 API = 'certiucos/v293/proofs/V293OSVersionAPI.v'
-REPORT = 'audit/function-evidence-stage19.json'
+REPORT = 'audit/function-evidence-stage20.json'
 SCOPE = 'CHECKED_SOURCE_AND_SINGLE_FUNCTION_API_COMPONENT_NOT_GOOD_OS'
 ROOTS = ['V293_OSVersion_local_hoare', 'V293_OSVersion_post_exact',
          'V293_OSVersion_execution']
@@ -194,7 +194,7 @@ def input_hashes(root):
     paths |= set(freeze['input_sha256'])
     paths |= {'csrc/repairs/FROZEN_SOURCE.json', 'audit/repaired-source-inventory.json',
               'scripts/check-v293-functions.py', 'scripts/coverage-audit.py', 'scripts/project-audit.py',
-              'scripts/check-memory-trust.py', 'scripts/v293-scheduler-source.py', 'scripts/v293-scheduler-internal.py', 'scripts/v293-scheduler-caller.py', 'scripts/v293-scheduler-prefix.py', 'scripts/v293-scheduler-guards.py', 'scripts/v293-scheduler-change.py', 'scripts/v293-scheduler-current.py', 'scripts/v293-scheduler-critical.py', 'scripts/v293-scheduler-switch-pre.py', 'scripts/v293-shared-state.py', 'Makefile', '_CoqProject'}
+              'scripts/check-memory-trust.py', 'scripts/v293-scheduler-source.py', 'scripts/v293-scheduler-internal.py', 'scripts/v293-scheduler-caller.py', 'scripts/v293-scheduler-prefix.py', 'scripts/v293-scheduler-guards.py', 'scripts/v293-scheduler-change.py', 'scripts/v293-scheduler-current.py', 'scripts/v293-scheduler-critical.py', 'scripts/v293-scheduler-switch-pre.py', 'scripts/v293-shared-state.py', 'scripts/v293-scheduler-shared.py', 'Makefile', '_CoqProject'}
     return {p: sha(root / p) for p in sorted(paths)}
 
 
@@ -267,6 +267,8 @@ def inspect(root=ROOT):
 
         shared = load(root, 'v293-shared-state.py')
         report['shared_state_checkpoint'] = shared.check(root, work, build, coqbin, run, load, caller_location)
+        shared_prefix = load(root, 'v293-scheduler-shared.py')
+        report['scheduler_shared_checkpoint'] = shared_prefix.check(root, work, build, coqbin, run, load, caller_location)
 
         def compile_tree(label, model=None, spec=None, proof=None, api=None,
                          probe=False, component=True):
@@ -458,6 +460,7 @@ def validate_record(root, report):
     load(root, 'v293-scheduler-critical.py').validate(root, report['scheduler_critical_checkpoint'], checks, load)
     load(root, 'v293-scheduler-switch-pre.py').validate(root, report['scheduler_switch_pre_checkpoint'], checks, load)
     load(root, 'v293-shared-state.py').validate(root, report['shared_state_checkpoint'], checks, load)
+    load(root, 'v293-scheduler-shared.py').validate(root, report['scheduler_shared_checkpoint'], checks, load)
     return report['functions']
 
 
