@@ -1,0 +1,286 @@
+(* Constructed helper-call cut with full decoder ownership.
+   This fixture does not establish outer-entry reachability. *)
+Require Import CertiOS.certiucos.v293.code.V293OSIntEnter.
+Require Import CertiOS.certiucos.v293.proofs.V293TimeTickLifecycle.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedNewHoare.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedNewInternal.
+Require Import CertiOS.certiucos.v293.proofs.V293TaskRecordInvariant.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedNewWitness.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedTargetWitness.
+Require Import CertiOS.certiucos.v293.code.V293ReadyTable.
+Require Import CertiOS.certiucos.v293.model.V293ReadyBitmap.
+Require Import CertiOS.certiucos.v293.code.V293OSSchedNew.
+Require Import CertiOS.certiucos.v293.proofs.V293TaskPrioRekey.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedNewEval.
+Require Import CertiOS.certiucos.v293.proofs.V293TaskRecordOwnership.
+Require Import CertiOS.tactics.sepauto.seplog_tactics.
+Require Import CertiOS.tactics.sepauto.seplog_lemmas.
+Require Import Lia.
+Require Import CertiOS.certiucos.v293.proofs.V293SwitchProgSim.
+Require Import CertiOS.audit.probes.V293CurrentHandoffPrefixProbe.
+Require Import CertiOS.certiucos.v293.proofs.V293ReadyStorageInvariant.
+Require Import CertiOS.certiucos.v293.proofs.V293ReadySwitchStep.
+Require Import CertiOS.certiucos.v293.proofs.V293ReadyCurrentInvariant.
+Require Import CertiOS.certiucos.v293.proofs.V293CurrentHandoffPrefix.
+Require Import CertiOS.certiucos.v293.proofs.V293OSIntExitBoundarySwitch.
+Require Import CertiOS.certiucos.v293.proofs.V293OSIntExitReadyHandoff.
+Require Import CertiOS.certiucos.v293.model.V293SchedulerTasks.
+Require Import CertiOS.certiucos.v293.code.V293OSTaskChangePrio.
+Require Import CertiOS.audit.probes.V293OSIntExitReadyHandoffProbe.
+Require Import CertiOS.audit.probes.V293ReadyCriticalGlobalProbe.
+Require Import CertiOS.audit.probes.V293ReadyFullCallProbe.
+Require Import CertiOS.audit.probes.V293ReadyGlobalTraceProbe.
+Require Import CertiOS.audit.probes.V293ReadySwitchStepProbe.
+Require Import CertiOS.audit.probes.V293ReadySchedCallProbe.
+Require Import CertiOS.audit.probes.V293TaskRecordInvariantProbe.
+Require Import CertiOS.audit.probes.V293TaskRecordOwnershipProbe.
+Require Import CertiOS.certiucos.v293.proofs.V293HandoffProgSim.
+Require Import CertiOS.audit.probes.V293SwitchProgSimProbe.
+Require Import CertiOS.certiucos.v293.proofs.V293ClientSkipTaskSim.
+Require Import CertiOS.framework.include_frm.
+Require Import CertiOS.framework.proof.simulation.
+Require Import CertiOS.framework.proof.cstepLib.
+Require Import CertiOS.framework.proof.step_prop.
+Require Import Coq.Lists.List.
+Import ListNotations.
+Require Import CertiOS.audit.probes.V293HandoffProgSimProbe.
+Require Import CertiOS.audit.probes.V293ReadyTaskInvariantProbe.
+Require Import CertiOS.audit.probes.V293ReadySourceTailProbe.
+Require Import CertiOS.certiucos.v293.proofs.V293ExitDispatchProgSim.
+Require Import CertiOS.certiucos.v293.proofs.V293ReadySchedCall.
+Require Import CertiOS.certiucos.v293.proofs.V293ReadySourceTail.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedNewExec.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedChange.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedPointerCompare.
+Require Import CertiOS.certiucos.v293.proofs.V293OSIntExitDispatchCall.
+Require Import CertiOS.certiucos.v293.code.V293OSSchedChange.
+Require Import CertiOS.certiucos.v293.code.V293OSSchedDispatch.
+Local Open Scope nat_scope.
+Require Import CertiOS.audit.probes.V293ExitDispatchProgSimProbe.
+Require Import CertiOS.audit.probes.V293SchedCallProgSimProbe.
+Require Import CertiOS.audit.probes.V293SchedCallEntryProgSimProbe.
+Require Import CertiOS.certiucos.v293.proofs.V293ExitCallDispatchProgSim.
+Require Import CertiOS.certiucos.v293.proofs.V293ReadyTaskInvariant.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedTarget.
+Require Import CertiOS.certiucos.v293.proofs.V293CriticalReturn.
+Require Import CertiOS.framework.auxlibs.MapLib.
+Require Import CertiOS.audit.probes.V293ExitCallDispatchProgSimProbe.
+Require Import CertiOS.certiucos.v293.proofs.V293ExitNestingProgSim.
+Require Import CertiOS.certiucos.v293.code.V293OSIntExit.
+Require Import CertiOS.certiucos.v293.code.V293OSSchedGuards.
+Require Import CertiOS.certiucos.v293.proofs.V293CriticalReturnProgSim.
+Require Import CertiOS.certiucos.v293.proofs.V293ReadyFullCall.
+Require Import CertiOS.certiucos.v293.proofs.V293ReadyCallGlobal.
+Require Import CertiOS.audit.probes.V293ExitNestingProgSimProbe.
+Require Import CertiOS.audit.probes.V293CriticalReturnProgSimProbe.
+Require Import CertiOS.certiucos.v293.proofs.V293ResumedReturnProgSim.
+Require Import CertiOS.certiucos.v293.proofs.V293OSIntExitResumedReturn.
+Require Import CertiOS.certiucos.v293.proofs.V293ReadyGlobalTrace.
+Require Import CertiOS.framework.proof.invariant_prop.
+Require Import Coq.Relations.Relation_Operators.
+
+Require Import CertiOS.audit.probes.V293ResumedReturnProgSimProbe.
+
+Require Import CertiOS.certiucos.v293.proofs.V293ExitActiveCallProgSim.
+Require Import CertiOS.audit.probes.V293ExitQuietCallProgSimProbe.
+Require Import CertiOS.certiucos.v293.proofs.V293TimeTickStorage.
+Require Import CertiOS.framework.proof.join_prop.
+
+Require Import CertiOS.audit.probes.V293ActiveCallWitnessProbe.
+
+(* Explicit SOURCE-LEVEL interrupt-switch boundary, not a CPU-port body.
+   Original call model and original framework semantics remain unchanged. *)
+Require Import CertiOS.certiucos.v293.proofs.V293OSIntExitDispatchExecution.
+Require Import CertiOS.certiucos.v293.proofs.V293OSIntExitCallExecution.
+Require Import CertiOS.certiucos.v293.proofs.V293ReadyCriticalGlobal.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedCurrent.
+Require Import CertiOS.certiucos.v293.proofs.V293OSIntExitExecution.
+Require Import Coq.Lists.List Lia.
+
+Require Import CertiOS.certiucos.v293.proofs.V293TimeTickCountdown.
+Require Import CertiOS.certiucos.v293.proofs.V293OSIntExitInterruptGlobal.
+Require Import CertiOS.certiucos.v293.proofs.V293ReadyCacheContract.
+Require Import CertiOS.framework.proof.auxdef.
+Require Import CertiOS.tactics.basetac.join_lib.
+Require Import CertiOS.certiucos.v293.proofs.V293LocalGlobalTrace.
+
+
+Require Import CertiOS.audit.probes.V293ActiveCallTraceProbe.
+Require Import CertiOS.audit.probes.V293OSIntExitDispatchCallProbe.
+Require Import CertiOS.audit.probes.V293OSIntExitSwitchEntryProbe.
+Require Import CertiOS.certiucos.v293.proofs.V293OSIntExitSharedReturn.
+Require Import CertiOS.certiucos.v293.proofs.V293OSIntExitSharedReclose.
+Require Import CertiOS.certiucos.v293.proofs.V293DispatchState.
+Require Import CertiOS.certiucos.v293.proofs.V293DispatchStorage.
+
+Require Import CertiOS.audit.probes.V293SharedSwitchReturnProbe.
+Require Import CertiOS.audit.probes.V293SwitchReturnTaskSimProbe.
+Require Import CertiOS.certiucos.v293.proofs.V293StorageSwitchPre.
+Require Import CertiOS.certiucos.v293.proofs.V293SharedState.
+Require Import CertiOS.framework.proof.rulesoundlib.
+Require Import CertiOS.framework.proof.lmachLib.
+Require Import CertiOS.framework.proof.memory_prop.
+
+Require CertiOS.tactics.hoareforward.symbolic_lemmas.
+
+
+Require Import CertiOS.audit.probes.V293OldSwitchPacketProbe.
+Require Import CertiOS.certiucos.v293.proofs.V293InvariantPendingTaskSim.
+Require Import CertiOS.certiucos.v293.proofs.V293StoragePendingTaskSim.
+Require Import CertiOS.certiucos.v293.proofs.V293CurrentReturnInvariant.
+
+Require Import CertiOS.certiucos.v293.proofs.V293StorageSwitchTaskSim.
+Require Import CertiOS.audit.probes.V293InvariantPendingTaskSimProbe.
+
+Require Import CertiOS.certiucos.v293.proofs.V293HandoffTaskSim.
+
+
+Require Import CertiOS.certiucos.v293.proofs.V293ExitChangedTaskSim.
+Require Import CertiOS.audit.probes.V293ExitChangedTaskSimProbe.
+Require Import CertiOS.certiucos.v293.proofs.V293ExitTargetTaskSim.
+
+Require Import CertiOS.certiucos.v293.proofs.V293ExitHelperTargetTaskSim.
+Require Import CertiOS.certiucos.v293.proofs.V293SchedHelperBodyTaskSim.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedStoragePrefix.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedStoragePrefixWitness.
+
+Require Import CertiOS.audit.probes.V293ReadyTargetHandoffProbe.
+Local Open Scope nat_scope.
+Definition HTge : env := set(set RHge 108%Z(94%positive,Tint8))109%Z(95%positive,Tint32).
+Definition HTle := V293_cpu_lenv 120%Z 98%positive.
+Definition HTcells : list V293_record_cell :=
+ (((98%positive,0%Z),Tint32,Vint32 Int.zero)::
+  ((94%positive,0%Z),Tint8,V293_byteval 6)::
+  ((91%positive,0%Z),Tint8,V293_byteval 88)::
+  ((93%positive,0%Z),Tptr V293_tcb_type,Vptr OwnershipWaiting)::
+  ((95%positive,0%Z),Tint32,Vint32 Int.mone)::nil).
+Definition HToutputs := OwnershipCellsMemory HTcells.
+Definition HTdecoder := V293_full_array_memory 92%positive 0%Z Tint8(map V293_byteval V293_ready_table).
+Definition HTextra := merge HToutputs HTdecoder.
+Definition HTmemory := merge(RTfull OwnershipWaiting)HTextra.
+Definition HTframe := V293_exit_helper_frame 92%positive 94%positive 93%positive 95%positive
+ 98%positive nil 6(Vint32 Int.zero)(Vptr OwnershipWaiting)Int.mone.
+Definition HTresource := V293_helper_resource 80%positive 81%positive 82%positive
+ 92%positive 91%positive OwnershipWaiting HTframe(V293_byteval 88).
+Definition HTrest := V293_array_cells 92%positive 0%Z 1%Z Tint8(length V293_ready_table)++nil.
+Definition HTinv := V293_ready_storage_inv 80%positive 81%positive 82%positive 106%Z V293_tcb_type
+ (((94%positive,0%Z),Tint8)::((91%positive,0%Z),Tint8)::((95%positive,0%Z),Tint32)::HTrest).
+Definition HTcontinuation := kseq(V293_OSSched_target_update 105%Z 103%Z 106%Z)
+ (kseq ECbranch FTpending).
+Lemma HTextra_join : join HToutputs HTdecoder HTextra.
+Proof.
+ apply map_join_merge;apply map_disjoint;intros[b i].
+ destruct(Pos.eq_dec b 92%positive)as[E|NE].
+ - subst b;left;unfold HToutputs;apply OwnershipCellsOutside;vm_compute;intuition congruence.
+ - right;left;apply V293_full_array_outside;left;exact NE.
+Qed.
+Lemma HTjoin : join(RTfull OwnershipWaiting)HTextra HTmemory.
+Proof.
+ apply map_join_merge;apply map_disjoint;intros[b i].
+ destruct(Pos.eq_dec b 92%positive)as[E|N92].
+ - subst b;left;apply RToutside;discriminate.
+ - destruct(in_dec Pos.eq_dec b [98%positive;94%positive;91%positive;93%positive;95%positive])as[E|NE].
+   + left;destruct E as[<-|[<-|[<-|[<-|[<-|[]]]]]];apply RToutside;discriminate.
+   + right;left;unfold HTextra;rewrite map_merge_semp by reflexivity.
+     unfold HToutputs;rewrite OwnershipCellsOutside by (vm_compute in NE|-*;intuition congruence).
+     assert(Empty:get HTdecoder(b,i)=None).
+     { unfold HTdecoder;apply V293_full_array_outside;left;exact N92. }
+     change(match get HTdecoder(b,i) with Some v=>Some v|None=>None end=None).
+     rewrite Empty;reflexivity.
+Qed.
+Lemma HTbase : V293_target_wstate HTge HTle HTmemory(RIabstract OwnershipWaiting)|=HTresource.
+Proof.
+ assert(Outputs:V293_target_wstate HTge HTle HToutputs emp|=V293_owned_record_cells HTcells).
+ { apply OwnershipCellsSpatial;[vm_compute;repeat split;intros;intuition congruence|
+   repeat constructor;vm_compute;reflexivity]. }
+ assert(Decoder:V293_target_wstate HTge HTle HTdecoder emp|=
+ V293_read_bytes 92%positive 0%Z V293_ready_table **V293_read_bytes 92%positive 0%Z V293_ready_table).
+ { rewrite !V293_read_bytes_array;apply V293_array_borrow.
+   pose proof(V293_full_array_witness(map V293_byteval V293_ready_table)HTge HTle 92%positive 0%Z Tint8)as H.
+   exact H. }
+ assert(Extra:V293_target_wstate HTge HTle HTextra emp|=
+ V293_owned_record_cells HTcells **
+ (V293_read_bytes 92%positive 0%Z V293_ready_table **V293_read_bytes 92%positive 0%Z V293_ready_table)).
+ { eapply V293_target_wstate_star;[exact HTextra_join|apply map_join_emp|exact Outputs|exact Decoder]. }
+ assert(Ready:V293_target_wstate HTge HTle(RTfull OwnershipWaiting)(RIabstract OwnershipWaiting)|=
+ SWINVt(V293ReadyTaskInvariant.V293_ready_inv 80%positive 81%positive 82%positive)OwnershipWaiting).
+ { apply RTenv_spatial;reflexivity. }
+ assert(All:V293_target_wstate HTge HTle HTmemory(RIabstract OwnershipWaiting)|=
+ SWINVt(V293ReadyTaskInvariant.V293_ready_inv 80%positive 81%positive 82%positive)OwnershipWaiting **
+ (V293_owned_record_cells HTcells **
+ (V293_read_bytes 92%positive 0%Z V293_ready_table **V293_read_bytes 92%positive 0%Z V293_ready_table))).
+ { eapply V293_target_wstate_star;[exact HTjoin|apply map_join_emp|exact Ready|exact Extra]. }
+ unfold HTresource,V293_helper_resource,HTframe,V293_exit_helper_frame.
+ cbn[HTcells V293_owned_record_cells V293_storage]in All|-*.
+ unfold V293_owned_record_cell in All|-*;clear -All;sep auto.
+Qed.
+Lemma HTentry : (HTge,HTle,HTmemory,(fun _=>false),(false,nil,false::nil),RIabstract OwnershipWaiting,spec_done None)|=HTresource.
+Proof.
+ pose proof HTbase as Held;unfold HTresource,V293_helper_resource in Held|-*.
+ eapply V293_ready_critical_stack with(ci:=nil).
+ - split;[unfold V293_owned_record_cell;cbn;auto|split;
+   [apply V293_helper_read_good|apply V293_exit_helper_frame_good]].
+ - exact Held.
+Qed.
+Theorem HTnonempty_call_cut : forall ip A,
+ getsched(RCprogram,A)=V293_scheduler ->
+ TaskSim(RCprogram,(CPpo,CGempty,ip))(curs(scall 107%Z nil),(kenil,HTcontinuation))
+ (HTge,HTle,HTmemory,(fun _=>false),(false,nil,false::nil))
+ (RCprogram,A)(curs(hapi_code(spec_seq sched(spec_done None))),(kenil,kstop))
+ (RIabstract OwnershipWaiting)V293_shared_li HTinv
+ (fun st=>satp(fst st)(snd st)(RDYINV HTinv OwnershipWaiting **LINV V293_shared_li OwnershipWaiting nil))OwnershipWaiting.
+Proof.
+ intros ip A Sched;unfold HTcontinuation,HTinv,HTrest,ECbranch,FTpending,CPcall,HTle.
+ eapply V293_exit_helper_target_TaskSim with(nc:=6)(bc:=94%positive)(bo:=93%positive)
+ (saved_value:=Vint32 Int.zero)(oldtarget:=Vptr OwnershipWaiting)(c:=Int.mone)
+ (oldhigh:=V293_byteval 88)(tasks:=OwnershipTasks)
+ (unmap:=100%Z)(group:=101%Z)(rows:=102%Z)(y:=104%Z).
+ - exact Sched.
+ - exact RPbinding.
+ - right;right;reflexivity.
+ - vm_compute;reflexivity.
+ - discriminate.
+ - discriminate.
+ - discriminate.
+ - discriminate.
+ - reflexivity.
+ - reflexivity.
+ - reflexivity.
+ - reflexivity.
+ - reflexivity.
+ - reflexivity.
+ - reflexivity.
+ - reflexivity.
+ - reflexivity.
+ - reflexivity.
+ - reflexivity.
+ - reflexivity.
+ - reflexivity.
+ - exact(RIfixed_tasks OwnershipWaiting).
+ - split;[lia|exists(wait(os_stat_sem(72%positive,Int.repr 5))Int.one);exists(Vptr(120%positive,Int.repr 7));reflexivity].
+ - intros(p&m&Task&Minimum);vm_compute in Task;discriminate.
+ - exact HTentry.
+Qed.
+
+(* Same byte, address, read and write value. Only permission changes. This is
+   a storage-permission control, not an outer-call execution ablation. *)
+Definition HTone permission : mem := sig(92%positive,0%Z)(permission,Byte(Byte.repr 0)).
+Theorem HTpermission_control :
+ load Tint8(HTone false)(92%positive,0%Z)=Some(V293_byteval 0) /\
+ load Tint8(HTone true)(92%positive,0%Z)=Some(V293_byteval 0) /\
+ store Tint8(HTone false)(92%positive,0%Z)(V293_byteval 4)=None /\
+ store Tint8(HTone true)(92%positive,0%Z)(V293_byteval 4)=
+ Some(sig(92%positive,0%Z)(true,Byte(Byte.repr 4))).
+Proof.
+ assert(Cell:forall permission,get(HTone permission)(92%positive,0%Z)=Some(permission,Byte(Byte.repr 0))).
+ { intro permission;unfold HTone;apply map_get_sig. }
+ repeat split.
+ - change(match loadbytes(HTone false)(92%positive,0%Z)1 with Some bs=>Some(decode_val Tint8 bs)|None=>None end=Some(V293_byteval 0)).
+   cbn[loadbytes];rewrite Cell;reflexivity.
+ - change(match loadbytes(HTone true)(92%positive,0%Z)1 with Some bs=>Some(decode_val Tint8 bs)|None=>None end=Some(V293_byteval 0)).
+   cbn[loadbytes];rewrite Cell;reflexivity.
+ - change(storebytes(HTone false)(92%positive,0%Z)(Byte(Byte.repr 4)::nil)=None).
+   cbn[storebytes];rewrite Cell;reflexivity.
+ - change(storebytes(HTone true)(92%positive,0%Z)(Byte(Byte.repr 4)::nil)=Some(sig(92%positive,0%Z)(true,Byte(Byte.repr 4)))) .
+   cbn[storebytes];rewrite Cell;unfold HTone;rewrite map_set_sig;reflexivity.
+Qed.

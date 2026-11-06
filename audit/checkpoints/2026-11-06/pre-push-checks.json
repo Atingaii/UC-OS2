@@ -1,0 +1,43 @@
+[
+  {
+    "label": "build",
+    "command": [
+      "make",
+      "build",
+      "COQBIN=/data/home/lucentzhou/.opam/default/bin/",
+      "JOBS=2"
+    ],
+    "exit": 0,
+    "seconds": 1.0426954930881038
+  },
+  {
+    "label": "project-audit",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/project-audit.py"
+    ],
+    "exit": 0,
+    "seconds": 4.888195566949435
+  },
+  {
+    "label": "coverage-audit",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/coverage-audit.py"
+    ],
+    "exit": 1,
+    "seconds": 0.10649435501545668
+  },
+  {
+    "label": "upstream-audit",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/audit-v293-upstream.py"
+    ],
+    "exit": 0,
+    "seconds": 0.05406444100663066
+  }
+]

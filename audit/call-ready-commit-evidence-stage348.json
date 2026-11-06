@@ -1,0 +1,63 @@
+{
+  "target_release": "V2.93.01",
+  "target_commit": "0c4a48e6fbc6e915714e816196619a5481accf0c",
+  "scope": "CONDITIONAL_REAL_TCB_CALL_TO_ORIGINAL_SHARED_READY_CREATION_BRIDGE",
+  "accepted_interfaces": [
+    "V293_OS_TCBInit_call_shared_return_under_hooks"
+  ],
+  "coverage_registration_status": "NOT_REGISTERED_IN_LEGACY_AGGREGATE",
+  "real_sfexec_entry": true,
+  "local_allocation_constructed": true,
+  "preallocated_local_cells_required": false,
+  "fresh_distinct_local_blocks_required": true,
+  "two_original_CPU_hook_contracts_required": true,
+  "same_physical_return_heap": true,
+  "original_allocating_hpstep_constructed": true,
+  "shared_ready_core_established_conditionally": true,
+  "complete_source_hook_entry_inhabited": false,
+  "current_thread_and_spec_crt_required": true,
+  "whole_OSTaskCreate_TaskSim": false,
+  "whole_OSInit_execution": false,
+  "concrete_GOOD_OS_instance": false,
+  "full_target_linked": false,
+  "CPU_hook_implementations_proved": false,
+  "strong_ready_list_invariant_established": false,
+  "verified_frontend": false,
+  "ADR0005_unchanged": true,
+  "same_program_K1_K4_complete": false,
+  "uCOS3_started": false,
+  "recursive_trust_roots": 6,
+  "assumptions": [
+    "Classical_Prop.classic",
+    "FunctionalExtensionality.functional_extensionality_dep"
+  ],
+  "limitations": [
+    "two original CPU hook obligations remain",
+    "resource/creation bridge, not whole OSTaskCreate caller simulation",
+    "fresh distinct local blocks remain premises",
+    "current thread/spec_crt still required, not cold startup",
+    "same-program K1-K4, OSInit, concrete GOOD_OS and uCOS3 unfinished"
+  ],
+  "inputs": {
+    "certiucos/v293/proofs/V293CallReadyCommit.v": "8ff48312d77773d1c7e2d9f329d965cb4b66d008369b1f98495982c968b120dc",
+    "audit/probes/V293CallReadyCommitProbe.v": "175152fd7c869e44a7424b75d972bc74fe81dd52995178df89f9bc1261b78f01",
+    "tests/test_call_ready_commit.py": "9f7f126dd4855eefa5bb6d8038cd5d8d7bed5b5b8c3a88150ad79fad15254800",
+    "audit/STAGE348_CALL_READY_COMMIT.md": "519961a5124d39974baee82efcce8110aa449a92d628cc4edc2c14ec6d2e3932",
+    "audit/init-ready-commit-evidence-stage347.json": "28d1739b8f354b695bb544d8af2ad42074536d560c4406887588614f471dab52",
+    "audit/logs/stage348-call-ready-commit/protocol.json": "e251acd6a7da8cf1bf95783495737f0545b034fa97e2ef1d8ff7478acd9e6d3a",
+    "audit/logs/stage348-call-ready-commit/protocol.sha256": "cf6008bd1f0badc3fb50448c416824c6c980c9e932bbb739d6f0b47f331022e1",
+    "audit/logs/stage348-call-ready-commit/source-dependency.json": "771e0cc18af94c9ed3589b3774641d7ce732e619e9c9dd1ed44c08c4ea6266c0",
+    "audit/logs/stage348-call-ready-commit/adversarial-review.json": "bf6ac9d19e7781a5d3c7df057cc3f9b3c6ef34d6e2fec13a5940f26f025fce87",
+    "audit/logs/stage348-call-ready-commit/ablation.json": "eb5eaeb0cca4fec283fba1d2d970be63cbabc8cdad4e385fa60e9273a0fe6b81",
+    "audit/logs/stage348-call-ready-commit/stable-inputs.json": "92d24c219ffff6546fb7970f3c9df18ab1663bc812d882427e69daab12dd48c7",
+    "audit/logs/stage348-call-ready-commit/trust.json": "cb74eb11a47ef4e780e18cbcaf5c65b89e17e15d73789ba733d0620c2c58d926",
+    "audit/logs/stage348-call-ready-commit/assumptions-by-root.json": "279fa4354ab9ef4275b115948a8dcb5b7dcfbc86792f4ce217d17f7e6cb4318c",
+    "audit/logs/stage348-call-ready-commit/trust-roots.log": "4514e22873e5998a4d48757e6f8bd61a62b4815e8d484de0b1cb98b0d2935acf",
+    "audit/logs/stage348-call-ready-commit/trust-coqchk.log": "82e10f9be1c7f4eb3074fc64309761ecdd155ee2e60dc6613182a184fff403e1",
+    "audit/logs/stage348-call-ready-commit/run.py": "f4986c228e7bbfef3ae0054d8a99a8b5c4f4b516ad148aa81472048f04daf19c",
+    "audit/logs/stage348-call-ready-commit/run-trust.py": "996847a1a9d9cb877788db75d58f100f314f8b7eb561637d17c3648b3ca4e791",
+    "audit/logs/stage348-call-ready-commit/run-tests.py": "8f87f9815102b39dc8cbd3eb945002b4457f7a0e44c2dd67d646882ce88bd2fc",
+    "audit/logs/stage348-call-ready-commit/run-command.py": "44b46c5937db2e7fc958f80693ca6930c2cc317ef1fc5c8cec77b919970d29d8",
+    "audit/logs/stage348-call-ready-commit/verify.py": "6bbec1871079bf8c2b91f8890a0fa2f3269a74a985a1fd6022719ee21fdf942c"
+  }
+}

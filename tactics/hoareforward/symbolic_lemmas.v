@@ -488,105 +488,18 @@ Lemma mapstoval_load_vptr :
     mapstoval l tp perm (Vptr v)  m -> 
     load tp m l = Some (Vptr v') -> v = v'.
 Proof.
-  introv Hx.
-  intros.
-  apply mapstoval_load in H.
-  rewrite H in H0.
-  inv H0.
-  auto.
-  unfolds in H.
-  destruct H.
-  destruct H.
-  unfolds in H0.
-  destruct l.
-  unfold loadm in H0.
-  destruct tp.
-
-  destruct ( loadbytes m (b, o) (typelen Tnull)) eqn : eq1; tryfalse.
-  inv H0.
-  unfolds in H3.
-  destruct (proj_bytes l).
-  tryfalse.
-  destruct l; tryfalse; simpl; auto.
-  repeat (destruct m0; tryfalse;
-          destruct l; tryfalse).
-
-
-  destruct ( loadbytes m (b, o) (typelen Tvoid)) eqn : eq1; tryfalse.
-  inv H0.
-  unfolds in H3.
-  destruct (proj_bytes l).
-  tryfalse.
-  destruct l; tryfalse; simpl; auto.
-  repeat (destruct m0; tryfalse;
-          destruct l; tryfalse).
-
-
-  destruct ( loadbytes m (b, o) (typelen Tint8)) eqn : eq1; tryfalse.
-  inv H0.
-  unfolds in H3.
-  destruct (proj_bytes l).
-  tryfalse.
-  destruct l; tryfalse; simpl; auto.
-  repeat (destruct m0; tryfalse;
-          destruct l; tryfalse).
-
-
-
-  destruct ( loadbytes m (b, o) (typelen Tint16)) eqn : eq1; tryfalse.
-  inv H0.
-  unfolds in H3.
-  destruct (proj_bytes l).
-  tryfalse.
-  destruct l; tryfalse; simpl; auto.
-  repeat (destruct m0; tryfalse;
-          destruct l; tryfalse).
-
-
-  destruct ( loadbytes m (b, o) (typelen Tint32)) eqn : eq1; tryfalse.
-  inv H0.
-  unfolds in H3.
-  destruct (proj_bytes l).
-  tryfalse.
-  destruct l; tryfalse; simpl; auto.
-  repeat (destruct m0; tryfalse;
-          destruct l; tryfalse).
-
-
-  destruct ( loadbytes m (b, o) (typelen (Tptr tp))) eqn : eq1; tryfalse.
-  inv H0.
-  unfolds in H3.
-  destruct (proj_bytes l).
-  tryfalse.
-  destruct l; tryfalse; simpl; auto.
-  repeat (destruct m0; tryfalse;
-          destruct l; tryfalse).
-
-  lets Ha:Hx Tvoid 0.
-  tryfalse.
-
-
-  destruct ( loadbytes m (b, o) (typelen (Tcom_ptr i))) eqn : eq1; tryfalse.
-  inv H0.
-  unfolds in H3.
-  destruct (proj_bytes l).
-  tryfalse.
-  destruct l; tryfalse; simpl; auto.
-  repeat (destruct m0; tryfalse;
-          destruct l; tryfalse).
-
-  lets Ha:Hx Tvoid 0.
-  tryfalse.
-
-  destruct ( loadbytes m (b, o) (typelen (Tstruct i d))) eqn : eq1; tryfalse.
-  inv H0.
-  unfolds in H3.
-  destruct (proj_bytes l).
-  tryfalse.
-  destruct l; tryfalse; simpl; auto.
-  repeat (destruct m0; tryfalse;
-          destruct l; tryfalse).
-
+  intros l tp v v' m perm NotArray Owned Read.
+  assert (Valid : rule_type_val_match tp (Vptr v)=true).
+  { destruct tp; cbn [rule_type_val_match]; try reflexivity.
+    all: try solve [exfalso; eapply NotArray; reflexivity].
+    all: unfold load,loadm in Read; destruct l as [b off].
+    all: match type of Read with context [loadbytes ?M ?a ?n] =>
+      destruct (loadbytes M a n) as [raw | ] end; try discriminate.
+    all: injection Read as Decoded; unfold decode_val in Decoded;
+      destruct (proj_bytes raw) as [bl | ]; try discriminate.
+    destruct (list_eq_dec Byte.eq_dec bl (list_repeat 4 Byte.zero)); discriminate. }
+  pose proof (mapstoval_load Valid Owned) as Canonical.
+  rewrite Canonical in Read. inversion Read. reflexivity.
 Qed.
 
 (*

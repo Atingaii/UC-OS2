@@ -1,0 +1,121 @@
+audit/probes/V293OSIntExitIndexedPortProbe.v:399: new blank line at EOF.
+audit/probes/V293SoundnessBridgeProbe.v:96: new blank line at EOF.
+audit/probes/V293TCBSnapshotInternalProbe.v:250: new blank line at EOF.
+audit/probes/V293TaskCreateFreshProbe.v:278: new blank line at EOF.
+audit/probes/V293TaskCreateStackSuccessProbe.v:293: new blank line at EOF.
+certiucos/v293/code/V293OSTaskChangePrio.v:227: new blank line at EOF.
+certiucos/v293/proofs/V293ExitQuietCallProgSim.v:38: trailing whitespace.
++   
+certiucos/v293/proofs/V293GlobalSoundness.v:20: trailing whitespace.
++Lemma V293_IntMethSim: 
+certiucos/v293/proofs/V293GlobalSoundness.v:21: trailing whitespace.
++  forall (OS1:oscode) (A:osspec) Spec I lasrt, 
+certiucos/v293/proofs/V293GlobalSoundness.v:27: trailing whitespace.
++      forall (i:hid) ispec isrreg si G tid lg, 
+certiucos/v293/proofs/V293GlobalSoundness.v:31: trailing whitespace.
++            (snd OS1) i = Some s /\ 
+certiucos/v293/proofs/V293GlobalSoundness.v:32: trailing whitespace.
++            p = ipreasrt i isrreg si (ispec ) I G lasrt tid lg /\ 
+certiucos/v293/proofs/V293GlobalSoundness.v:38: trailing whitespace.
++    
+certiucos/v293/proofs/V293GlobalSoundness.v:40: trailing whitespace.
++      forall (i:hid) ispec  isrreg si G lg tid, 
+certiucos/v293/proofs/V293GlobalSoundness.v:44: trailing whitespace.
++            (snd OS1) i = Some s /\ 
+certiucos/v293/proofs/V293GlobalSoundness.v:45: trailing whitespace.
++            p = ipreasrt i isrreg si (ispec) I G lasrt tid lg /\ 
+certiucos/v293/proofs/V293GlobalSoundness.v:68: trailing whitespace.
++    no_call_api_os (get_afun osc) (get_ifun osc) (get_lint osc) -> 
+certiucos/v293/proofs/V293GlobalSoundness.v:71: trailing whitespace.
++    (forall (i : nat) (isrreg : isr) (si : is) 
+certiucos/v293/proofs/V293GlobalSoundness.v:80: trailing whitespace.
++      forall (f:fid) ab vl p r ft tid , 
+certiucos/v293/proofs/V293GlobalSoundness.v:90: trailing whitespace.
++    
+certiucos/v293/proofs/V293GlobalSoundness.v:91: trailing whitespace.
++    WFFunEnv (get_ifun osc) Spec (snd A) lasrt I-> 
+certiucos/v293/proofs/V293GlobalSoundness.v:97: trailing whitespace.
++Proof. 
+certiucos/v293/proofs/V293GlobalSoundness.v:120: trailing whitespace.
++  
+certiucos/v293/proofs/V293GlobalSoundness.v:128: trailing whitespace.
++  
+certiucos/v293/proofs/V293GlobalSoundness.v:132: trailing whitespace.
++  
+certiucos/v293/proofs/V293GlobalSoundness.v:135: trailing whitespace.
++  exists lasrt. 
+certiucos/v293/proofs/V293GlobalSoundness.v:164: trailing whitespace.
++  
+certiucos/v293/proofs/V293GlobalSoundness.v:192: trailing whitespace.
++  
+certiucos/v293/proofs/V293GlobalSoundness.v:204: trailing whitespace.
++  
+certiucos/v293/proofs/V293GlobalSoundness.v:214: trailing whitespace.
++  
+certiucos/v293/proofs/V293GlobalSoundness.v:225: trailing whitespace.
++  
+certiucos/v293/proofs/V293GlobalSoundness.v:246: trailing whitespace.
++  
+certiucos/v293/proofs/V293GlobalSoundness.v:258: trailing whitespace.
++  
+certiucos/v293/proofs/V293GlobalSoundness.v:275: trailing whitespace.
++  
+certiucos/v293/proofs/V293GlobalSoundness.v:289: trailing whitespace.
++  
+certiucos/v293/proofs/V293GlobalSoundness.v:329: trailing whitespace.
++      
+certiucos/v293/proofs/V293GlobalSoundness.v:332: trailing whitespace.
++      forall (f:fid) ab vl p r ft tid, 
+certiucos/v293/proofs/V293GlobalSoundness.v:344: trailing whitespace.
++      eqdomOS osc A /\ 
+certiucos/v293/proofs/V293GlobalSoundness.v:365: trailing whitespace.
++    
+certiucos/v293/proofs/V293GlobalSoundness.v:370: trailing whitespace.
++    
+certiucos/v293/proofs/V293GlobalSoundness.v:382: trailing whitespace.
++  
+certiucos/v293/proofs/V293GlobalSoundness.v:397: trailing whitespace.
++  
+certiucos/v293/proofs/V293GlobalSoundness.v:427: trailing whitespace.
++  
+certiucos/v293/proofs/V293InitializationPartition.v:61: trailing whitespace.
++  
+certiucos/v293/proofs/V293InitializationPartition.v:113: trailing whitespace.
++  
+certiucos/v293/proofs/V293InitializationPartition.v:190: trailing whitespace.
++  inverts H16;simpl;auto. 
+certiucos/v293/proofs/V293InitializationPartition.v:203: trailing whitespace.
++  
+certiucos/v293/proofs/V293InitializationPartition.v:205: trailing whitespace.
++  
+certiucos/v293/proofs/V293InitializationPartition.v:293: trailing whitespace.
++  
+certiucos/v293/proofs/V293InitializationPartition.v:301: trailing whitespace.
++  
+certiucos/v293/proofs/V293InitializationPartition.v:303: trailing whitespace.
++  
+certiucos/v293/proofs/V293InitializationPartition.v:431: new blank line at EOF.
+certiucos/v293/proofs/V293InterruptBoundEntry.v:216: new blank line at EOF.
+certiucos/v293/proofs/V293InterruptCurrentEntry.v:293: new blank line at EOF.
+certiucos/v293/proofs/V293OSIntExitSameInternal.v:338: new blank line at EOF.
+certiucos/v293/proofs/V293OSIntExitSwitchReturn.v:88: new blank line at EOF.
+certiucos/v293/proofs/V293OSSchedISRExact.v:213: new blank line at EOF.
+certiucos/v293/proofs/V293TCBFiniteAllocator.v:552: new blank line at EOF.
+certiucos/v293/proofs/V293TaskCreateUnifiedInternal.v:344: new blank line at EOF.
+certiucos/v293/proofs/V293TimeDlyTail.v:290: new blank line at EOF.
+certiucos/v293/proofs/V293TraceRefinement.v:12: trailing whitespace.
++  (forall 
+certiucos/v293/proofs/V293TraceRefinement.v:58: trailing whitespace.
++simpls. 
+framework/logic/inferules.v:581: trailing whitespace.
++                                 ) t
+framework/logic/inferules.v:582: trailing whitespace.
++
+framework/logic/inferules.v:583: trailing whitespace.
++  (* Administrative skip preserves the assertion and the existing local
+framework/logic/inferules.v:584: trailing whitespace.
++     invariant. Its semantic justification is skip_rule_sound, not an axiom. *)
+framework/logic/inferules.v:585: trailing whitespace.
++  | skip_rule : forall Spec sd pa I r ri p t v,
+framework/logic/inferules.v:586: trailing whitespace.
++      InfRules Spec sd pa I r ri p (sskip v) p t.

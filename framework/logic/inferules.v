@@ -578,7 +578,12 @@ Inductive InfRules: funspec -> ossched -> LocalInv -> Inv -> retasrt -> asrt ->
                                        Aabsdata abstcblsid (abstcblist tls') ** 
                                        Aabsdata curtid (oscurt t) **
                                        OS[isr, ie, is, cs]  
-                                 ) t.
+                                 ) t
+
+  (* Administrative skip preserves the assertion and the existing local
+     invariant. Its semantic justification is skip_rule_sound, not an axiom. *)
+  | skip_rule : forall Spec sd pa I r ri p t v,
+      InfRules Spec sd pa I r ri p (sskip v) p t.
 
 Notation   " '{|' F , sd , pa , I , r , ri '|}' '|-' t '{{' p '}}' s '{{' q '}}'" :=
   (InfRules F sd pa I r ri p s q t) (at level 50). 

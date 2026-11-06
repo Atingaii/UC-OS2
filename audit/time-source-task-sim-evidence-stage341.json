@@ -1,0 +1,140 @@
+{
+  "target_release": "V2.93.01",
+  "target_commit": "0c4a48e6fbc6e915714e816196619a5481accf0c",
+  "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+  "scope": "STRONG_WFAPI_ACCEPTED_TASKSIM_CANDIDATE_REJECTED_BY_TRUST_GATE",
+  "coverage_registration_status": "NOT_REGISTERED_IN_LEGACY_AGGREGATE",
+  "full_target_linked": false,
+  "local_trust_gate_passed": false,
+  "task_sim_accepted": false,
+  "accepted_interface": "V293_source_time_ready_WFAPI",
+  "rejected_roots": [
+    "V293TimeSourceTaskSim.V293_source_time_ready_method",
+    "V293TimeSourceTaskSim.V293_source_time_ready_tasksim",
+    "V293TimeSourceTaskSimProbe.TSinternal_checked",
+    "V293TimeSourceTaskSimProbe.TSget_set_client"
+  ],
+  "unexpected_assumptions": [
+    "Eqdep.Eq_rect_eq.eq_rect_eq"
+  ],
+  "program": "V293_source_time_program",
+  "invariant": "V293_time_ready_inv",
+  "local_invariant": "V293_time_names_li; name binding only, zero memory/abstract footprint",
+  "interfaces": [
+    "V293_source_time_ready_WFAPI",
+    "V293_source_time_ready_method",
+    "V293_source_time_ready_tasksim"
+  ],
+  "nonempty": [
+    "TSinternal_checked",
+    "TSnonempty_joint_entry",
+    "TSget_set_client"
+  ],
+  "negative_control": "TSname_single_factor",
+  "negative_control_scope": "only remove global time-name binding; identical data/abstract maps and INV; reject local InitTaskSt only, not downstream simulation",
+  "fixture_limit": "old nonempty ready fixture; unused priority-table aliases, not canonical boot initialization",
+  "source_correspondence": {
+    "mode": "reuse_frozen_not_fresh_replay",
+    "prior_evidence": "audit/time-source-component-evidence-stage337.json",
+    "frontend": "restricted unverified decoder; unchanged ADR0005 critical normalization"
+  },
+  "functions": [
+    {
+      "name": "OSTimeGet",
+      "location": {
+        "name": "OSTimeGet",
+        "category": "public",
+        "linkage": "external",
+        "type": "INT32U (void)",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_time.c",
+        "first_line": 237,
+        "last_line": 250,
+        "source_file_sha256": "a53a16a53e8d9cf1f508e97914d7cc91ea33019d8dfc3d6bc60741005bebb346",
+        "source_lines_sha256": "a071cf01c2f759926736b195a1f79fb816eabed34a273daf389ece61200145c7",
+        "preprocessed_begin_byte": 114183,
+        "preprocessed_end_byte_exclusive": 114365,
+        "preprocessed_definition_sha256": "aa08af77c4de1f39e8aed4a5e649fca8ab1e9d4b35844cb215431426e7e2e0b8",
+        "preprocessed_body_sha256": "f75916de87f90d93a5fab7595755510e475b038f6a413b656b7449a98b06278c",
+        "direct_calls": [
+          "V293_EnterCritical",
+          "V293_ExitCritical"
+        ],
+        "indirect_call_sites": 0
+      },
+      "states": {
+        "located": true,
+        "modeled": true,
+        "specified": true,
+        "local_hoare": true,
+        "component_linked": true,
+        "full_target_linked": false
+      }
+    },
+    {
+      "name": "OSTimeSet",
+      "location": {
+        "name": "OSTimeSet",
+        "category": "public",
+        "linkage": "external",
+        "type": "void (INT32U)",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_time.c",
+        "first_line": 267,
+        "last_line": 278,
+        "source_file_sha256": "a53a16a53e8d9cf1f508e97914d7cc91ea33019d8dfc3d6bc60741005bebb346",
+        "source_lines_sha256": "43f30917f4e2b3e6a2965fe0c153f3eab67faebf297d7b78fc8e3891e284dd58",
+        "preprocessed_begin_byte": 114423,
+        "preprocessed_end_byte_exclusive": 114573,
+        "preprocessed_definition_sha256": "db31167c6d5c9776900fec63558df25d1baa20331467c2d42aa14d61be08c054",
+        "preprocessed_body_sha256": "13aed9ba2c2309b668433159bd1eab3fe7321cd3a67c3e55839f634868ac63b9",
+        "direct_calls": [
+          "V293_EnterCritical",
+          "V293_ExitCritical"
+        ],
+        "indirect_call_sites": 0
+      },
+      "states": {
+        "located": true,
+        "modeled": true,
+        "specified": true,
+        "local_hoare": true,
+        "component_linked": true,
+        "full_target_linked": false
+      }
+    }
+  ],
+  "inputs": {
+    "certiucos/v293/code/V293TimeSource.v": "94b2d69c19515a5cd388ab9a019f75e0a4a14de6559ec60320b2695eb42da2ba",
+    "certiucos/v293/proofs/V293TimeSourceAPI.v": "c12c5a65362b9c9fb907d4ff7904b5e73da25d9919451f030975b2cbb9faf44d",
+    "audit/probes/V293TimeSourceAPIProbe.v": "076d80d3f1d38bfc826a96611f4600651b3fdaa4703d0da162000fafeb1fff84",
+    "audit/logs/stage337-time-source-connection/protocol.json": "39a56eee451642d408c5a06f7d6e572ad74e997827747b9f361ec94863a7fd4a",
+    "audit/logs/stage337-time-source-connection/trust.json": "7c689a2b38e7d30ac4a2a9538051ae03c030ce06c9a3a5eeb010fe2ab4b7682e",
+    "audit/logs/stage337-time-source-connection/trust-inputs.json": "bbc33e7b59db0b8c8990e3ff56e344a41d3ef93591ae9ea6c7abe4efd60bfdd0",
+    "audit/logs/stage337-time-source-connection/assumptions-by-root.json": "44b914ccd7e3e2f28e33e2f62c219284e1d836dbb845db081e72f62edb153a2b",
+    "audit/logs/stage337-time-source-connection/replay-1/report.json": "bcfdaab3a409848428c09e302c16408cb548b75f78b7da3a42ec36abe94af387",
+    "audit/logs/stage337-time-source-connection/replay-2/report.json": "bcfdaab3a409848428c09e302c16408cb548b75f78b7da3a42ec36abe94af387",
+    "audit/time-source-component-evidence-stage337.json": "b95c987d2e1a1d2184153eace3f646823b391d65f7988d248b9a1cece18292e8",
+    "certiucos/v293/proofs/V293TimeSourceTaskSim.v": "cc334700aaea7430f3f50133ab114c25009dfc60e7631a56005c43bae6a81941",
+    "audit/probes/V293TimeSourceTaskSimProbe.v": "3a36bc411da92912dad554255aee3383e7d2de844423720bd624145216a34961",
+    "tests/test_time_source_task_sim.py": "728e13b23a5caac7945b93d2914fa542627c21ee9c6e3d62f8a0b0f85a43508a",
+    "audit/logs/stage341-time-source-task-simulation/protocol.json": "1982104c5f98aab83bde531dfe470deb6a7e48307fc6c259c0f1d947192dcbec",
+    "audit/logs/stage341-time-source-task-simulation/stable-inputs.json": "206afc9a70742a1ff6e4641ab5bb9af082294afcbea0a5b8fd571c0b78067adb",
+    "audit/logs/stage341-time-source-task-simulation/trust.json": "0fe1b32509f5d240d89447d20ba442eb385d10709af0185aeda9afdfe1db575e",
+    "audit/logs/stage341-time-source-task-simulation/trust-inputs.json": "c6136d56b364bd0ae28d891cce4210d8f0badcd5f5b0bfc0ece463926a894748",
+    "audit/logs/stage341-time-source-task-simulation/assumptions-by-root.json": "29a3cb0c92ee2a218503d4fe96c9bdbc225b3ae0cb9feaf49ccc2beea1010d29",
+    "audit/logs/stage341-time-source-task-simulation/adversarial-review.json": "331c81221af5c5a51372514cb28299e108ddd56b901bdf51e49780cf69263411",
+    "audit/logs/stage341-time-source-task-simulation/cache-handling-protocol.json": "febc74d22674210e0582a213d799f7dc1ee791e9ec86012209f5fef926209cec",
+    "audit/logs/stage341-time-source-task-simulation/regression-plan.json": "19eebf7cc389e233d5f9eefb6f153f905a1bf8b7219564b166b81e8e0e94ab7b"
+  },
+  "assumptions": [
+    "Classical_Prop.classic",
+    "Eqdep.Eq_rect_eq.eq_rect_eq",
+    "FunctionalExtensionality.functional_extensionality_dep"
+  ],
+  "limitations": [
+    "TaskSim quantifies task-level steps, not global lpstep interrupt interleavings",
+    "internal-function simulation and structural linking obligations explicit",
+    "not GOOD_OS or OSInit reachability",
+    "ADR0005 and unverified frontend; two CPU hooks remain open",
+    "same-program K1-K4 and uCOS3 incomplete"
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "target_release": "V2.93.01",
+  "target_commit": "0c4a48e6fbc6e915714e816196619a5481accf0c",
+  "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+  "scope": "ONE_GLOBAL_SWITCH_SAME_HEAP_GENERATED_LOCAL_TIME_CALL_NOT_GOOD_OS",
+  "coverage_registration_status": "NOT_REGISTERED_IN_LEGACY_AGGREGATE",
+  "full_target_linked": false,
+  "program": "V293_source_time_program",
+  "invariant": "V293_time_ready_inv",
+  "runtime_interfaces": [
+    "V293_time_switch_source_get",
+    "V293_time_switch_source_set"
+  ],
+  "switch_interface": "V293_time_ready_global_switch",
+  "nonempty": [
+    "Gget_nonempty_both_IE",
+    "Gset_nonempty_both_IE"
+  ],
+  "negative_control": "Gswitch_stale_current_control",
+  "negative_control_scope": "same actual switch endpoint; only old abstract current retained, not mutant execution",
+  "fixture_limit": "extra alias in unconstrained unused priority-table slot0; not canonical initialization or boot reachability",
+  "source_correspondence": {
+    "mode": "reuse_frozen_not_fresh_replay",
+    "prior_evidence": "audit/time-source-ready-call-evidence-stage338.json",
+    "prior_source_component": "audit/time-source-component-evidence-stage337.json",
+    "frontend": "restricted unverified decoder; ADR0005 critical normalization unchanged"
+  },
+  "functions": [
+    {
+      "name": "OSTimeGet",
+      "location": {
+        "name": "OSTimeGet",
+        "category": "public",
+        "linkage": "external",
+        "type": "INT32U (void)",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_time.c",
+        "first_line": 237,
+        "last_line": 250,
+        "source_file_sha256": "a53a16a53e8d9cf1f508e97914d7cc91ea33019d8dfc3d6bc60741005bebb346",
+        "source_lines_sha256": "a071cf01c2f759926736b195a1f79fb816eabed34a273daf389ece61200145c7",
+        "preprocessed_begin_byte": 114183,
+        "preprocessed_end_byte_exclusive": 114365,
+        "preprocessed_definition_sha256": "aa08af77c4de1f39e8aed4a5e649fca8ab1e9d4b35844cb215431426e7e2e0b8",
+        "preprocessed_body_sha256": "f75916de87f90d93a5fab7595755510e475b038f6a413b656b7449a98b06278c",
+        "direct_calls": [
+          "V293_EnterCritical",
+          "V293_ExitCritical"
+        ],
+        "indirect_call_sites": 0
+      },
+      "states": {
+        "located": true,
+        "modeled": true,
+        "specified": true,
+        "local_hoare": true,
+        "component_linked": true,
+        "full_target_linked": false
+      }
+    },
+    {
+      "name": "OSTimeSet",
+      "location": {
+        "name": "OSTimeSet",
+        "category": "public",
+        "linkage": "external",
+        "type": "void (INT32U)",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_time.c",
+        "first_line": 267,
+        "last_line": 278,
+        "source_file_sha256": "a53a16a53e8d9cf1f508e97914d7cc91ea33019d8dfc3d6bc60741005bebb346",
+        "source_lines_sha256": "43f30917f4e2b3e6a2965fe0c153f3eab67faebf297d7b78fc8e3891e284dd58",
+        "preprocessed_begin_byte": 114423,
+        "preprocessed_end_byte_exclusive": 114573,
+        "preprocessed_definition_sha256": "db31167c6d5c9776900fec63558df25d1baa20331467c2d42aa14d61be08c054",
+        "preprocessed_body_sha256": "13aed9ba2c2309b668433159bd1eab3fe7321cd3a67c3e55839f634868ac63b9",
+        "direct_calls": [
+          "V293_EnterCritical",
+          "V293_ExitCritical"
+        ],
+        "indirect_call_sites": 0
+      },
+      "states": {
+        "located": true,
+        "modeled": true,
+        "specified": true,
+        "local_hoare": true,
+        "component_linked": true,
+        "full_target_linked": false
+      }
+    }
+  ],
+  "inputs": {
+    "certiucos/v293/code/V293TimeSource.v": "94b2d69c19515a5cd388ab9a019f75e0a4a14de6559ec60320b2695eb42da2ba",
+    "certiucos/v293/proofs/V293TimeSourceAPI.v": "c12c5a65362b9c9fb907d4ff7904b5e73da25d9919451f030975b2cbb9faf44d",
+    "certiucos/v293/proofs/V293TimeSourceReadyCall.v": "825a8a7bd830added8d7a2830cc5fbf019981d7e4b56bd2712b37b1ee66b08e8",
+    "audit/probes/V293TimeSourceReadyCallProbe.v": "4618dad6995053b6d62409947a6a9ec7dd831f53b7195f8d419b96b7ffa3ad8b",
+    "audit/logs/stage338-time-source-ready-call/protocol.json": "fe3d85622030ca265c6b993263384a3e936de321bcfa09071218f6ddbf373f10",
+    "audit/logs/stage338-time-source-ready-call/trust.json": "3916c68907fddaf5d808d375d4568db784168edca2aed1e51f6a01a1d04e9b6d",
+    "audit/logs/stage338-time-source-ready-call/trust-inputs.json": "8fb40f6c514cb741f33bedd06f0286a05f4b86fd9ec4b74e0842886d3611646c",
+    "audit/logs/stage338-time-source-ready-call/assumptions-by-root.json": "c93fa53ad29c3039aac2d799b457cf2ae114f3ab563b7666e0dd9fa8f91b3a7a",
+    "audit/logs/stage338-time-source-ready-call/replay-1/report.json": "bcfdaab3a409848428c09e302c16408cb548b75f78b7da3a42ec36abe94af387",
+    "audit/logs/stage338-time-source-ready-call/replay-2/report.json": "bcfdaab3a409848428c09e302c16408cb548b75f78b7da3a42ec36abe94af387",
+    "scripts/v293-time-source.py": "adb732f6413a4bc8bbf9a15d35161bc154db3b04e0acea7e62c6774fae55467a",
+    "scripts/check-v293-time-source.py": "9d3147ae35c84448b6e9fabcd0482fd0c8c6a2ec03365c97994b220f888f7ca2",
+    "csrc/repairs/FROZEN_SOURCE.json": "452810aee253070b53c7be28028ef0290dab6439d04b7684441a5181b7b1971c",
+    "audit/repaired-source-inventory.json": "f40453a294256356d8cd954568f59a74bb091d33c4a1f3a0013e5653740076c5",
+    "certiucos/v293/proofs/V293TimeReadyGlobalCall.v": "6a6c1647f44ce6b043e036ea1cdfa5ec06d0e7d69183ddd3a0be85a581f8ddf7",
+    "audit/probes/V293TimeReadyGlobalCallProbe.v": "b952be22a5d21fe6a6c802ab0efcda86b3560799c10b2ad4a68a6712b95f6b69",
+    "tests/test_time_ready_global_call.py": "6b087aff24f1c69cba1267501e439da6423e73212d19b63d3d39fa9ed5f1cb1b",
+    "audit/time-source-ready-call-evidence-stage338.json": "558d0077323dbaec47dd687cf092e2b262be01754321d0b28f644dd69120d0f4",
+    "audit/time-source-component-evidence-stage337.json": "b95c987d2e1a1d2184153eace3f646823b391d65f7988d248b9a1cece18292e8",
+    "audit/logs/stage339-time-ready-global-call/protocol.json": "2d119172f445bf8cfcf5fe20b635c3cc0548819a3ce63ae2b58b6529b2842621",
+    "audit/logs/stage339-time-ready-global-call/fixture-plan.json": "f7ff998a7bd442d84c644ec8bf88686b528848e2f7c5f5c9a55296923465fa99",
+    "audit/logs/stage339-time-ready-global-call/trust.json": "183f456ba4f7089baef5d40caed9173d5a965a158e3b607ae4111719ec32b049",
+    "audit/logs/stage339-time-ready-global-call/trust-inputs.json": "26429d6c238c59e0a4c7f0c78be2a12be5f1488f77c67c96d4d4498cd4701adc",
+    "audit/logs/stage339-time-ready-global-call/assumptions-by-root.json": "988ab96f060606d436a583856edfffc11291eaec86dfcbcf13b6bc3fd6059d24"
+  },
+  "assumptions": [
+    "Classical_Prop.classic",
+    "FunctionalExtensionality.functional_extensionality_dep"
+  ],
+  "limitations": [
+    "one actual global switch followed by finite local calls; not yet a continuous global call trace",
+    "no arbitrary interleavings, legal ISR or boot reachability",
+    "not GOOD_OS, same-program K1-K4 or uCOS3 completion",
+    "ADR0005 and unverified restricted frontend unchanged; CPU hooks still open"
+  ]
+}

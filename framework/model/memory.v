@@ -2380,9 +2380,9 @@ Definition encode_val (t: type) (v: val) : list memval :=
   | Vint32  n, Tint32 => inj_bytes (encode_int 4%nat (Int.unsigned n))
   | Vptr (b, ofs), Tptr _ => inj_pointer 4%nat b (ofs)
   | Vptr (b, ofs), Tcom_ptr _ => inj_pointer 4%nat b (ofs)
-  | Vnull, Tnull => list_repeat 4 MNull
-  | Vnull, Tptr _ => list_repeat 4 MNull
-  | Vnull, Tcom_ptr _ => list_repeat 4 MNull
+  | Vnull, Tnull => list_repeat 4 (Byte Byte.zero)
+  | Vnull, Tptr _ => list_repeat 4 (Byte Byte.zero)
+  | Vnull, Tcom_ptr _ => list_repeat 4 (Byte Byte.zero)
   | _, _ => list_repeat (typelen t) Undef
   end.
 
@@ -2393,22 +2393,16 @@ Definition decode_val (t: type) (vl: list memval) : val :=
       | Tint8  => Vint32(Int.zero_ext 8 (Int.repr (decode_int bl)))
       | Tint16 => Vint32(Int.zero_ext 16 (Int.repr (decode_int bl)))
       | Tint32 => Vint32(Int.repr(decode_int bl))
+      | Tnull | Tptr _ | Tcom_ptr _ =>
+          if list_eq_dec Byte.eq_dec bl (list_repeat 4 Byte.zero)
+          then Vnull else Vundef
       | _ => Vundef
       end
   | None =>
-    match vl with
-      | MNull :: MNull ::MNull :: MNull :: nil=> match t with
-                                 | Tnull => Vnull
-                                 | Tptr _ => Vnull
-                                 | Tcom_ptr _ => Vnull
-                                 | _ => Vundef
-                               end
-      | _ =>
-        match t with
-          | Tptr _ => proj_pointer vl
-          | Tcom_ptr _ => proj_pointer vl
-          | _ => Vundef
-        end
+    match t with
+    | Tptr _ => proj_pointer vl
+    | Tcom_ptr _ => proj_pointer vl
+    | _ => Vundef
     end
   end.
 

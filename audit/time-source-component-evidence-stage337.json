@@ -1,0 +1,109 @@
+{
+  "target_release": "V2.93.01",
+  "target_commit": "0c4a48e6fbc6e915714e816196619a5481accf0c",
+  "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+  "scope": "TWO_SOURCE_NORMALIZED_TIME_API_COMPONENT_NOT_FULL_KERNEL_OR_GOOD_OS",
+  "coverage_registration_status": "NOT_REGISTERED_IN_LEGACY_AGGREGATE",
+  "trusted_correspondence": "RESTRICTED_CLANG_AST_DECODER_EMITTER_AND_ADR0005_NOT_VERIFIED_C_FRONTEND",
+  "program": "V293_source_time_program",
+  "specification": "V293_source_time_spec",
+  "interface": "V293_source_time_coherent",
+  "nonempty_entries": "V293_source_time_entries",
+  "builders": "TSbuilders_nonempty",
+  "invariant": "V293_time_shared_inv",
+  "local_invariant": "V293_time_names_li",
+  "scheduler": "V293_scheduler",
+  "stages": [
+    "located",
+    "modeled",
+    "specified",
+    "local_hoare",
+    "component_linked",
+    "full_target_linked"
+  ],
+  "functions": [
+    {
+      "name": "OSTimeGet",
+      "location": {
+        "name": "OSTimeGet",
+        "category": "public",
+        "linkage": "external",
+        "type": "INT32U (void)",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_time.c",
+        "first_line": 237,
+        "last_line": 250,
+        "source_file_sha256": "a53a16a53e8d9cf1f508e97914d7cc91ea33019d8dfc3d6bc60741005bebb346",
+        "source_lines_sha256": "a071cf01c2f759926736b195a1f79fb816eabed34a273daf389ece61200145c7",
+        "preprocessed_begin_byte": 114183,
+        "preprocessed_end_byte_exclusive": 114365,
+        "preprocessed_definition_sha256": "aa08af77c4de1f39e8aed4a5e649fca8ab1e9d4b35844cb215431426e7e2e0b8",
+        "preprocessed_body_sha256": "f75916de87f90d93a5fab7595755510e475b038f6a413b656b7449a98b06278c",
+        "direct_calls": [
+          "V293_EnterCritical",
+          "V293_ExitCritical"
+        ],
+        "indirect_call_sites": 0
+      },
+      "states": {
+        "located": true,
+        "modeled": true,
+        "specified": true,
+        "local_hoare": true,
+        "component_linked": true,
+        "full_target_linked": false
+      }
+    },
+    {
+      "name": "OSTimeSet",
+      "location": {
+        "name": "OSTimeSet",
+        "category": "public",
+        "linkage": "external",
+        "type": "void (INT32U)",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_time.c",
+        "first_line": 267,
+        "last_line": 278,
+        "source_file_sha256": "a53a16a53e8d9cf1f508e97914d7cc91ea33019d8dfc3d6bc60741005bebb346",
+        "source_lines_sha256": "43f30917f4e2b3e6a2965fe0c153f3eab67faebf297d7b78fc8e3891e284dd58",
+        "preprocessed_begin_byte": 114423,
+        "preprocessed_end_byte_exclusive": 114573,
+        "preprocessed_definition_sha256": "db31167c6d5c9776900fec63558df25d1baa20331467c2d42aa14d61be08c054",
+        "preprocessed_body_sha256": "13aed9ba2c2309b668433159bd1eab3fe7321cd3a67c3e55839f634868ac63b9",
+        "direct_calls": [
+          "V293_EnterCritical",
+          "V293_ExitCritical"
+        ],
+        "indirect_call_sites": 0
+      },
+      "states": {
+        "located": true,
+        "modeled": true,
+        "specified": true,
+        "local_hoare": true,
+        "component_linked": true,
+        "full_target_linked": false
+      }
+    }
+  ],
+  "input_sha256": {
+    "certiucos/v293/code/V293TimeSource.v": "94b2d69c19515a5cd388ab9a019f75e0a4a14de6559ec60320b2695eb42da2ba",
+    "certiucos/v293/proofs/V293TimeSourceAPI.v": "c12c5a65362b9c9fb907d4ff7904b5e73da25d9919451f030975b2cbb9faf44d",
+    "audit/probes/V293TimeSourceAPIProbe.v": "076d80d3f1d38bfc826a96611f4600651b3fdaa4703d0da162000fafeb1fff84",
+    "audit/logs/stage337-time-source-connection/protocol.json": "39a56eee451642d408c5a06f7d6e572ad74e997827747b9f361ec94863a7fd4a",
+    "audit/logs/stage337-time-source-connection/trust.json": "7c689a2b38e7d30ac4a2a9538051ae03c030ce06c9a3a5eeb010fe2ab4b7682e",
+    "audit/logs/stage337-time-source-connection/trust-inputs.json": "bbc33e7b59db0b8c8990e3ff56e344a41d3ef93591ae9ea6c7abe4efd60bfdd0",
+    "audit/logs/stage337-time-source-connection/assumptions-by-root.json": "44b914ccd7e3e2f28e33e2f62c219284e1d836dbb845db081e72f62edb153a2b",
+    "audit/logs/stage337-time-source-connection/replay-1/report.json": "bcfdaab3a409848428c09e302c16408cb548b75f78b7da3a42ec36abe94af387",
+    "audit/logs/stage337-time-source-connection/replay-2/report.json": "bcfdaab3a409848428c09e302c16408cb548b75f78b7da3a42ec36abe94af387"
+  },
+  "assumptions": [
+    "Classical_Prop.classic",
+    "FunctionalExtensionality.functional_extensionality_dep"
+  ],
+  "limitations": [
+    "critical markers are normalized, not proved port calls",
+    "builders exist, not a global initial state reachability proof",
+    "two-function component only; no full WFInt/WFIFun/ProgSim",
+    "GOOD_OS, same-program K1-K4 and uCOS3 remain open"
+  ]
+}

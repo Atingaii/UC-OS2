@@ -1,0 +1,54 @@
+{
+  "target_release": "V2.93.01",
+  "target_commit": "0c4a48e6fbc6e915714e816196619a5481accf0c",
+  "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+  "scope": "CONDITIONAL_ORIGINAL_GLOBAL_SOUNDNESS_CONTRACTS_NOT_CONCRETE_KERNEL",
+  "coverage_registration_status": "NOT_REGISTERED_IN_LEGACY_AGGREGATE",
+  "full_target_linked": false,
+  "conditional_global_soundness_accepted": true,
+  "concrete_initialization_supplied": false,
+  "concrete_WFInt_supplied": false,
+  "exact_original_contracts": 9,
+  "recursive_trust_roots": 18,
+  "assumptions": [
+    "Classical_Prop.classic",
+    "FunctionalExtensionality.functional_extensionality_dep"
+  ],
+  "accepted_interfaces": [
+    "V293_verified_os'",
+    "V293_Soundness"
+  ],
+  "source_correspondence": {
+    "mode": "reuse_frozen_not_fresh_replay",
+    "prior_evidence": "audit/time-source-component-evidence-stage337.json"
+  },
+  "inputs": {
+    "certiucos/v293/proofs/V293InitializationPartition.v": "0314e9266a2ab304a939a67b0d0b769c254da50bea4729c1ee0eda04d34132a2",
+    "certiucos/v293/proofs/V293TraceRefinement.v": "928a252208d65a08e80a309bb94524d82548b48e13b95dfda235ccd5c29b19d1",
+    "certiucos/v293/proofs/V293GlobalSoundness.v": "a9a7b37b6f95c7f7a2c2d1b48f629a2d28171ec0f50fade2e17a1291b6291a08",
+    "audit/probes/V293GlobalSoundnessProbe.v": "809ccdee81239467187c5dff911fe683dbb1d095d0f32479ca8ccc4d91ab8d98",
+    "tests/test_global_soundness_bridge.py": "58219c44c6bd8d1a5d84b64fe71988a64c4fad399f0c61ac9aa730d7ad6c8114",
+    "audit/soundness-assumption-isolation-evidence-stage342.json": "bef21e07127a1c806add0f02b08dc586e2452b50ba3e52a6b2b1ec5fb198701b",
+    "audit/logs/stage343-global-soundness-bridge/protocol.json": "aaedf62d089808e58bad44a8c6037aa0895316ad03b262355cd61b0ef17a20f0",
+    "audit/logs/stage343-global-soundness-bridge/protocol.sha256": "f1c7eb3d2ec4a07632a44be84f66a83b650dff285e9470ecaf5465f36aab285c",
+    "audit/logs/stage343-global-soundness-bridge/regression-plan.json": "31c9117427cbd677a0d6775992a5fbb7d9fc658b5bbd53dec5c4b8a22f97f5ab",
+    "audit/logs/stage343-global-soundness-bridge/ablation-plan.json": "8c2a6791beae07071faf6a7c727fe37a238a134c4100638c1344e76934eecbc2",
+    "audit/logs/stage343-global-soundness-bridge/trace-ablation-plan.json": "df29de99480eb826ab2729f21814b760dcaa004f8b6be9a034c7ef3294ef5397",
+    "audit/logs/stage343-global-soundness-bridge/stable-inputs.json": "7812ba235f7b4aade93d6a02042327f015debe62b547a9b9a5072a0f1ac15962",
+    "audit/logs/stage343-global-soundness-bridge/trust.json": "e27639ac47a4da1cefa35f739326c6faf37c02f574ed597821ade45e6f875e17",
+    "audit/logs/stage343-global-soundness-bridge/trust-inputs.json": "7ea4277302f8d62f3bc9f242443e4824114af1aa0f13f01d2b1cd67dba4a888a",
+    "audit/logs/stage343-global-soundness-bridge/assumptions-by-root.json": "564b7bb1c1a08335ed01f2b14e7923ac9939d55c2d7194f1d123a5dd366a8485",
+    "audit/logs/stage343-global-soundness-bridge/ablation.json": "cf5fa0a02d9104050fc5a605c5015e9ea2b95ebfdbf842c9e5abd20d7f7a8c03",
+    "audit/logs/stage343-global-soundness-bridge/global-provenance.json": "b531edafaea623bde2b200c6ad86dc9884d51bd50b4038c0ecdc04dfbe47b358",
+    "audit/logs/stage343-global-soundness-bridge/partition-provenance.json": "0ec2ee2d6acdc859f8f3a599a90c87d665d9b8f1a9a4a79654aaffdee1b70855",
+    "audit/logs/stage343-global-soundness-bridge/trace-provenance.json": "675b89accadd89fa5165856d3f501929070f78d23c7d57bdd7b30580de4d584d",
+    "audit/logs/stage343-global-soundness-bridge/adversarial-review.json": "b0f6149acc7905f0ae9a3e04e62b575c745805d9045b09cb9b51ce6153b410b9",
+    "audit/logs/stage343-global-soundness-bridge/diagnostic-trust-comparison.json": "1ff85f3b21bd5c3661dd5b960eecfbfd12dbac44fa59a80178b2003da6fbaddc"
+  },
+  "limitations": [
+    "conditional framework bridge only",
+    "not concrete WFInt or OSInit",
+    "ADR0005, unverified frontend and two CPU hooks",
+    "K1-K4 and uCOS3 incomplete"
+  ]
+}

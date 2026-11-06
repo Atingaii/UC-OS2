@@ -2,6 +2,18 @@ Require Import sound_include.
 Require Import rulesound.
 
 
+Lemma skip_rule_sound : forall Spec sd li I r ri p tid v,
+ RuleSem Spec sd li I r ri p (sskip v) p tid.
+Proof.
+ intros Spec sd li I r ri p tid v o O aop [Hp Hlin].
+ constructors; introv Hfalse; tryfalse.
+ - introv _ _ _ Hstep. unfold nilcont in Hstep. invertstep tryfalse.
+ - inverts Hfalse. introv Hinv Hdisj Hjoin.
+   exists aop OO O Os. splits; eauto. constructors.
+ - destruct Hfalse as (_ & _ & Hstop & _).
+   exfalso. apply Hstop. unfold nilcont, IsEnd. eauto.
+Qed.
+
 Theorem RuleSound: 
   forall (Spec:funspec) (sd : ossched) (I:Inv) (r:retasrt) (ri:asrt)
          (pre:asrt) (s:stmts) (post:asrt) lasrt tid,
@@ -49,6 +61,7 @@ Proof.
   eapply task_crt_rule_sound; eauto.
   eapply task_delself_rule_sound; eauto.
   eapply task_delother_rule_sound;eauto.
+  eapply skip_rule_sound.
 Qed.
 
 Hint Resolve RuleSound : core.

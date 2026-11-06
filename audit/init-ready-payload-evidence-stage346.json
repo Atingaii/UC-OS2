@@ -1,0 +1,118 @@
+{
+  "target_release": "V2.93.01",
+  "target_commit": "0c4a48e6fbc6e915714e816196619a5481accf0c",
+  "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+  "scope": "CONTINUOUS_TCB_INIT_RETURN_ORIGINAL_READY_PAYLOAD_UNDER_TWO_HOOK_CONTRACTS",
+  "coverage_registration_status": "NOT_REGISTERED_IN_LEGACY_AGGREGATE",
+  "continuous_return_under_hooks_accepted": true,
+  "original_ready_payload_established": true,
+  "shared_ready_core_established": false,
+  "full_target_linked": false,
+  "whole_OSInit_execution": false,
+  "concrete_GOOD_OS_instance": false,
+  "CPU_hook_implementations_proved": false,
+  "strong_ready_list_invariant_established": false,
+  "after_allocation_CPU_SR_entry_only": true,
+  "ghost_map_update_is_abstract_commit": false,
+  "unconditional_prefix_to_first_hook": true,
+  "unconditional_full_return_existence": false,
+  "recursive_trust_roots": 16,
+  "assumptions": [
+    "Classical_Prop.classic",
+    "FunctionalExtensionality.functional_extensionality_dep"
+  ],
+  "accepted_interfaces": [
+    "V293_OS_TCBInit_ready_return_under_hooks"
+  ],
+  "source_correspondence": {
+    "mode": "fresh_fixed_source_replay_manual_statement_mapping",
+    "functions": [
+      {
+        "name": "OS_InitTCBList",
+        "category": "internal",
+        "linkage": "internal",
+        "type": "void (void)",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1591,
+        "last_line": 1617,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "52a9fd08add4ffc82648f72d9fa7dfe2ca1eedf164bde819787f532265b15d34",
+        "preprocessed_begin_byte": 25327,
+        "preprocessed_end_byte_exclusive": 25871,
+        "preprocessed_definition_sha256": "95dbb97660ea4572afb5b9635980c74020a2968bf181cf1bdbc7097ecc4a90f3",
+        "preprocessed_body_sha256": "ca247d9376d39a1f148ff12d16574a5ea62725cf8d0f331585a8fa19fa6d6c64",
+        "direct_calls": [
+          "OS_MemClr"
+        ],
+        "indirect_call_sites": 0
+      },
+      {
+        "name": "OS_TCBInit",
+        "category": "internal",
+        "linkage": "external",
+        "type": "INT8U (INT8U, OS_STK *, OS_STK *, INT16U, INT32U, void *, INT16U)",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 2022,
+        "last_line": 2151,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "2b3efb83723e005c8dbe11603b4d7d1a0abfe110367aa1c38d6bf458e8fa1ee3",
+        "preprocessed_begin_byte": 28651,
+        "preprocessed_end_byte_exclusive": 30701,
+        "preprocessed_definition_sha256": "596eea2946d147587065704c0b9828c577b64ca61c19815f6b2eefe7043f5978",
+        "preprocessed_body_sha256": "8f6408d5f47317d788f99bc7531c42ca93054c8fd211ecdf82e1e1b93b537d98",
+        "direct_calls": [
+          "OSTCBInitHook",
+          "OSTaskCreateHook",
+          "V293_EnterCritical",
+          "V293_ExitCritical"
+        ],
+        "indirect_call_sites": 0
+      }
+    ],
+    "verified_frontend": false,
+    "ADR0005_unchanged": true
+  },
+  "inputs": {
+    "certiucos/v293/proofs/V293InitReadyPayload.v": "59fc155802915ba33d59f05f3c40b5b09379770ba8b1f9d1445139c867542641",
+    "audit/probes/V293InitReadyPayloadProbe.v": "f318de286d163d7cf4849191e195b7fcbbe50262e8054e19cbec07e6dfd76ddf",
+    "_CoqProject": "acb9ccda09e2bb4d21bc4247ba90cd745493ded526f7d5d70ff1fd0ceb17f5e3",
+    "tests/test_init_ready_payload.py": "d16e49c16fe82158d48cf4d944bf7341b55a88259acdc3e67df4247ed308db94",
+    "audit/repaired-source-inventory.json": "f40453a294256356d8cd954568f59a74bb091d33c4a1f3a0013e5653740076c5",
+    "csrc/repairs/FROZEN_SOURCE.json": "452810aee253070b53c7be28028ef0290dab6439d04b7684441a5181b7b1971c",
+    "csrc/upstream/v2.93.01/checkout/Source/os_core.c": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+    "scripts/check-v293-c-regressions.py": "3f47901fe4cba8bcde93025ba18908df960d340c0f2f634a729c9b1e4fe2239c",
+    "scripts/inventory-v293-source.py": "3c4b0029800df5920f9be39308a8006ba65d4adc1bc2c98e16807341733a72aa",
+    "audit/canonical-init-return-evidence-stage345.json": "1bb36f91ab2c4efc54651fd8e322577391a47930de3cafd7e73a0bc3ec2e45bc",
+    "audit/logs/stage346-init-ready-payload/protocol.json": "f9a6177596d8123b36a7106481ba4f72b43be35c2aef88fb7e4360f5b42a8a2b",
+    "audit/logs/stage346-init-ready-payload/protocol.sha256": "5bf6f8101a4ce1c81a32abf7c690c1fdc6236ae8edd695643609e13353b37df1",
+    "audit/logs/stage346-init-ready-payload/regression-plan.json": "935f1b46df22fea54a38253588444ddf998c7c13ae68f872fad58d3f27a23135",
+    "audit/logs/stage346-init-ready-payload/regression-plan.sha256": "5bfde6347047ad60603cada0325d91d509048cff945e4c27dda3da8aba00602e",
+    "audit/logs/stage346-init-ready-payload/source-identities.json": "c1fbf827a0edcbc30bb5fd40c5a813966b28f3856490dec710b89b0659ef9392",
+    "audit/logs/stage346-init-ready-payload/source-replay.json": "aad8e86113754f4a3408c1b3f720f4f826ab452181d24edb1cf339356917fb67",
+    "audit/logs/stage346-init-ready-payload/source-replay.log": "1976b20fb74102f803684f76cb4c822ca1b121cca7814d765c9d069473e5d219",
+    "audit/logs/stage346-init-ready-payload/OS_InitTCBList.configured.c.snapshot.txt": "60b36a1d9964f556235d1cc6b67619b20847c7d5db4addc9efda773aeb3a2013",
+    "audit/logs/stage346-init-ready-payload/OS_InitTCBList.source.c.snapshot.txt": "52a9fd08add4ffc82648f72d9fa7dfe2ca1eedf164bde819787f532265b15d34",
+    "audit/logs/stage346-init-ready-payload/OS_TCBInit.configured.c.snapshot.txt": "b965b349c4a96cacbc131e56177d97c4de4ff84a65ad5783755dc34dd69ec862",
+    "audit/logs/stage346-init-ready-payload/OS_TCBInit.source.c.snapshot.txt": "2b3efb83723e005c8dbe11603b4d7d1a0abfe110367aa1c38d6bf458e8fa1ee3",
+    "audit/logs/stage346-init-ready-payload/stable-inputs.json": "86c27d28e8938c21c83af4613a27039f28e8dca2f12bfe1b3f23f888095614a8",
+    "audit/logs/stage346-init-ready-payload/trust.json": "381045e033d04eed7d0627c968433e3816ef1aad24f412d4e6d508459ef45bff",
+    "audit/logs/stage346-init-ready-payload/trust-inputs.json": "70f1916bf56e95629252557e63f9f4d66fa1be96c0b9d380ba6d04cc42b55a1f",
+    "audit/logs/stage346-init-ready-payload/assumptions-by-root.json": "90b2567888aa838c5f7445fd253b976a300649c26261c2e37315c8ae385686d7",
+    "audit/logs/stage346-init-ready-payload/trust-roots.log": "534d2d9424d13872dd2637b65e78b5ebb69c1ef099b601d7b3fe77e54947d821",
+    "audit/logs/stage346-init-ready-payload/trust-coqchk.log": "e468333d5a5358ac4cd2f542a4afa82c21ffb9bf207adabd477169d60ab6ac24",
+    "audit/logs/stage346-init-ready-payload/ablation.json": "154ff6d0327398ebe8b65d79bf69ff484199106973664e810aab9c06a01641e9",
+    "audit/logs/stage346-init-ready-payload/adversarial-review.json": "016ecdcb99a0153f798c10f6d6e7e48e4f0a4d4849a797427b534800106b39dd",
+    "audit/logs/stage346-init-ready-payload/adversarial-supplement.json": "3a1bcaa03795fa9476c22bb6498b64b957ab442cb61353173485565679cdc64d"
+  },
+  "limitations": [
+    "after-allocation and CPU_SR entry only, not whole OSInit or concrete GOOD_OS",
+    "both CPU hook implementations remain unproved; full return conditional, not unconditional existence",
+    "original ready_payload established, not shared ready_core or full linked-list invariant",
+    "ghost task-map set is not an abstract commit",
+    "negative input relation rejected only; no negative hook-to-return execution or reachable-state claim",
+    "initialization canonical table does not replace runtime mutex reservations",
+    "manual C-to-Coq mapping, ADR0005 and real ISR WFInt remain",
+    "same-program K1-K4 and uCOS3 incomplete",
+    "the negative single-byte control also violates derived group consistency; bitmap/task gate is not claimed to be the unique failing condition or an isolated test of group consistency"
+  ]
+}

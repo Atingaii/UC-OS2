@@ -1,0 +1,537 @@
+Require Import CertiOS.audit.probes.V293CurrentConsistencyProbe.
+Require Import CertiOS.tactics.basetac.join_lib.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedNewWitness.
+Require Import CertiOS.audit.probes.V293EventDataProbe.
+Require Import CertiOS.audit.probes.V293EventQueueProbe.
+Require Import CertiOS.audit.probes.V293WaitPayloadProbe.
+Require Import CertiOS.audit.probes.V293WaitEventOwnedProbe.
+Require Import CertiOS.audit.probes.V293SuccessCompleteReturnProbe.
+Require Import CertiOS.audit.probes.V293SuccessEntryWitnessProbe.
+Require Import CertiOS.certiucos.v293.proofs.V293CriticalReturn.
+Require Import CertiOS.certiucos.v293.proofs.V293SharedStateWitness.
+Require Import CertiOS.framework.include_frm.
+Require Import CertiOS.tactics.hoareforward.symbolic_lemmas.
+Require Import CertiOS.certiucos.v293.code.V293OSTaskChangePrio.
+Require Import CertiOS.certiucos.v293.proofs.V293TaskPrioRekey.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedNewExec.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedNewEval.
+Require Import Coq.Lists.List Lia.
+Require Import Coq.Relations.Relation_Operators.
+Require Import CertiOS.framework.proof.rulesoundlib.
+Require Import CertiOS.certiucos.v293.model.V293ReadyBitmap.
+Require Import CertiOS.framework.proof.cstepLib.
+Require Import CertiOS.certiucos.v293.code.V293OSSchedGuards.
+Require Import CertiOS.certiucos.v293.code.V293OSSchedDispatch.
+Require Import CertiOS.certiucos.v293.code.V293OSSchedChange.
+Require Import CertiOS.framework.proof.invariant_prop.
+Require Import CertiOS.tactics.sepauto.seplog_lemmas.
+Require Import CertiOS.certiucos.v293.proofs.V293OSSchedTarget.
+Require Import CertiOS.tactics.sepauto.seplog_tactics.
+Require Import CertiOS.certiucos.v293.model.V293SchedulerTasks.
+Require Import CertiOS.certiucos.v293.proofs.V293SharedState.
+Import ListNotations.
+Local Open Scope nat_scope.
+Local Opaque HalfPermMap.set.
+
+
+Theorem expected_current_owned_contract :
+  forall P ks ge le caller M ir enabled si ci table oldprio newprio ptcb rows group yo yn xo xn byo byn
+    b bo bn bc bt dy dby dx base br bg lo hi initial new entries pevent bp be ebase elo ehi xi bi ny nby nbx
+    current reserved bcur bct curbase rb curprio
+    running runblock run sched saved interrupt lock schednew high target schedcurrent counter f body next
+    sc abstract_current tasks events now Os Of OO op R reason delay message pend data waiters,
+  initial < 256 -> (initial < 12 \/ initial = 255) -> new < 12 ->
+  let old := if initial =? 255 then curprio else initial in
+  old < 13 -> lo < 256 -> hi < 256 -> br <> bg ->
+  (0 <= base)%Z -> (base+55 <= Int.max_unsigned)%Z ->
+  get le table = None -> get ge table = Some (b,Tarray (Tptr V293_tcb_type) 13) ->
+  get le oldprio = Some (bo,Tint8) -> get le newprio = Some (bn,Tint8) ->
+  get le ptcb = Some (bc,Tptr V293_tcb_type) ->
+  b <> bo -> b <> bn -> b <> bc -> b <> bt ->
+  b <> dy -> b <> dby -> b <> dx -> b <> br -> b <> bg ->
+  load Tint8 M (bo,0%Z) = Some (V293_byteval initial) ->
+  load Tint8 M (bn,0%Z) = Some (V293_byteval new) ->
+  V293_bytes_writable M b (4*Z.of_nat old)%Z 4 ->
+  V293_bytes_writable M b (4*Z.of_nat new)%Z 4 ->
+  length entries = 13 -> V293_table_loads V293_tcb_type M b entries ->
+  get le yo = Some (dy,Tint8) -> get le byo = Some (dby,Tint8) -> get le xo = Some (dx,Tint8) ->
+  get le rows = None -> get ge rows = Some (br,Tarray Tint8 2) ->
+  get le group = None -> get ge group = Some (bg,Tint8) ->
+  dy <> dby -> dy <> dx -> dby <> dx ->
+  (forall c, c = dy \/ c = dby \/ c = dx -> c <> bc /\ c <> bt /\ c <> br /\ c <> bg) ->
+  V293_tcb_old_loads M bt base (V293_prio_row old)
+    (2 ^ V293_prio_row old) (2 ^ V293_prio_bit old) ->
+  (exists v, get M (dy,0%Z) = Some (true,v)) ->
+  (exists v, get M (dby,0%Z) = Some (true,v)) ->
+  (exists v, get M (dx,0%Z) = Some (true,v)) ->
+  V293_rekey_bitmap_loads M br bg lo hi (V293_ready_group lo hi) ->
+  V293_rekey_bitmap_writable M br bg ->
+  (forall x v c, In (x,v) (V293_rekey_new_bindings yn xn byn new) ->
+    get le x = Some (c,Tint8) -> c <> b /\ c <> dy /\ c <> dby /\ c <> dx) ->
+  get le pevent = Some (bp,Tptr V293_event_type) ->
+  V293_bytes_writable M bp 0%Z 4 ->
+  load (Tcom_ptr 411%Z) M (bt,(base+28)%Z) = Some (Vptr (be,Int.repr ebase)) ->
+  bc <> br -> bc <> bg -> bt <> br -> bt <> bg ->
+  bp <> b -> bp <> dy -> bp <> dby -> bp <> dx -> bp <> br -> bp <> bg ->
+  bp <> be ->
+  be <> b -> be <> dy -> be <> dby -> be <> dx -> be <> br -> be <> bg ->
+  elo < 256 -> ehi < 256 -> (0 <= ebase)%Z -> (ebase+12 <= Int.max_unsigned)%Z ->
+  V293_event_bitmap_loads M be ebase elo ehi (V293_ready_group elo ehi) ->
+  V293_event_bitmap_writable M be ebase ->
+  (forall x v c, In (x,v) (V293_rekey_ready_bindings yo yn xo xn byo byn old new) ->
+    get le x = Some (c,Tint8) -> c <> bp /\ c <> be) ->
+  bc <> bt -> bc <> bp -> bc <> be -> bt <> bp -> bt <> be ->
+  get le xi = Some (bi,Tint8) ->
+  (forall c, c = bn \/ c = bi ->
+    c <> b /\ c <> dy /\ c <> dby /\ c <> dx /\ c <> br /\ c <> bg /\ c <> bp /\ c <> be /\ c <> bt) ->
+  (forall x v c, In (x,v) (V293_rekey_new_bindings yn xn byn new) ->
+    get le x = Some (c,Tint8) -> c <> bt) ->
+  V293_tcb_update_writable M bt base ->
+  get le yn = Some (ny,Tint8) -> get le byn = Some (nby,Tint8) ->
+  get le xn = Some (nbx,Tint8) ->
+  ny <> bi -> ny <> nby -> ny <> nbx -> bi <> nby -> bi <> nbx -> nby <> nbx ->
+  (forall c, c=ny \/ c=bi \/ c=nby \/ c=nbx ->
+    c <> b /\ c <> bo /\ c <> bn /\ c <> bc /\ c <> bt /\
+    c <> dy /\ c <> dby /\ c <> dx /\ c <> br /\ c <> bg /\ c <> bp /\ c <> be) ->
+  (forall c, c=ny \/ c=bi \/ c=nby \/ c=nbx ->
+    exists v, get M (c,0%Z) = Some (true,v)) ->
+  load (Tptr V293_tcb_type) M (b,(4*Z.of_nat new)%Z) = Some Vnull ->
+  load (Tptr V293_tcb_type) M (b,(4*Z.of_nat old)%Z) = Some (Vptr (bt,Int.repr base)) ->
+  bo <> bn -> bc <> bn -> bc <> bo ->
+  (initial = 255 ->
+    get le current = None /\ get ge current = Some (bcur,Tptr V293_tcb_type) /\
+    load (Tptr V293_tcb_type) M (bcur,0%Z) = Some (Vptr (bct,Int.repr curbase)) /\
+    (0 <= curbase)%Z /\ (curbase+50 <= Int.max_unsigned)%Z /\
+    load Tint8 M (bct,(curbase+50)%Z) = Some (V293_byteval curprio) /\
+    (exists v, get M (bo,0%Z) = Some (true,v))) ->
+  get le reserved = None -> get ge reserved = Some (rb,Tint8) ->
+  (bt,Int.repr base) <> (rb,Int.zero) ->
+  V293_bytes_writable M bc 0%Z 4 ->
+  (forall c, In c [b;bn;bt;dy;dby;dx;br;bg;bp;be;ny;bi;nby;nbx] ->
+    c <> bo /\ c <> bc) ->
+  run < 256 -> get le running = None -> get ge running = Some (runblock,Tint8) ->
+  load Tint8 M (runblock,0%Z) = Some (V293_byteval run) ->
+  (run = 1 ->
+    P sched = Some (V293_OSSched_success_function saved interrupt lock schednew table high target schedcurrent counter) /\
+    saved <> interrupt /\ saved <> lock /\ V293_success_sched_blocked ge M interrupt lock) ->
+  V293_success_globals_away ge [running;interrupt;lock] [bo;bc;b;dy;dby;dx;br;bg;bp;bt;ny;bi;nby;nbx;be] ->
+  callcont ks = Some (kcall f body caller next) ->
+  NoDup (map fst (getaddr le)) ->
+  (forall c t, In (c,t) (getaddr le) -> V293_bytes_writable M c 0%Z (typelen t)) ->
+  (forall c, In c [b;bt;br;bg;be] -> ~ In c (map fst (getaddr le))) ->
+  V293_priority_table entries tasks -> V293_bitmap_tasks lo hi tasks ->
+  V293_event_wait_tasks elo ehi tasks reason ->
+  (reason = os_stat_sem (be,Int.repr ebase) \/ reason = os_stat_q (be,Int.repr ebase) \/
+    reason = os_stat_mbox (be,Int.repr ebase) \/ reason = os_stat_mutexsem (be,Int.repr ebase)) ->
+  get tasks (bt,Int.repr base) = Some (Int.repr (Z.of_nat old),wait reason delay,message) ->
+  (ge,le,M,ir,(enabled,si,ci),Os,op) |=
+    (CurTid abstract_current ** V293_shared_fields abstract_current tasks events now) ** R ->
+  join Os Of OO ->
+  V293_wait_payload M bt base reason delay message pend ->
+  V293_event_wait_queue events tasks (be,Int.repr ebase) reason data waiters ->
+  (forall pointer_block tp, get ge OSTCBCur = Some (pointer_block,Tptr tp) ->
+    ~ In pointer_block (map fst (getaddr le)) /\
+    ~ In pointer_block [bo;bc;b;dy;dby;dx;br;bg;bp;be;bt;ny;bi;nby;nbx]) ->
+  exists Mf Os' OO',
+  let old := if initial =? 255 then curprio else initial in
+  Os' = set Os abstcblsid (abstcblist (set tasks (bt,Int.repr base) (Int.repr (Z.of_nat new),wait reason delay,message))) /\
+  join Os' Of OO' /\
+  spec_step sc (spec_prim nil (V293_wait_prio_step (bt,Int.repr base) old new)) OO
+    (spec_done (Some (Vint32 Int.zero))) OO' /\
+  V293_local_steps P
+    (curs (sseq (V293_primitive_success_update table oldprio newprio ptcb rows group yo yn xo xn byo byn pevent xi current reserved)
+      (V293_task_prio_success_tail running sched)),(kenil,ks))
+    ((ge,le,M),ir,(enabled,si,ci))
+    (curs (sskip (Some (Vint32 Int.zero))),(kenil,next))
+    ((ge,caller,Mf),ir,(enabled,si,ci)) /\
+  V293_tcb_updated_loads Mf bt base new /\
+  V293_rekey_bitmap_loads Mf br bg lo hi (V293_ready_group lo hi) /\
+  V293_table_loads V293_tcb_type Mf b
+    (update_nth_val new (update_nth_val old entries Vnull) (Vptr (bt,Int.repr base))) /\
+  (let er := V293_ready_rekey_rows elo ehi old new in
+    V293_event_bitmap_loads Mf be ebase (fst er) (snd er) (V293_ready_group (fst er) (snd er))) /\
+  load (Tcom_ptr 411%Z) Mf (bt,(base+28)%Z) = Some (Vptr (be,Int.repr ebase)) /\
+  (forall c i, ~ In c (map fst (getaddr le)) -> ~ In c [bo;bc;b;dy;dby;dx;br;bg;bp;be;bt;ny;bi;nby;nbx] ->
+    get Mf (c,i) = get M (c,i)) /\
+  (forall c t k, In (c,t) (getaddr le) -> k < typelen t ->
+    get Mf (c,Z.of_nat k) = None) /\
+  (ge,caller,Mf,ir,(enabled,si,ci),OO',op) |=
+    V293_shared_fields abstract_current (set tasks (bt,Int.repr base) (Int.repr (Z.of_nat new),wait reason delay,message)) events now ** Atrue /\
+  V293_bitmap_tasks lo hi (set tasks (bt,Int.repr base) (Int.repr (Z.of_nat new),wait reason delay,message)) /\
+  V293_priority_table
+    (update_nth_val new (update_nth_val old entries Vnull) (Vptr (bt,Int.repr base))) (set tasks (bt,Int.repr base) (Int.repr (Z.of_nat new),wait reason delay,message)) /\
+  (let er := V293_ready_rekey_rows elo ehi old new in
+    V293_event_wait_tasks (fst er) (snd er) (set tasks (bt,Int.repr base) (Int.repr (Z.of_nat new),wait reason delay,message)) reason) /\
+  get (set tasks (bt,Int.repr base) (Int.repr (Z.of_nat new),wait reason delay,message)) (bt,Int.repr base) =
+    Some (Int.repr (Z.of_nat new),wait reason delay,message) /\
+  V293_wait_payload Mf bt base reason delay message pend /\
+  V293_event_wait_queue events (set tasks (bt,Int.repr base) (Int.repr (Z.of_nat new),wait reason delay,message))
+    (be,Int.repr ebase) reason data waiters /\
+  (let er := V293_ready_rekey_rows elo ehi old new in
+    V293_event_queue_priorities (fst er) (snd er)
+      (set tasks (bt,Int.repr base) (Int.repr (Z.of_nat new),wait reason delay,message)) waiters) /\
+  (forall p msg, get (set tasks (bt,Int.repr base) (Int.repr (Z.of_nat new),wait reason delay,message)) (bt,Int.repr base) <> Some (p,rdy,msg)) /\
+  (forall i, (i < ebase+10 \/ ebase+12 < i)%Z -> get Mf (be,i) = get M (be,i)) /\
+  (V293_event_type_matches M be ebase data -> V293_event_type_matches Mf be ebase data) /\
+  (V293_event_sem_mbox_data M be ebase data -> V293_event_sem_mbox_data Mf be ebase data) /\
+  (forall pointer_block tp p current_message,
+    get ge OSTCBCur = Some (pointer_block,Tptr tp) ->
+    ~ In pointer_block (map fst (getaddr le)) ->
+    ~ In pointer_block [bo;bc;b;dy;dby;dx;br;bg;bp;be;bt;ny;bi;nby;nbx] ->
+    load (Tptr tp) M (pointer_block,0%Z) = Some (Vptr abstract_current) ->
+    get tasks abstract_current = Some (p,rdy,current_message) ->
+    load (Tptr tp) Mf (pointer_block,0%Z) = Some (Vptr abstract_current) /\
+    get OO' curtid = Some (oscurt abstract_current) /\
+    get (set tasks (bt,Int.repr base) (Int.repr (Z.of_nat new),wait reason delay,message))
+      abstract_current = Some (p,rdy,current_message)) /\
+  (ge,caller,Mf,ir,(enabled,si,ci),OO',op) |=
+    (CurTid abstract_current ** V293_shared_fields abstract_current
+      (set tasks (bt,Int.repr base) (Int.repr (Z.of_nat new),wait reason delay,message)) events now) ** Atrue.
+Proof. exact V293_critical_event_current_owned_execution. Qed.
+
+(* A concrete read-half fragment installed by writable byte cells, not by a
+   load premise.  The unused complementary half remains in Atrue. *)
+Lemma OwnershipProbeInstalledHalf : forall bytes memory b offset,
+  Maps.sub (V293_encoded_memory b offset false bytes)
+    (V293_fixture_put_bytes memory b offset bytes).
+Proof.
+  intros bytes memory b offset. unfold addr in *. apply sub_semp; [reflexivity | ].
+  revert memory b offset. induction bytes as [ | byte rest IH]; intros memory b offset [c i].
+  - cbn [V293_encoded_memory V293_fixture_put_bytes]. rewrite map_emp_get.
+    destruct (get memory (c,i)); exact I.
+  - cbn [V293_encoded_memory V293_fixture_put_bytes].
+    rewrite map_merge_semp by reflexivity.
+    destruct (addr_eq_dec (b,offset) (c,i)) as [Equal | Apart].
+    + inversion Equal; subst c i. rewrite map_get_set. rewrite map_get_sig.
+      rewrite V293_encoded_memory_outside by (right;left;lia). reflexivity.
+    + rewrite map_get_set' by exact Apart. rewrite map_get_sig' by exact Apart.
+      specialize (IH memory b (offset+1)%Z (c,i)).
+      destruct (get (V293_encoded_memory b (offset+1)%Z false rest) (c,i)); exact IH.
+Qed.
+
+Lemma OwnershipProbeEntryCurrent : forall le ir aux O op,
+  (CurrentProbeGE,le,CurrentProbeMemory,ir,aux,O,op) |= CurTid (60%positive,Int.zero) ** Atrue.
+Proof.
+  intros le ir aux O op.
+  set (half := V293_encoded_memory 80%positive 0%Z false
+    (encode_val (Tptr V293_tcb_type) (Vptr (60%positive,Int.zero)))).
+  assert (Sub : Maps.sub half CurrentProbeMemory).
+  { eapply V293_owned_block_frame with (b:=80%positive).
+    - apply OwnershipProbeInstalledHalf.
+    - intros c i Apart. unfold half. apply V293_encoded_memory_outside. left;exact Apart.
+    - intro i. unfold CurrentProbeMemory. apply V293_put_byte_other. discriminate. }
+  destruct Sub as [rest Joined]. apply sat_split'.
+  exists half. exists rest. exists (emp:osabst). exists O.
+  split; [exact Joined | ]. split; [apply map_join_comm;apply map_join_emp | ].
+  split; [ | exact I]. exists V293_tcb_type. unfold Agvarmapsto. exists 80%positive.
+  apply sat_split'. exists (emp:mem). exists half. exists (emp:osabst). exists (emp:osabst).
+  split; [apply map_join_comm;apply map_join_emp | ]. split; [apply map_join_emp | ].
+  split; [exists 80%positive; repeat split;try reflexivity;apply map_get_set | ].
+  split; [unfold half;apply V293_encoded_memory_mapsto | reflexivity].
+Qed.
+
+Lemma OwnershipProbeEntryCore : forall le ir aux now op,
+  (CurrentProbeGE,le,CurrentProbeMemory,ir,aux,
+    V293_shared_fixture_abs (60%positive,Int.zero) expected_payload_tasks expected_queue_events now,op) |=
+    (CurTid (60%positive,Int.zero) **
+      V293_shared_fields (60%positive,Int.zero) expected_payload_tasks expected_queue_events now) ** Atrue.
+Proof.
+  intros. apply V293_current_fields_reconstruct.
+  - apply OwnershipProbeEntryCurrent.
+  - eapply V293_shared_fields_heap_lift; [ | apply map_join_emp].
+    eapply V293_shared_fields_rebase. apply V293_shared_fixture_fields.
+Qed.
+
+Local Ltac complete_entry_bind :=
+  unfold V293_complete_fixture_ge,V293_entry_update_fixture_ge,V293_tcb_update_fixture_le,
+    V293_event_fixture_le,V293_prefix_fixture_ge,V293_prefix_fixture_le,
+    V293_read_ready_fixture_le,V293_ready_fragment_fixture_le;
+  repeat first [rewrite map_get_set | rewrite map_get_set' by discriminate]; reflexivity.
+Local Ltac complete_entry_get :=
+  unfold V293_tcb_update_fixture_mem;
+  repeat first [rewrite V293_put_byte_other by discriminate | rewrite V293_put_byte_get_same].
+Local Ltac complete_entry_load :=
+  unfold V293_tcb_update_fixture_mem;
+  repeat rewrite V293_put_byte_other_load by discriminate;
+  apply V293_put_byte_load; lia.
+
+Theorem OwnershipProbeExecution : forall sc now op ir enabled si ci,
+  exists Mf OO',
+  spec_step sc (spec_prim nil (expected_wait_step (41%positive,Int.repr 8) 8 6))
+    (V293_shared_fixture_abs (60%positive,Int.zero) expected_payload_tasks expected_queue_events now)
+    (spec_done (Some (Vint32 Int.zero))) OO' /\
+  V293_local_steps V293_success_tail_fixture_program
+    (curs (sseq (expected_success_program
+      500%Z 501%Z 502%Z 400%Z 300%Z 301%Z 302%Z 303%Z 304%Z 305%Z 306%Z 307%Z 600%Z 601%Z OSTCBCur 900%Z)
+      (expected_tail 1001%Z 999%Z)),(kenil,kcall 700%Z sret emp kstop))
+    ((CurrentProbeGE,V293_tcb_update_fixture_le,CurrentProbeMemory),ir,(enabled,si,ci))
+    (curs (sskip (Some (Vint32 Int.zero))),(kenil,kstop))
+    ((CurrentProbeGE,emp,Mf),ir,(enabled,si,ci)) /\
+  V293_tcb_updated_loads Mf 41%positive 8%Z 6 /\
+  V293_rekey_bitmap_loads Mf 30%positive 31%positive 16 0 1 /\
+  V293_table_loads V293_tcb_type Mf 50%positive
+    (update_nth_val 6 (update_nth_val 8 V293_prefix_fixture_entries Vnull)
+      (Vptr (41%positive,Int.repr 8))) /\
+  V293_event_bitmap_loads Mf 72%positive 5%Z 64 0 1 /\
+  load (Tcom_ptr 411%Z) Mf (41%positive,36%Z) = Some (Vptr (72%positive,Int.repr 5)) /\
+  (forall c ty k, In (c,ty) (getaddr V293_tcb_update_fixture_le) -> k < typelen ty ->
+    get Mf (c,Z.of_nat k) = None) /\
+  (CurrentProbeGE,emp,Mf,ir,(enabled,si,ci),OO',op) |=
+    (CurTid (60%positive,Int.zero) ** V293_shared_fields (60%positive,Int.zero) expected_payload_tasks_updated expected_queue_events now) ** Atrue /\
+  V293_bitmap_tasks 16 0 expected_payload_tasks_updated /\
+  V293_priority_table
+    (update_nth_val 6 (update_nth_val 8 V293_prefix_fixture_entries Vnull)
+      (Vptr (41%positive,Int.repr 8))) expected_payload_tasks_updated /\
+  expected_event_wait_tasks 64 0 expected_payload_tasks_updated expected_wait_reason /\
+  get expected_payload_tasks_updated (41%positive,Int.repr 8) =
+    Some (Int.repr 6,wait expected_wait_reason Int.one,expected_payload_message) /\
+  expected_physical_wait_payload Mf 41%positive 8%Z expected_wait_reason Int.one expected_payload_message 0 /\
+  expected_event_queue expected_queue_events expected_payload_tasks_updated
+    (72%positive,Int.repr 5) expected_wait_reason (abssem Int.zero) expected_queue_waiters /\
+  expected_queue_priorities 64 0 expected_payload_tasks_updated expected_queue_waiters /\
+  (forall p msg, get expected_payload_tasks_updated (41%positive,Int.repr 8) <> Some (p,rdy,msg)) /\
+  (forall i, (i < 15 \/ 17 < i)%Z -> get Mf (72%positive,i) = get CurrentProbeMemory (72%positive,i)) /\
+  V293_event_type_matches Mf 72%positive 5%Z (abssem Int.zero) /\
+  expected_sem_mbox_data Mf 72%positive 5%Z (abssem Int.zero) /\
+  load (Tptr V293_tcb_type) Mf (80%positive,0%Z) = Some (Vptr (60%positive,Int.zero)) /\
+  get OO' curtid = Some (oscurt (60%positive,Int.zero)) /\
+  get expected_payload_tasks_updated (60%positive,Int.zero) = Some (Int.repr 4,rdy,Vnull).
+Proof.
+  intros sc now op ir enabled si ci.
+  destruct expected_payload_fixture_relations as (EntryTable & EntryBitmap & EntryEvent & EntryTask).
+  destruct (V293_prefix_event_nonnull_entry false 0 1 ltac:(lia) ltac:(lia))
+    as (Lp & Event & We & Fields & View & Wo & Wn & Wy & Wby & Wx & Loads & W & NewLoc & Lo & Ln & Initial & ELoads & EW).
+  set (M := V293_entry_update_fixture_mem true false 0 1).
+  assert (CF : forall c i, c<>51%positive -> c<>40%positive -> c<>80%positive ->
+    get M (c,i) = get (V293_coordinate_fixture_mem false 0 1) (c,i)).
+  { intros. apply V293_entry_update_fixture_frame; assumption. }
+  assert (LF : forall tp c i, c<>51%positive -> c<>40%positive -> c<>80%positive ->
+    load tp M (c,i) = load tp (V293_coordinate_fixture_mem false 0 1) (c,i)).
+  { intros. apply V293_load_block_frame. intro j. apply CF; assumption. }
+  assert (RF : forall tp c i, c <> 41%positive -> c <> 73%positive -> c <> 33%positive -> c <> 37%positive -> c <> 35%positive ->
+    c<>51%positive -> c<>40%positive -> c<>80%positive ->
+    load tp M (c,i) = load tp (V293_prefix_event_nonnull_mem false 0 1) (c,i)).
+  { intros. rewrite LF by assumption. apply V293_load_block_frame. intro j.
+    rewrite V293_coordinate_fixture_delta by (intro E; inversion E; congruence).
+    apply V293_tcb_update_fixture_outside; [assumption | left; assumption]. }
+  assert (HEvent : load (Tcom_ptr 411%Z) M (41%positive,36%Z) = Some (Vptr (72%positive,Int.repr 5))).
+  { unfold load,loadm. rewrite (V293_loadbytes_ext _ (V293_prefix_event_nonnull_mem false 0 1) M).
+    - exact Event.
+    - intros k K. cbn [typelen] in K.
+      unfold M. rewrite V293_entry_update_fixture_frame by discriminate. rewrite V293_coordinate_fixture_delta by (intro Eq; inversion Eq; discriminate).
+      apply V293_tcb_update_fixture_outside; [discriminate | right; left; lia]. }
+  assert (HFields : V293_tcb_old_loads M 41%positive 8%Z 1 2 1).
+  { unfold V293_tcb_old_loads; repeat rewrite LF by discriminate; unfold V293_coordinate_fixture_mem; repeat rewrite V293_put_byte_other_load by discriminate; repeat split; complete_entry_load. }
+  assert (HView : V293_table_loads V293_tcb_type M 50%positive V293_prefix_fixture_entries).
+  { intros p R. rewrite RF by discriminate. exact (View p R). }
+  assert (HWo : V293_bytes_writable M 50%positive 32%Z 4).
+  { intros k K. unfold M; repeat rewrite V293_entry_update_fixture_frame by discriminate; repeat rewrite V293_coordinate_fixture_delta by (intro Eq; inversion Eq; discriminate); rewrite V293_tcb_update_fixture_outside by (try discriminate; left; discriminate). exact (Wo k K). }
+  assert (HWn : V293_bytes_writable M 50%positive 24%Z 4).
+  { intros k K. unfold M; repeat rewrite V293_entry_update_fixture_frame by discriminate; repeat rewrite V293_coordinate_fixture_delta by (intro Eq; inversion Eq; discriminate); rewrite V293_tcb_update_fixture_outside by (try discriminate; left; discriminate). exact (Wn k K). }
+  assert (HWe : V293_bytes_writable M 70%positive 0%Z 4).
+  { intros k K. unfold M; repeat rewrite V293_entry_update_fixture_frame by discriminate; repeat rewrite V293_coordinate_fixture_delta by (intro Eq; inversion Eq; discriminate); rewrite V293_tcb_update_fixture_outside by (try discriminate; left; discriminate). exact (We k K). }
+  assert (HWy : exists v, get M (32%positive,0%Z) = Some (true,v)).
+  { unfold M; repeat rewrite V293_entry_update_fixture_frame by discriminate; repeat rewrite V293_coordinate_fixture_delta by (intro Eq; inversion Eq; discriminate); rewrite V293_tcb_update_fixture_outside by (try discriminate; left; discriminate). exact Wy. }
+  assert (HWby : exists v, get M (36%positive,0%Z) = Some (true,v)).
+  { unfold M; repeat rewrite V293_entry_update_fixture_frame by discriminate; repeat rewrite V293_coordinate_fixture_delta by (intro Eq; inversion Eq; discriminate); rewrite V293_tcb_update_fixture_outside by (try discriminate; left; discriminate). exact Wby. }
+  assert (HWx : exists v, get M (34%positive,0%Z) = Some (true,v)).
+  { unfold M; repeat rewrite V293_entry_update_fixture_frame by discriminate; repeat rewrite V293_coordinate_fixture_delta by (intro Eq; inversion Eq; discriminate); rewrite V293_tcb_update_fixture_outside by (try discriminate; left; discriminate). exact Wx. }
+  assert (HLoads : V293_rekey_bitmap_loads M 30%positive 31%positive 16 (if false then 1 else 0)
+    (V293_ready_group 16 (if false then 1 else 0))).
+  { unfold V293_rekey_bitmap_loads in *. repeat rewrite RF by discriminate. exact Loads. }
+  assert (HW : V293_rekey_bitmap_writable M 30%positive 31%positive).
+  { unfold V293_rekey_bitmap_writable in *.
+    unfold M; repeat rewrite V293_entry_update_fixture_frame by discriminate; repeat rewrite V293_coordinate_fixture_delta by (intro Eq; inversion Eq; discriminate); repeat rewrite V293_tcb_update_fixture_outside by (try discriminate; left; discriminate). exact W. }
+  assert (HELoads : V293_event_bitmap_loads M 72%positive 5%Z 0 1 (V293_ready_group 0 1)).
+  { unfold V293_event_bitmap_loads in *. repeat rewrite RF by discriminate. exact ELoads. }
+  assert (HEW : V293_event_bitmap_writable M 72%positive 5%Z).
+  { unfold V293_event_bitmap_writable in *.
+    unfold M; repeat rewrite V293_entry_update_fixture_frame by discriminate; repeat rewrite V293_coordinate_fixture_delta by (intro Eq; inversion Eq; discriminate); repeat rewrite V293_tcb_update_fixture_outside by (try discriminate; left; discriminate). exact EW. }
+  assert (HLn : load Tint8 M (52%positive,0%Z) = Some (V293_byteval 6)).
+  { rewrite RF by discriminate. exact Ln. }
+  assert (HTW : V293_tcb_update_writable M 41%positive 8%Z).
+  { intros d D. assert (d=50 \/ d=51 \/ d=52 \/ d=53 \/ d=54)%Z by lia.
+    destruct H as [-> | [-> | [-> | [-> | ->]]]]; unfold M; repeat rewrite V293_entry_update_fixture_frame by discriminate; repeat rewrite V293_coordinate_fixture_delta by (intro Eq; inversion Eq; discriminate);
+      eexists; complete_entry_get; reflexivity. }
+  assert (CW : V293_bytes_writable M 40%positive 0%Z 4).
+  { intros k K. unfold M,V293_entry_update_fixture_mem.
+    rewrite V293_put_byte_other by discriminate.
+    rewrite V293_fixture_bytes_outside by (left; discriminate).
+    eexists. apply V293_fixture_bytes_nth. rewrite encode_val_length; exact K. }
+  assert (Addresses : getaddr V293_tcb_update_fixture_le =
+    [(32%positive,Tint8);(33%positive,Tint8);(34%positive,Tint8);(35%positive,Tint8);
+     (36%positive,Tint8);(37%positive,Tint8);(40%positive,Tptr V293_tcb_type);
+     (51%positive,Tint8);(52%positive,Tint8);(70%positive,Tptr V293_event_type);(73%positive,Tint8)]) by reflexivity.
+  assert (CoordsW : forall c, In c [33%positive;73%positive;37%positive;35%positive] ->
+    exists v, get M (c,0%Z) = Some (true,v)).
+  { intros c Cases. destruct Cases as [E | [E | [E | [E | F]]]];try contradiction;subst c;
+      rewrite CF by discriminate; unfold V293_coordinate_fixture_mem;
+      repeat rewrite V293_put_byte_other by discriminate;eexists;apply V293_put_byte_get_same. }
+  assert (NewW : exists v,get M (52%positive,0%Z)=Some(true,v)).
+  { unfold M.
+    rewrite V293_entry_update_fixture_frame by discriminate.
+    rewrite V293_coordinate_fixture_delta by (intro E;inversion E;discriminate).
+    rewrite V293_tcb_update_fixture_outside by (try discriminate;left;discriminate).
+    rewrite V293_prefix_event_nonnull_outside by discriminate.
+    rewrite V293_event_fixture_outside by (try discriminate;left;discriminate).
+    unfold V293_prefix_fixture_mem. eexists;apply V293_put_byte_get_same. }
+  assert (AllWritable : forall c ty, In (c,ty) (getaddr V293_tcb_update_fixture_le) ->
+    V293_bytes_writable (CurrentProbeMemory) c 0%Z (typelen ty)).
+  { intros c ty I. rewrite Addresses in I.
+    repeat destruct I as [E|I];try contradiction;inversion E;subst c ty.
+    all: intros k K; try solve [cbn [typelen] in K; assert (k=0) by lia; subst k;
+      unfold CurrentProbeMemory; eexists; apply V293_put_byte_get_same]; repeat rewrite CurrentProbeGetFrame by discriminate;repeat rewrite EventDataProbeGetFrame by (first [left;discriminate | right;lia]);rewrite expected_payload_entry_get_frame by (try (left;discriminate);right;lia);repeat rewrite expected_wait_entry_get_frame by discriminate.
+    all: try solve [exact(CW k K)|exact(HWe k K)].
+    all: cbn [typelen] in K;assert(k=0) by lia;subst k;cbn [Z.of_nat Z.add];
+      first [assumption | apply CoordsW;cbn;tauto]. }
+  destruct (expected_current_owned_contract V293_success_tail_fixture_program
+    (kcall 700%Z sret emp kstop) CurrentProbeGE V293_tcb_update_fixture_le emp
+    (CurrentProbeMemory) ir enabled si ci
+    500%Z 501%Z 502%Z 400%Z 300%Z 301%Z 302%Z 303%Z 304%Z 305%Z 306%Z 307%Z
+    50%positive 51%positive 52%positive 40%positive 41%positive 32%positive 36%positive 34%positive
+    8%Z 30%positive 31%positive 16 0 8 6 V293_prefix_fixture_entries
+    600%Z 70%positive 72%positive 5%Z 0 1 601%Z 73%positive 33%positive 37%positive 35%positive
+    OSTCBCur 900%Z 80%positive 41%positive 8%Z 99%positive 8
+    1001%Z 100%positive 1 999%Z 1004%Z 1002%Z 1003%Z 1005%Z 1006%Z 1007%Z 1008%Z 1009%Z
+    700%Z sret kstop
+    sc (60%positive,Int.zero) expected_payload_tasks expected_queue_events now
+    (V293_shared_fixture_abs (60%positive,Int.zero) expected_payload_tasks expected_queue_events now)
+    emp (V293_shared_fixture_abs (60%positive,Int.zero) expected_payload_tasks expected_queue_events now)
+    op Atrue expected_wait_reason Int.one expected_payload_message 0 (abssem Int.zero) expected_queue_waiters)
+    as (Mf & Os' & OO' & Identity & AbstractFrame & Abstract & Exec & Updated & Ready & Table & EventReady & Internal & Frame & Removed & FinalOwned & FinalBitmap & FinalTable & FinalEvent & Moving & Payload & Queue & QueueBitmap & NotReady & Header & TypePreserved & DataPreserved & CurrentPreserved & FinalCore).
+
+  all: try solve [assumption]; try solve [exact CurrentProbeSelector]; try solve [left;reflexivity].
+  all: try solve [reflexivity]; try solve [discriminate];try solve [unfold CurrentProbeGE; rewrite map_get_set' by discriminate;complete_entry_bind];
+    try solve [change (0<=8)%Z;lia]; try solve [change (8+55<=4294967295)%Z;lia];
+    try solve [change (8<256);lia];try solve [change (8<12);lia]; try solve [change (8<13);lia];
+    try solve [change (6<12);lia]; try solve [change (16<256);lia]; try solve [change (1<256);lia].
+  all: try solve [right;reflexivity];try solve [left;lia].
+  all: try solve [repeat rewrite CurrentProbeLoadFrame by discriminate;repeat rewrite EventDataProbeLoadFrame by (first [left;discriminate | right;right;lia | right;left;cbn [typelen];lia]);repeat rewrite expected_payload_entry_load_frame by (try (left;discriminate);right;cbn [typelen];lia);repeat rewrite expected_wait_entry_load_frame by discriminate;assumption].
+  all: try solve [intros k K; repeat rewrite CurrentProbeGetFrame by discriminate;repeat rewrite EventDataProbeGetFrame by (first [left;discriminate | right;lia]);rewrite expected_payload_entry_get_frame by (try (left;discriminate);right;lia);repeat rewrite expected_wait_entry_get_frame by discriminate;
+    first [exact (HWo k K)|exact(HWn k K)|exact(HWe k K)|exact(CW k K)]].
+  all: try solve [intros p R;repeat rewrite CurrentProbeLoadFrame by discriminate;repeat rewrite EventDataProbeLoadFrame by (first [left;discriminate | right;right;lia | right;left;cbn [typelen];lia]);rewrite expected_payload_entry_load_frame by (try (left;discriminate);right;cbn [typelen];lia);repeat rewrite expected_wait_entry_load_frame by discriminate;exact(HView p R)].
+  all: try solve [unfold V293_tcb_old_loads in *;repeat rewrite CurrentProbeLoadFrame by discriminate;repeat rewrite EventDataProbeLoadFrame by (first [left;discriminate | right;right;lia | right;left;cbn [typelen];lia]);repeat rewrite expected_payload_entry_load_frame by (try (left;discriminate);right;cbn [typelen];lia);repeat rewrite expected_wait_entry_load_frame by discriminate;exact HFields].
+  all: try solve [repeat rewrite CurrentProbeGetFrame by discriminate;repeat rewrite EventDataProbeGetFrame by (first [left;discriminate | right;lia]);rewrite expected_payload_entry_get_frame by (try (left;discriminate);right;lia);repeat rewrite expected_wait_entry_get_frame by discriminate;assumption].
+  all: try solve [unfold V293_rekey_bitmap_loads in *;repeat rewrite CurrentProbeLoadFrame by discriminate;repeat rewrite EventDataProbeLoadFrame by (first [left;discriminate | right;right;lia | right;left;cbn [typelen];lia]);repeat rewrite expected_payload_entry_load_frame by (try (left;discriminate);right;cbn [typelen];lia);repeat rewrite expected_wait_entry_load_frame by discriminate;exact HLoads].
+  all: try solve [unfold V293_rekey_bitmap_writable in *;repeat rewrite CurrentProbeGetFrame by discriminate;repeat rewrite EventDataProbeGetFrame by (first [left;discriminate | right;lia]);repeat rewrite expected_payload_entry_get_frame by (try (left;discriminate);right;lia);repeat rewrite expected_wait_entry_get_frame by discriminate;exact HW].
+  all: try solve [intros d D;repeat rewrite CurrentProbeGetFrame by discriminate;repeat rewrite EventDataProbeGetFrame by (first [left;discriminate | right;lia]);rewrite expected_payload_entry_get_frame by (try (left;discriminate);right;lia);repeat rewrite expected_wait_entry_get_frame by discriminate;exact(HTW d D)].
+  all: try solve [change (0<=5)%Z;lia];try solve [change (5+12<=4294967295)%Z;lia];try solve [change (0<256);lia].
+  all: try solve [unfold V293_event_bitmap_loads in *;repeat rewrite CurrentProbeLoadFrame by discriminate;repeat rewrite EventDataProbeLoadFrame by (first [left;discriminate | right;right;lia | right;left;cbn [typelen];lia]);repeat rewrite expected_payload_entry_load_frame by (try (left;discriminate);right;cbn [typelen];lia);repeat rewrite expected_wait_entry_load_frame by discriminate;exact HELoads].
+  all: try solve [unfold V293_event_bitmap_writable in *;repeat rewrite CurrentProbeGetFrame by discriminate;repeat rewrite EventDataProbeGetFrame by (first [left;discriminate | right;lia]);repeat rewrite expected_payload_entry_get_frame by (try (left;discriminate);right;lia);repeat rewrite expected_wait_entry_get_frame by discriminate;exact HEW].
+  - intros c Cases. cbn in Cases. intuition congruence.
+  - intros x v c I Bind. cbn [V293_rekey_new_bindings In] in I.
+    destruct I as [E|[E|[E|F]]]; try contradiction; inversion E; subst x v;
+      unfold V293_tcb_update_fixture_le,V293_event_fixture_le,V293_prefix_fixture_le,V293_read_ready_fixture_le,V293_ready_fragment_fixture_le in Bind;
+      repeat first [rewrite map_get_set in Bind | rewrite map_get_set' in Bind by discriminate];
+      inversion Bind; subst c; repeat split; discriminate.
+  - intros x v c I Bind. cbn [V293_rekey_ready_bindings In] in I.
+    destruct I as [E|[E|[E|[E|[E|[E|F]]]]]];try contradiction;inversion E;subst x v;
+      unfold V293_tcb_update_fixture_le,V293_event_fixture_le,V293_prefix_fixture_le,V293_read_ready_fixture_le,V293_ready_fragment_fixture_le in Bind;
+      repeat first [rewrite map_get_set in Bind|rewrite map_get_set' in Bind by discriminate];
+      inversion Bind;subst c;split;discriminate.
+  - intros c Cases. cbn in Cases. intuition congruence.
+  - intros x v c I Bind. cbn [V293_rekey_new_bindings In] in I.
+    destruct I as [E|[E|[E|F]]]; try contradiction; inversion E; subst x v;
+      unfold V293_tcb_update_fixture_le,V293_event_fixture_le,V293_prefix_fixture_le,V293_read_ready_fixture_le,V293_ready_fragment_fixture_le in Bind;
+      repeat first [rewrite map_get_set in Bind | rewrite map_get_set' in Bind by discriminate];
+      inversion Bind; subst c; discriminate.
+  - intros c Cases. cbn in Cases. intuition congruence.
+  - intros c Cases. destruct Cases as [-> | [-> | [-> | ->]]];
+      repeat rewrite CurrentProbeGetFrame by discriminate;repeat rewrite EventDataProbeGetFrame by (first [left;discriminate | right;lia]);rewrite expected_payload_entry_get_frame by (try (left;discriminate);right;lia);repeat rewrite expected_wait_entry_get_frame by discriminate;
+      rewrite CF by discriminate; unfold V293_coordinate_fixture_mem;
+      repeat rewrite V293_put_byte_other by discriminate;
+      eexists; apply V293_put_byte_get_same.
+  - repeat rewrite CurrentProbeLoadFrame by discriminate;repeat rewrite EventDataProbeLoadFrame by (first [left;discriminate | right;right;lia | right;left;cbn [typelen];lia]);rewrite expected_payload_entry_load_frame by (try (left;discriminate);right;cbn [typelen];lia);repeat rewrite expected_wait_entry_load_frame by discriminate.
+    change (load (Tptr V293_tcb_type) M (50%positive,24%Z) = Some (nth 6 V293_prefix_fixture_entries Vnull)).
+    exact (HView 6 ltac:(clear;lia)).
+  - repeat rewrite CurrentProbeLoadFrame by discriminate;repeat rewrite EventDataProbeLoadFrame by (first [left;discriminate | right;right;lia | right;left;cbn [typelen];lia]);rewrite expected_payload_entry_load_frame by (try (left;discriminate);right;cbn [typelen];lia);repeat rewrite expected_wait_entry_load_frame by discriminate.
+    change (load (Tptr V293_tcb_type) M (50%positive,32%Z) = Some (nth 8 V293_prefix_fixture_entries Vnull)).
+    exact (HView 8 ltac:(clear;lia)).
+
+  - intros c Cases. cbn in Cases. intuition congruence.
+  - repeat rewrite CurrentProbeLoadFrame by discriminate;repeat rewrite EventDataProbeLoadFrame by (first [left;discriminate | right;right;lia | right;left;cbn [typelen];lia]);rewrite expected_payload_entry_load_frame by (left;discriminate).
+    unfold expected_wait_entry_mem. repeat rewrite V293_put_byte_other_load by discriminate.
+    apply V293_put_byte_load;lia.
+  - intro One. split; [reflexivity | ]. split; [discriminate | ]. split; [discriminate | ].
+    exists 101%positive. exists 1. split; [unfold CurrentProbeGE; rewrite map_get_set' by discriminate; complete_entry_bind | ]. split.
+    + repeat rewrite CurrentProbeLoadFrame by discriminate;repeat rewrite EventDataProbeLoadFrame by (first [left;discriminate | right;right;lia | right;left;cbn [typelen];lia]);rewrite expected_payload_entry_load_frame by (left;discriminate).
+      unfold expected_wait_entry_mem. rewrite V293_put_byte_other_load by discriminate.
+      apply V293_put_byte_load;lia.
+    + split; [lia | left;discriminate].
+  - intros x c I Bind. cbn in I. destruct I as [E | [E | [E | F]]];try contradiction;subst x;
+      unfold CurrentProbeGE,V293_complete_fixture_ge in Bind;
+      repeat first [rewrite map_get_set in Bind | rewrite map_get_set' in Bind by discriminate];
+      inversion Bind;subst c;cbn;intuition discriminate.
+  - rewrite Addresses. repeat constructor;cbn;intuition discriminate.
+  - intros c I. rewrite Addresses. cbn in I. destruct I as [E | [E | [E | [E | [E | F]]]]];try contradiction;subst c;
+      cbn;intuition discriminate.
+  - apply OwnershipProbeEntryCore.
+  - apply map_join_emp.
+  - eapply V293_wait_payload_frame; [ | exact expected_payload_fixture_bound ].
+    intros i I. rewrite CurrentProbeGetFrame by discriminate. apply EventDataProbeGetFrame. left. discriminate.
+  - exact expected_queue_fixture_bound.
+  - intros pointer_block tp Binding. unfold CurrentProbeGE in Binding.
+    rewrite map_get_set in Binding. inversion Binding; subst pointer_block tp.
+    split; [rewrite Addresses | ]; cbn; intuition discriminate.
+  - exists Mf. exists OO'. split; [exact Abstract | ]. split; [exact Exec | ].
+    split; [exact Updated | ]. split; [exact Ready | ]. split; [exact Table | ].
+    split; [exact EventReady | ]. split; [exact Internal | ]. split; [exact Removed | ].
+    split; [exact FinalCore | ]. split; [exact FinalBitmap | ]. split; [exact FinalTable | ].
+    split; [exact FinalEvent | ]. split; [exact Moving | ]. split; [exact Payload | ]. split; [exact Queue | ]. split; [exact QueueBitmap |  ]. split; [exact NotReady | ].
+    split; [exact Header | ]. split; [apply TypePreserved; exact (proj1 CurrentProbeData) | ].
+    split; [apply DataPreserved; exact CurrentProbeData | ].
+    destruct CurrentProbePointer as (Binding & Pointer & ReadyCurrent).
+    apply (CurrentPreserved 80%positive V293_tcb_type (Int.repr 4) Vnull Binding).
+    + rewrite Addresses. cbn; intuition discriminate.
+    + cbn; intuition discriminate.
+    + exact Pointer.
+    + exact ReadyCurrent.
+Qed.
+
+Theorem OwnershipProbeReturnCore : forall sc now op ir enabled si ci,
+  exists Mf OO',
+  spec_step sc (spec_prim nil (expected_wait_step (41%positive,Int.repr 8) 8 6))
+    (V293_shared_fixture_abs (60%positive,Int.zero) expected_payload_tasks expected_queue_events now)
+    (spec_done (Some (Vint32 Int.zero))) OO' /\
+  V293_local_steps V293_success_tail_fixture_program
+    (curs (sseq (expected_success_program
+      500%Z 501%Z 502%Z 400%Z 300%Z 301%Z 302%Z 303%Z 304%Z 305%Z 306%Z 307%Z 600%Z 601%Z OSTCBCur 900%Z)
+      (expected_tail 1001%Z 999%Z)),(kenil,kcall 700%Z sret emp kstop))
+    ((CurrentProbeGE,V293_tcb_update_fixture_le,CurrentProbeMemory),ir,(enabled,si,ci))
+    (curs (sskip (Some (Vint32 Int.zero))),(kenil,kstop))
+    ((CurrentProbeGE,emp,Mf),ir,(enabled,si,ci)) /\
+  (CurrentProbeGE,emp,Mf,ir,(enabled,si,ci),OO',op) |= V293_shared_core ** Atrue /\
+  ~ ((CurrentProbeGE,emp,Mf,ir,(enabled,si,ci),OO',op) |= CurTid (41%positive,Int.repr 8) ** Atrue).
+Proof.
+  intros sc now op ir enabled si ci.
+  destruct (OwnershipProbeExecution sc now op ir enabled si ci) as (Mf & OO' & Result).
+  assert (Pair : (CurrentProbeGE,emp,Mf,ir,(enabled,si,ci),OO',op) |=
+    (CurTid (60%positive,Int.zero) **
+      V293_shared_fields (60%positive,Int.zero) expected_payload_tasks_updated expected_queue_events now) ** Atrue) by tauto.
+  assert (Core : (CurrentProbeGE,emp,Mf,ir,(enabled,si,ci),OO',op) |= V293_shared_core ** Atrue).
+  { clear Result. unfold V293_shared_core. sep auto. }
+  exists Mf. exists OO'. split; [tauto | ]. split; [tauto | ]. split; [exact Core | ].
+  intros Wrong.
+  destruct (V293_shared_current_read _ _ _ _ _ _ _ _ _ Wrong) as (b & tp & Binding & Pointer).
+  unfold CurrentProbeGE in Binding. rewrite map_get_set in Binding. inversion Binding; subst b tp.
+  assert (Actual : load (Tptr V293_tcb_type) Mf (80%positive,0%Z) = Some (Vptr (60%positive,Int.zero))) by tauto.
+  change (load (Tptr V293_tcb_type) Mf (80%positive,0%Z) = Some (Vptr (41%positive,Int.repr 8))) in Pointer.
+  rewrite Actual in Pointer. discriminate.
+Qed.
+
+Theorem OwnershipProbeEmptyCannotOwnCurrent : forall ge le ir aux O op current,
+  ~ ((ge,le,(emp:mem),ir,aux,O,op) |= CurTid current ** Atrue).
+Proof.
+  intros ge le ir aux O op current Owned.
+  destruct (V293_shared_current_read _ _ _ _ _ _ _ _ _ Owned) as (b & tp & Binding & Pointer).
+  unfold load, loadm in Pointer. cbn [typelen loadbytes] in Pointer.
+  rewrite map_emp_get in Pointer. discriminate.
+Qed.
+
+Print Assumptions expected_current_owned_contract.
+Print Assumptions OwnershipProbeInstalledHalf.
+Print Assumptions OwnershipProbeEntryCurrent.
+Print Assumptions OwnershipProbeEntryCore.
+Print Assumptions OwnershipProbeExecution.
+Print Assumptions OwnershipProbeReturnCore.
+Print Assumptions OwnershipProbeEmptyCannotOwnCurrent.

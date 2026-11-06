@@ -1,0 +1,109 @@
+{
+  "target_release": "V2.93.01",
+  "target_commit": "0c4a48e6fbc6e915714e816196619a5481accf0c",
+  "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+  "scope": "INITIALIZATION_CLEAR_PREFIX_AND_BETWEEN_HOOKS_PRIORITY_WRITE_ONLY",
+  "coverage_registration_status": "NOT_REGISTERED_IN_LEGACY_AGGREGATE",
+  "initialization_table_relation_accepted": true,
+  "full_target_linked": false,
+  "whole_OSInit_execution": false,
+  "concrete_GOOD_OS_instance": false,
+  "CPU_hooks_executed": false,
+  "full_task_record_invariant_established": false,
+  "recursive_trust_roots": 19,
+  "assumptions": [
+    "Classical_Prop.classic",
+    "FunctionalExtensionality.functional_extensionality_dep"
+  ],
+  "accepted_interfaces": [
+    "V293_OS_InitTCBList_canonical_clear",
+    "V293_OS_TCBInit_canonical_priority_write"
+  ],
+  "source_correspondence": {
+    "mode": "fresh_fixed_source_replay_manual_statement_mapping",
+    "functions": [
+      {
+        "name": "OS_InitTCBList",
+        "category": "internal",
+        "linkage": "internal",
+        "type": "void (void)",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1591,
+        "last_line": 1617,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "52a9fd08add4ffc82648f72d9fa7dfe2ca1eedf164bde819787f532265b15d34",
+        "preprocessed_begin_byte": 25327,
+        "preprocessed_end_byte_exclusive": 25871,
+        "preprocessed_definition_sha256": "95dbb97660ea4572afb5b9635980c74020a2968bf181cf1bdbc7097ecc4a90f3",
+        "preprocessed_body_sha256": "ca247d9376d39a1f148ff12d16574a5ea62725cf8d0f331585a8fa19fa6d6c64",
+        "direct_calls": [
+          "OS_MemClr"
+        ],
+        "indirect_call_sites": 0
+      },
+      {
+        "name": "OS_TCBInit",
+        "category": "internal",
+        "linkage": "external",
+        "type": "INT8U (INT8U, OS_STK *, OS_STK *, INT16U, INT32U, void *, INT16U)",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 2022,
+        "last_line": 2151,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "2b3efb83723e005c8dbe11603b4d7d1a0abfe110367aa1c38d6bf458e8fa1ee3",
+        "preprocessed_begin_byte": 28651,
+        "preprocessed_end_byte_exclusive": 30701,
+        "preprocessed_definition_sha256": "596eea2946d147587065704c0b9828c577b64ca61c19815f6b2eefe7043f5978",
+        "preprocessed_body_sha256": "8f6408d5f47317d788f99bc7531c42ca93054c8fd211ecdf82e1e1b93b537d98",
+        "direct_calls": [
+          "OSTCBInitHook",
+          "OSTaskCreateHook",
+          "V293_EnterCritical",
+          "V293_ExitCritical"
+        ],
+        "indirect_call_sites": 0
+      }
+    ],
+    "verified_frontend": false,
+    "ADR0005_unchanged": true
+  },
+  "inputs": {
+    "certiucos/v293/proofs/V293InitPriorityTable.v": "e5aff1793d4c322b53aef96d6025aeef56542a4efc46a45c308d2a0d8daef63f",
+    "audit/probes/V293InitPriorityTableProbe.v": "891c250b716a7911cb430b2c428188daaab6d6f62024463ac498400ac62e1838",
+    "tests/test_init_priority_canonical.py": "649e0760c5879484af3907893f9f792887a3ddeae392105c097d3a881b7b62d1",
+    "audit/repaired-source-inventory.json": "f40453a294256356d8cd954568f59a74bb091d33c4a1f3a0013e5653740076c5",
+    "csrc/repairs/FROZEN_SOURCE.json": "452810aee253070b53c7be28028ef0290dab6439d04b7684441a5181b7b1971c",
+    "csrc/upstream/v2.93.01/checkout/Source/os_core.c": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+    "scripts/check-v293-c-regressions.py": "3f47901fe4cba8bcde93025ba18908df960d340c0f2f634a729c9b1e4fe2239c",
+    "scripts/inventory-v293-source.py": "3c4b0029800df5920f9be39308a8006ba65d4adc1bc2c98e16807341733a72aa",
+    "audit/probes/V293InitTCBClearProbe.v": "8774ac7349c5c2d871a4353b0bdc44e254bc8f2313569503137a1905b21ec8e0",
+    "audit/global-soundness-bridge-evidence-stage343.json": "e303396c3b0793f0184f228b7121612f342a9dcc9272ebb98bb9272ec10ce6cf",
+    "audit/logs/stage344-init-priority-canonical/protocol.json": "3f52125210be227a800ae7d97be1702709333604a27713cd9f5dbb35973e56c6",
+    "audit/logs/stage344-init-priority-canonical/protocol.sha256": "21d36d74f895e09c604581924096e9c803aed59058bc100fcc2f47526698bdc6",
+    "audit/logs/stage344-init-priority-canonical/regression-plan.json": "6ace388b9da352069d34b3319b1f4fc12ffe66f42fc0a8c03ec0120c2040327c",
+    "audit/logs/stage344-init-priority-canonical/regression-plan.sha256": "d4008a8a122ffa50da17ab8d8cf43ad55f13ebd3c5929a4ae00ad000b1f616b9",
+    "audit/logs/stage344-init-priority-canonical/source-identities.json": "c1fbf827a0edcbc30bb5fd40c5a813966b28f3856490dec710b89b0659ef9392",
+    "audit/logs/stage344-init-priority-canonical/source-replay.json": "45a749fd90ceb8f0f7762e1fc34672652660d387862905ad81d21a77e814853f",
+    "audit/logs/stage344-init-priority-canonical/source-replay.log": "1976b20fb74102f803684f76cb4c822ca1b121cca7814d765c9d069473e5d219",
+    "audit/logs/stage344-init-priority-canonical/OS_InitTCBList.configured.c.snapshot.txt": "60b36a1d9964f556235d1cc6b67619b20847c7d5db4addc9efda773aeb3a2013",
+    "audit/logs/stage344-init-priority-canonical/OS_InitTCBList.source.c.snapshot.txt": "52a9fd08add4ffc82648f72d9fa7dfe2ca1eedf164bde819787f532265b15d34",
+    "audit/logs/stage344-init-priority-canonical/OS_TCBInit.configured.c.snapshot.txt": "b965b349c4a96cacbc131e56177d97c4de4ff84a65ad5783755dc34dd69ec862",
+    "audit/logs/stage344-init-priority-canonical/OS_TCBInit.source.c.snapshot.txt": "2b3efb83723e005c8dbe11603b4d7d1a0abfe110367aa1c38d6bf458e8fa1ee3",
+    "audit/logs/stage344-init-priority-canonical/stable-inputs.json": "2fc8f094870390a66aab14ee81d788a858091020be9d62e07c9ac62ca797e322",
+    "audit/logs/stage344-init-priority-canonical/trust.json": "9bb204eed16c067ade8ddb7cf830d1948f3d0fb360d45b9b6f737516972008bc",
+    "audit/logs/stage344-init-priority-canonical/trust-inputs.json": "fff39823085e6979a7e93f7dc9716a990751fd7656b2c11400c28ec83a9619db",
+    "audit/logs/stage344-init-priority-canonical/assumptions-by-root.json": "98caee5836737985e570264bc79dedb342a7075a9a212b13dd5eda4de036d295",
+    "audit/logs/stage344-init-priority-canonical/trust-roots.log": "52c202e8490af5d8e74744f072df6f48f18c4a5d21788b5a46e83ae0d4d0ea52",
+    "audit/logs/stage344-init-priority-canonical/trust-coqchk.log": "f0fa27df6f2acc922ac22fbf03b2ddee558c155732033e3fd875c0145d24ad71",
+    "audit/logs/stage344-init-priority-canonical/ablation.json": "c97340f5babe504cbd2a28a314e57bf3442e1af946acdffefce5017dc7d17c43",
+    "audit/logs/stage344-init-priority-canonical/adversarial-review.json": "e67a1d6f5f5f3960a92989938d3a7c48d32493662bca60db3970f39854777405"
+  },
+  "limitations": [
+    "initialization clear prefix and between-hooks assignment only",
+    "pure task-map relation, not full task-record/ready/list invariant or abstract execution",
+    "two separate example entry heaps, not continuous OSInit or concrete GOOD_OS",
+    "not runtime mutex-reservation closure",
+    "unfiltered real ISR WFInt, ADR0005, unverified frontend and two CPU hooks remain",
+    "same-program K1-K4 and uCOS3 incomplete"
+  ]
+}

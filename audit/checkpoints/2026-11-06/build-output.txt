@@ -1,0 +1,5 @@
+/data/home/lucentzhou/.opam/default/bin/coq_makefile -f _CoqProject -o Makefile.coq
+make -f Makefile.coq -j2 COQC="/data/home/lucentzhou/.opam/default/bin/coqc"
+make[1]: Entering directory '/data/home/lucentzhou/tenecntgo/coodexUI/CertiUCOS-II-V29301-Coq818'
+make[2]: Nothing to be done for 'real-all'.
+make[1]: Leaving directory '/data/home/lucentzhou/tenecntgo/coodexUI/CertiUCOS-II-V29301-Coq818'

@@ -2856,17 +2856,9 @@ Proof.
   destruct Y ;tryfalse.
   inverts H.
   unfold decode_val in *.
-  destruct (proj_bytes l0);tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  auto.
+  destruct (proj_bytes l0) as [nullbytes | ];tryfalse;
+    try solve [destruct (list_eq_dec Byte.eq_dec nullbytes (list_repeat 4 Byte.zero));
+      simpl in *;tryfalse;auto].
   remember (get e0 v) as  G.
   destruct G;tryfalse.
   destruct p.
@@ -2879,17 +2871,9 @@ Proof.
   destruct Y ;tryfalse.
   inverts H.
   unfold decode_val in *.
-  destruct (proj_bytes l0);tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  auto.
+  destruct (proj_bytes l0) as [nullbytes | ];tryfalse;
+    try solve [destruct (list_eq_dec Byte.eq_dec nullbytes (list_repeat 4 Byte.zero));
+      simpl in *;tryfalse;auto].
   simpl in H2;tryfalse.
   simpl in H2.
   destruct (evaltype e (e0,e1,m));simpl in H2;tryfalse.
@@ -2919,17 +2903,9 @@ Proof.
   destruct F;tryfalse.
   inverts H.
   unfold decode_val in *.
-  destruct (proj_bytes l0);tryfalse.
-
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
+  destruct (proj_bytes l0) as [nullbytes | ];tryfalse;
+    try solve [destruct (list_eq_dec Byte.eq_dec nullbytes (list_repeat 4 Byte.zero));
+      simpl in *;tryfalse;auto].
 
   simpl in H2.
   destruct e;tryfalse.
@@ -2960,16 +2936,9 @@ Proof.
   destruct F;tryfalse.
   inverts H.
   unfold decode_val in *.
-  destruct (proj_bytes l0);tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
+  destruct (proj_bytes l0) as [nullbytes | ];tryfalse;
+    try solve [destruct (list_eq_dec Byte.eq_dec nullbytes (list_repeat 4 Byte.zero));
+      simpl in *;tryfalse;auto].
   
   tryfalse.
 
@@ -3013,16 +2982,9 @@ Proof.
   destruct K;tryfalse.
   inverts H.
   unfold decode_val in *.
-  destruct (proj_bytes l0);tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
+  destruct (proj_bytes l0) as [nullbytes | ];tryfalse;
+    try solve [destruct (list_eq_dec Byte.eq_dec nullbytes (list_repeat 4 Byte.zero));
+      simpl in *;tryfalse;auto].
 
   inverts H2.
   destruct x;simpl in H4;tryfalse;auto.
@@ -3046,16 +3008,9 @@ Proof.
   destruct K;tryfalse.
   inverts H.
   unfold decode_val in *.
-  destruct (proj_bytes l0);tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
+  destruct (proj_bytes l0) as [nullbytes | ];tryfalse;
+    try solve [destruct (list_eq_dec Byte.eq_dec nullbytes (list_repeat 4 Byte.zero));
+      simpl in *;tryfalse;auto].
 
   inverts H2.
   destruct x;simpl in H4;tryfalse;auto.
@@ -3079,16 +3034,9 @@ Proof.
   destruct K;tryfalse.
   inverts H.
   unfold decode_val in *.
-  destruct (proj_bytes l0);tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
+  destruct (proj_bytes l0) as [nullbytes | ];tryfalse;
+    try solve [destruct (list_eq_dec Byte.eq_dec nullbytes (list_repeat 4 Byte.zero));
+      simpl in *;tryfalse;auto].
 
    remember (evaltype e3 (e0, e1, m)) as Y.
   destruct Y;tryfalse.
@@ -3115,16 +3063,9 @@ Proof.
   destruct K;tryfalse.
   inverts H.
   unfold decode_val in *.
-  destruct (proj_bytes l0);tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
+  destruct (proj_bytes l0) as [nullbytes | ];tryfalse;
+    try solve [destruct (list_eq_dec Byte.eq_dec nullbytes (list_repeat 4 Byte.zero));
+      simpl in *;tryfalse;auto].
 
   inverts H2.
   destruct x;simpl in H4;tryfalse;auto.
@@ -3148,16 +3089,9 @@ Proof.
   destruct K;tryfalse.
   inverts H.
   unfold decode_val in *.
-  destruct (proj_bytes l0);tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
+  destruct (proj_bytes l0) as [nullbytes | ];tryfalse;
+    try solve [destruct (list_eq_dec Byte.eq_dec nullbytes (list_repeat 4 Byte.zero));
+      simpl in *;tryfalse;auto].
 
   inverts H2.
   destruct x;simpl in H4;tryfalse;auto.
@@ -3181,16 +3115,9 @@ Proof.
   destruct K;tryfalse.
   inverts H.
   unfold decode_val in *.
-  destruct (proj_bytes l0);tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
-  destruct m0;tryfalse.
-  destruct l0;tryfalse.
+  destruct (proj_bytes l0) as [nullbytes | ];tryfalse;
+    try solve [destruct (list_eq_dec Byte.eq_dec nullbytes (list_repeat 4 Byte.zero));
+      simpl in *;tryfalse;auto].
 Qed.
 
 Lemma array_asrt_imp_length :

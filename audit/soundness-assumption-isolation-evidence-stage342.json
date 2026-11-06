@@ -1,0 +1,122 @@
+{
+  "target_release": "V2.93.01",
+  "target_commit": "0c4a48e6fbc6e915714e816196619a5481accf0c",
+  "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+  "scope": "FULL_TASKSIM_FOR_TWO_SOURCE_TIME_APIS_NOT_GLOBAL_GOOD_OS",
+  "coverage_registration_status": "NOT_REGISTERED_IN_LEGACY_AGGREGATE",
+  "full_target_linked": false,
+  "task_sim_accepted": true,
+  "local_trust_gate_passed": true,
+  "program": "V293_source_time_program",
+  "invariant": "V293_time_ready_inv",
+  "exact_original_contracts": 11,
+  "full_rule_constructors": 40,
+  "recursive_trust_roots": 22,
+  "assumptions": [
+    "Classical_Prop.classic",
+    "FunctionalExtensionality.functional_extensionality_dep"
+  ],
+  "source_correspondence": {
+    "mode": "reuse_frozen_not_fresh_replay",
+    "prior_evidence": "audit/time-source-component-evidence-stage337.json",
+    "frontend": "restricted unverified decoder; unchanged ADR0005 critical normalization"
+  },
+  "functions": [
+    {
+      "name": "OSTimeGet",
+      "location": {
+        "name": "OSTimeGet",
+        "category": "public",
+        "linkage": "external",
+        "type": "INT32U (void)",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_time.c",
+        "first_line": 237,
+        "last_line": 250,
+        "source_file_sha256": "a53a16a53e8d9cf1f508e97914d7cc91ea33019d8dfc3d6bc60741005bebb346",
+        "source_lines_sha256": "a071cf01c2f759926736b195a1f79fb816eabed34a273daf389ece61200145c7",
+        "preprocessed_begin_byte": 114183,
+        "preprocessed_end_byte_exclusive": 114365,
+        "preprocessed_definition_sha256": "aa08af77c4de1f39e8aed4a5e649fca8ab1e9d4b35844cb215431426e7e2e0b8",
+        "preprocessed_body_sha256": "f75916de87f90d93a5fab7595755510e475b038f6a413b656b7449a98b06278c",
+        "direct_calls": [
+          "V293_EnterCritical",
+          "V293_ExitCritical"
+        ],
+        "indirect_call_sites": 0
+      },
+      "states": {
+        "located": true,
+        "modeled": true,
+        "specified": true,
+        "local_hoare": true,
+        "component_linked": true,
+        "full_target_linked": false
+      }
+    },
+    {
+      "name": "OSTimeSet",
+      "location": {
+        "name": "OSTimeSet",
+        "category": "public",
+        "linkage": "external",
+        "type": "void (INT32U)",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_time.c",
+        "first_line": 267,
+        "last_line": 278,
+        "source_file_sha256": "a53a16a53e8d9cf1f508e97914d7cc91ea33019d8dfc3d6bc60741005bebb346",
+        "source_lines_sha256": "43f30917f4e2b3e6a2965fe0c153f3eab67faebf297d7b78fc8e3891e284dd58",
+        "preprocessed_begin_byte": 114423,
+        "preprocessed_end_byte_exclusive": 114573,
+        "preprocessed_definition_sha256": "db31167c6d5c9776900fec63558df25d1baa20331467c2d42aa14d61be08c054",
+        "preprocessed_body_sha256": "13aed9ba2c2309b668433159bd1eab3fe7321cd3a67c3e55839f634868ac63b9",
+        "direct_calls": [
+          "V293_EnterCritical",
+          "V293_ExitCritical"
+        ],
+        "indirect_call_sites": 0
+      },
+      "states": {
+        "located": true,
+        "modeled": true,
+        "specified": true,
+        "local_hoare": true,
+        "component_linked": true,
+        "full_target_linked": false
+      }
+    }
+  ],
+  "inputs": {
+    "certiucos/v293/code/V293TimeSource.v": "94b2d69c19515a5cd388ab9a019f75e0a4a14de6559ec60320b2695eb42da2ba",
+    "certiucos/v293/proofs/V293TimeSourceAPI.v": "c12c5a65362b9c9fb907d4ff7904b5e73da25d9919451f030975b2cbb9faf44d",
+    "audit/probes/V293TimeSourceAPIProbe.v": "076d80d3f1d38bfc826a96611f4600651b3fdaa4703d0da162000fafeb1fff84",
+    "audit/logs/stage337-time-source-connection/protocol.json": "39a56eee451642d408c5a06f7d6e572ad74e997827747b9f361ec94863a7fd4a",
+    "audit/logs/stage337-time-source-connection/trust.json": "7c689a2b38e7d30ac4a2a9538051ae03c030ce06c9a3a5eeb010fe2ab4b7682e",
+    "audit/logs/stage337-time-source-connection/trust-inputs.json": "bbc33e7b59db0b8c8990e3ff56e344a41d3ef93591ae9ea6c7abe4efd60bfdd0",
+    "audit/logs/stage337-time-source-connection/assumptions-by-root.json": "44b914ccd7e3e2f28e33e2f62c219284e1d836dbb845db081e72f62edb153a2b",
+    "audit/logs/stage337-time-source-connection/replay-1/report.json": "bcfdaab3a409848428c09e302c16408cb548b75f78b7da3a42ec36abe94af387",
+    "audit/logs/stage337-time-source-connection/replay-2/report.json": "bcfdaab3a409848428c09e302c16408cb548b75f78b7da3a42ec36abe94af387",
+    "audit/time-source-component-evidence-stage337.json": "b95c987d2e1a1d2184153eace3f646823b391d65f7988d248b9a1cece18292e8",
+    "certiucos/v293/proofs/V293CallSoundness.v": "0b439e86cdfec8221da652291072b3a432a125c76344fa828c9a3b8314553bd4",
+    "certiucos/v293/proofs/V293Soundness.v": "a1c2c97f3f9db8118ba99efdb5cf341f5c4e5cc68efc77becdeb3b796f4225e3",
+    "certiucos/v293/proofs/V293TimeTaskSimulation.v": "de246f862a74032efab8124bd09554a09cb56c8b07d827db17a3dc644e4ff74f",
+    "audit/probes/V293SoundnessBridgeProbe.v": "456735f9c4032fba387407bf96058e62b17bddcab7510c783247a8444b08f472",
+    "tests/test_soundness_assumption_isolation.py": "194751484fea4db8305aa36ac671c256642ddb855d011bd3833a92ff14f81841",
+    "audit/logs/stage342-soundness-assumption-isolation/protocol.json": "7b62bdafe790b1634917b8f065f7cfdd6e19620662702c512987c2ed520fbd64",
+    "audit/logs/stage342-soundness-assumption-isolation/stable-inputs.json": "4523c520644733e7aced1eefcf652657d3b800201997c7854679bd497849c132",
+    "audit/logs/stage342-soundness-assumption-isolation/trust.json": "a313ed9401d91e386e1502e94e66f6d8aa201d7b486476028316e0c5d1d89c94",
+    "audit/logs/stage342-soundness-assumption-isolation/trust-inputs.json": "ef4088e948f6b2ee2fc9713f069e887859ce507185905de374fd09f07a9fa9c4",
+    "audit/logs/stage342-soundness-assumption-isolation/assumptions-by-root.json": "1945082e196dff451de534e0280c7d4bece403900475c9805a8fc56bc45846e8",
+    "audit/logs/stage342-soundness-assumption-isolation/ablation.json": "cc357f9ab8467bca4eb3b98e0c7156c123fc5ffd99a52b1c689e7cb8d9621270",
+    "audit/logs/stage342-soundness-assumption-isolation/call-proof-provenance.json": "9aed373fffb24cca9e4a8c512318e506116a6e2bc572e914e62d8ba2ca5d9e44",
+    "audit/logs/stage342-soundness-assumption-isolation/adversarial-review.json": "76aa14ec6cffe66490b90830d3b18584968da9e4b3b03282e938bb407f0b3ac4",
+    "audit/logs/stage342-soundness-assumption-isolation/regression-plan.json": "6edd8d63c52b2aabebfb5f4db4bb9b81c1b00d549b90911a150b162aaee7ba38",
+    "audit/logs/stage342-soundness-assumption-isolation/cache-handling-protocol.json": "16e388653d8d7e08bcf64a44ea362dde9268fb5fa5ab657182f64842e4da4c27"
+  },
+  "limitations": [
+    "two time APIs, not full kernel",
+    "structural ISR domain only, not WFInt",
+    "noncanonical fixture, not OSInit reachability",
+    "unverified frontend and two CPU hooks",
+    "K1-K4 and uCOS3 incomplete"
+  ]
+}

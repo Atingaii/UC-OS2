@@ -1,0 +1,114 @@
+{
+  "target_release": "V2.93.01",
+  "target_commit": "0c4a48e6fbc6e915714e816196619a5481accf0c",
+  "source_identity_sha256": "74390755cddc42a391055da46b744bbf32e77ba3dc025c2ae55b9441ba6170da",
+  "scope": "CONTINUOUS_TCB_INIT_RETURN_COMPLETE_TABLE_AND_TASK_RECORDS_UNDER_TWO_HOOK_CONTRACTS",
+  "coverage_registration_status": "NOT_REGISTERED_IN_LEGACY_AGGREGATE",
+  "continuous_return_under_hooks_accepted": true,
+  "full_target_linked": false,
+  "whole_OSInit_execution": false,
+  "concrete_GOOD_OS_instance": false,
+  "CPU_hook_implementations_proved": false,
+  "strong_ready_list_invariant_established": false,
+  "after_allocation_CPU_SR_entry_only": true,
+  "ghost_map_update_is_abstract_commit": false,
+  "unconditional_prefix_to_first_hook": true,
+  "unconditional_full_return_existence": false,
+  "recursive_trust_roots": 19,
+  "assumptions": [
+    "Classical_Prop.classic",
+    "FunctionalExtensionality.functional_extensionality_dep"
+  ],
+  "accepted_interfaces": [
+    "V293_OS_TCBInit_canonical_return_under_hooks"
+  ],
+  "source_correspondence": {
+    "mode": "fresh_fixed_source_replay_manual_statement_mapping",
+    "functions": [
+      {
+        "name": "OS_InitTCBList",
+        "category": "internal",
+        "linkage": "internal",
+        "type": "void (void)",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 1591,
+        "last_line": 1617,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "52a9fd08add4ffc82648f72d9fa7dfe2ca1eedf164bde819787f532265b15d34",
+        "preprocessed_begin_byte": 25327,
+        "preprocessed_end_byte_exclusive": 25871,
+        "preprocessed_definition_sha256": "95dbb97660ea4572afb5b9635980c74020a2968bf181cf1bdbc7097ecc4a90f3",
+        "preprocessed_body_sha256": "ca247d9376d39a1f148ff12d16574a5ea62725cf8d0f331585a8fa19fa6d6c64",
+        "direct_calls": [
+          "OS_MemClr"
+        ],
+        "indirect_call_sites": 0
+      },
+      {
+        "name": "OS_TCBInit",
+        "category": "internal",
+        "linkage": "external",
+        "type": "INT8U (INT8U, OS_STK *, OS_STK *, INT16U, INT32U, void *, INT16U)",
+        "source": "csrc/repaired/v2.93.01/checkout/Source/os_core.c",
+        "first_line": 2022,
+        "last_line": 2151,
+        "source_file_sha256": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+        "source_lines_sha256": "2b3efb83723e005c8dbe11603b4d7d1a0abfe110367aa1c38d6bf458e8fa1ee3",
+        "preprocessed_begin_byte": 28651,
+        "preprocessed_end_byte_exclusive": 30701,
+        "preprocessed_definition_sha256": "596eea2946d147587065704c0b9828c577b64ca61c19815f6b2eefe7043f5978",
+        "preprocessed_body_sha256": "8f6408d5f47317d788f99bc7531c42ca93054c8fd211ecdf82e1e1b93b537d98",
+        "direct_calls": [
+          "OSTCBInitHook",
+          "OSTaskCreateHook",
+          "V293_EnterCritical",
+          "V293_ExitCritical"
+        ],
+        "indirect_call_sites": 0
+      }
+    ],
+    "verified_frontend": false,
+    "ADR0005_unchanged": true
+  },
+  "inputs": {
+    "certiucos/v293/proofs/V293CanonicalInitReturn.v": "83a63959b8dd05739876916ac78b791300055d53df7ec122d186accda8eea37c",
+    "audit/probes/V293CanonicalInitReturnProbe.v": "0e27945f9fb0611b60648e1e1c0279d3d81875a923a940ddc9744ee304e2c0dd",
+    "_CoqProject": "4179fbda9fa510c484a54596c05261fd3d6d80537cc9c9f03693601a1c81879c",
+    "tests/test_canonical_init_return.py": "55851df53a392c7484247cc27b215e0a21637db88ecfced382a5096d4894d80c",
+    "audit/repaired-source-inventory.json": "f40453a294256356d8cd954568f59a74bb091d33c4a1f3a0013e5653740076c5",
+    "csrc/repairs/FROZEN_SOURCE.json": "452810aee253070b53c7be28028ef0290dab6439d04b7684441a5181b7b1971c",
+    "csrc/upstream/v2.93.01/checkout/Source/os_core.c": "96eef5dc1a519887499cffd8f9a6c8873b96978ed9646c42e52eb6992422fea5",
+    "scripts/check-v293-c-regressions.py": "3f47901fe4cba8bcde93025ba18908df960d340c0f2f634a729c9b1e4fe2239c",
+    "scripts/inventory-v293-source.py": "3c4b0029800df5920f9be39308a8006ba65d4adc1bc2c98e16807341733a72aa",
+    "audit/init-priority-canonical-evidence-stage344.json": "57a5236ac508f0a82c728513a900007633f4b043e4b45cd045129d4b6218894d",
+    "audit/logs/stage345-canonical-init-return/protocol.json": "3548e6f78796cfc0b8b983ec02e66c7fa9965a4ab30f7819a87f46b5ba41a25e",
+    "audit/logs/stage345-canonical-init-return/protocol.sha256": "ccc3624666fe86fc815689190b24fe082b615d3ebe9aa9da187b73ebb6ede798",
+    "audit/logs/stage345-canonical-init-return/regression-plan.json": "3ec244726082de20f4e8d9996ad2fee8dcadac70cbab3a4af0ff42ffb231a32f",
+    "audit/logs/stage345-canonical-init-return/regression-plan.sha256": "102d244491e84e8b620e3fa4d88e64131e7d03996b4fd564d97d478c943fa6bd",
+    "audit/logs/stage345-canonical-init-return/source-identities.json": "c1fbf827a0edcbc30bb5fd40c5a813966b28f3856490dec710b89b0659ef9392",
+    "audit/logs/stage345-canonical-init-return/source-replay.json": "58efe34508a144c61e17a5cdc0b79f8d827b458ab99efabe0745b1bea2183467",
+    "audit/logs/stage345-canonical-init-return/source-replay.log": "1976b20fb74102f803684f76cb4c822ca1b121cca7814d765c9d069473e5d219",
+    "audit/logs/stage345-canonical-init-return/OS_InitTCBList.configured.c.snapshot.txt": "60b36a1d9964f556235d1cc6b67619b20847c7d5db4addc9efda773aeb3a2013",
+    "audit/logs/stage345-canonical-init-return/OS_InitTCBList.source.c.snapshot.txt": "52a9fd08add4ffc82648f72d9fa7dfe2ca1eedf164bde819787f532265b15d34",
+    "audit/logs/stage345-canonical-init-return/OS_TCBInit.configured.c.snapshot.txt": "b965b349c4a96cacbc131e56177d97c4de4ff84a65ad5783755dc34dd69ec862",
+    "audit/logs/stage345-canonical-init-return/OS_TCBInit.source.c.snapshot.txt": "2b3efb83723e005c8dbe11603b4d7d1a0abfe110367aa1c38d6bf458e8fa1ee3",
+    "audit/logs/stage345-canonical-init-return/stable-inputs.json": "0c98a752b897064c340012c227511c9b13ec1f1c0241f9f461e1041d86518cd7",
+    "audit/logs/stage345-canonical-init-return/trust.json": "989e6880264701d3353fe0ceafc9ebf125d3355a3f9cab554caf7c965923e063",
+    "audit/logs/stage345-canonical-init-return/trust-inputs.json": "aac236bc53a9805351d25efb1ab6dbd08b6d93e379e57b15fa558efa2593005f",
+    "audit/logs/stage345-canonical-init-return/assumptions-by-root.json": "ed679a77cdd42d4a10e7bf65362ebe1bd5e2502fbbab112f7e96d7146189ef96",
+    "audit/logs/stage345-canonical-init-return/trust-roots.log": "5b0414a7056eb8cf587944ba2032407beb0b47106c7fe02c5ba2ec0d4ee1ae8c",
+    "audit/logs/stage345-canonical-init-return/trust-coqchk.log": "2ba62cada580682b50b073f860e731a65e59876cd287e3f5871722a4b691c8f3",
+    "audit/logs/stage345-canonical-init-return/ablation.json": "d48a674266e28e516eea2020024bd2b5ca093f113b93716db17adea56f742eaf",
+    "audit/logs/stage345-canonical-init-return/adversarial-review.json": "b018a36a2352096c1935d685ed5dda1a074cf96b02296c82969ef233e847605b"
+  },
+  "limitations": [
+    "after-allocation and CPU_SR entry only, not whole OSInit or concrete GOOD_OS",
+    "both original CPU hook implementations remain unproved; full return is conditional, not unconditional existence",
+    "canonical task records are seven fields, not full strong ready/bitmap/list reachable invariant",
+    "ghost task-map insertion is not an abstract commit",
+    "negative candidate is rejected at input gate only; no downstream bad execution or reachable-state claim",
+    "initialization relation only, not runtime mutex-reservation closure",
+    "manual C-to-Coq mapping, ADR0005 and real ISR WFInt remain",
+    "same-program K1-K4 and uCOS3 incomplete"
+  ]
+}
